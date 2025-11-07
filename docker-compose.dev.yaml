@@ -1,0 +1,36 @@
+services:
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+    container_name: rabbitmq-dev
+    networks: [backend]
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  django:
+    build:
+      context: .
+      dockerfile: docker/local.Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    container_name: django-dev
+    ports:
+      - "8000:8000"
+    depends_on:
+      - rabbitmq
+    networks: [backend]
+
+  celery:
+    build:
+      context: .
+      dockerfile: docker/local.Dockerfile
+    command: celery -A promise_tracker.tasks worker -l info --without-gossip --without-mingle --without-heartbeat
+    container_name: celery-dev
+    depends_on:
+      - rabbitmq
+    networks: [backend]
+
+networks:
+  backend:
