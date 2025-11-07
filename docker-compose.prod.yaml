@@ -1,0 +1,41 @@
+services:
+
+  django:
+    build:
+      context: .
+      dockerfile: docker/production.Dockerfile
+    depends_on:
+      - rabbitmq
+    networks:
+      - backend
+
+  celery:
+    build:
+      context: .
+      dockerfile: docker/production.Dockerfile
+    command: celery -A promise.tasks worker -l warning --without-gossip --without-mingle --without-heartbeat
+    depends_on:
+      - rabbitmq
+    networks:
+      - backend
+
+  rabbitmq:
+    image: rabbitmq:3.13-alpine
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+
+  nginx:
+    build:
+      context: .
+    dockerfile: docker/nginx.Dockerfile
+    depends_on:
+      - django
+    networks:
+      - backend
+    ports:
+      - "80:80"
+
+networks:
+  backend:
