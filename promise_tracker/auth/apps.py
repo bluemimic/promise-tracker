@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ErrorsConfig(AppConfig):
+class AuthConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'promise_tracker.errors'
+    name = 'auth'

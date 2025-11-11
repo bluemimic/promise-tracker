@@ -1,9 +1,13 @@
 from config.env import env
 
-SMTP_HOST = env.str("SMTP_HOST", default="smtp.example.com")
-SMTP_PORT = env.int("SMTP_PORT", default=465)
+EMAIL_HOST = env.str("EMAIL_HOST", default="smtp.example.com")
+EMAIL_PORT = env.int("EMAIL_PORT", default=465)
 
-SMTP_LOGIN = env.str("SMTP_LOGIN", default="")
-SMTP_PASSWORD = env.str("SMTP_PASSWORD", default="")
+EMAIL_HOST_USER = env.str("EMAIL_HOST_USER", default="")
+EMAIL_HOST_PASSWORD = env.str("EMAIL_HOST_PASSWORD", default="")
 
-SMTP_SENDER = env.str("SMTP_SENDER", default=SMTP_LOGIN)
+EMAIL_SENDER = env.str("EMAIL_SENDER", default=EMAIL_HOST_USER)
+
+EMAIL_USE_TLS = env.bool("EMAIL_USE_TLS", default=False)
+EMAIL_USE_SSL = env.bool("EMAIL_USE_SSL", default=True)
+EMAIL_SENDING_DELAY_MINUTES = env.int("EMAIL_SENDING_DELAY_MINUTES", default=2)
