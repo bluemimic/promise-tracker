@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 import os
 
 from config.env import APPS_DIR, BASE_DIR, env
+from django.utils.translation import gettext_lazy as _
 
 env.read_env(os.path.join(BASE_DIR, ".env"))
 
@@ -35,16 +36,12 @@ LOCAL_APPS = [
     "promise_tracker.emails.apps.EmailsConfig",
     "promise_tracker.tasks.apps.TasksConfig",
     "promise_tracker.users.apps.UsersConfig",
-    "promise_tracker.users.core.CoreConfig",
+    "promise_tracker.core.apps.CoreConfig",
     "promise_tracker.errors.apps.ErrorsConfig",
+    "promise_tracker.common.apps.CommonConfig",
 ]
 
-THIRD_PARTY_APPS = [
-    "django_celery_results",
-    "django_filters",
-    "corsheaders",
-    "django_extensions",
-]
+THIRD_PARTY_APPS = ["django_filters", "corsheaders", "django_extensions", "rolepermissions"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -63,6 +60,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -112,6 +110,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "OPTIONS": {
+            "min_length": 10,
+        },
     },
     {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
@@ -119,9 +120,13 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
+    {
+        "NAME": "promise_tracker.core.validators.CustomPasswordValidator",
+    },
 ]
 
-# AUTH_USER_MODEL = "users.BaseUser"
+AUTH_USER_MODEL = "users.BaseUser"
+ROLEPERMISSIONS_MODULE = "promise_tracker.core.roles"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
@@ -135,6 +140,11 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+LANGUAGES = [
+    ("lv", _("Latvian")),
+    ("en", _("English")),
+]
 
 
 # Static files (CSS, JavaScript, Images)
@@ -154,11 +164,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # Logging setup
 
 from config.settings.loggers.settings import *  # noqa
-# from config.settings.loggers.setup import LoggersSetup  # noqa
+from config.settings.loggers.setup import LoggersSetup  # noqa
 
-# INSTALLED_APPS, MIDDLEWARE = LoggersSetup.setup_settings(INSTALLED_APPS, MIDDLEWARE)
-# LoggersSetup.setup_loguru()
-# LOGGING = LoggersSetup.setup_logging_dict()
+LoggersSetup.setup_loguru()
 
 # Extra settings imports
 
@@ -167,3 +175,4 @@ from config.settings.cors import *  # noqa
 from config.settings.email_sending import *  # noqa
 from config.settings.files_and_storages import *  # noqa
 from config.settings.sessions import *  # noqa
+from config.settings.users import *  # noqa
