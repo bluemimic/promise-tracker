@@ -37,8 +37,8 @@ LOCAL_APPS = [
     "promise_tracker.tasks.apps.TasksConfig",
     "promise_tracker.users.apps.UsersConfig",
     "promise_tracker.core.apps.CoreConfig",
-    "promise_tracker.errors.apps.ErrorsConfig",
     "promise_tracker.common.apps.CommonConfig",
+    "promise_tracker.classifiers.apps.ClassifiersConfig",
 ]
 
 THIRD_PARTY_APPS = ["django_filters", "corsheaders", "django_extensions", "rolepermissions"]
