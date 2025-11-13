@@ -217,6 +217,10 @@ class PoliticalUnion(BaseModel):
         help_text=_("The political parties that are part of this union."),
     )
 
+    @property
+    def is_active(self) -> bool:
+        return self.liquidated_date is None or self.liquidated_date > timezone.now().date()
+
     def __str__(self) -> str:
         return self.name
 

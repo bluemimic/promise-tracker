@@ -24,18 +24,21 @@ class oliticalPartyService:
 
     NOT_FOUND_MESSAGE = _("Political party not found.")
     UNIQUE_CONSTRAINT_MESSAGE = _("A political party {name} already exists.")
+    CANNOT_DELETE_PARTICIPATES_IN_UNIONS = _("Cannot delete political party because it participates in unions!")
+    CANNOT_DELETE_ELECTED_IN_CONVOCATIONS = _("Cannot delete political party because it has been elected in convocations!")
+    CANNOT_DELETE_HAS_ASSOCIATED_PROMISES = _("Cannot delete political party because it has associated promises!")
 
     def _ensure_doesnt_participate_in_unions(self, political_party: PoliticalParty) -> None:
         if political_party.unions.exists():
-            raise ApplicationError(_("Cannot delete political party because it participates in unions!"))
+            raise ApplicationError(self.CANNOT_DELETE_PARTICIPATES_IN_UNIONS)
 
     def _ensure_has_not_been_elected(self, political_party: PoliticalParty) -> None:
         if political_party.convocations.exists():
-            raise ApplicationError(_("Cannot delete political party because it has been elected in convocations!"))
+            raise ApplicationError(self.CANNOT_DELETE_ELECTED_IN_CONVOCATIONS)
 
     def _ensure_doesnt_have_promises(self, political_party: PoliticalParty) -> None:
         if political_party.promises.exists():
-            raise ApplicationError(_("Cannot delete political party because it has associated promises!"))
+            raise ApplicationError(self.CANNOT_DELETE_HAS_ASSOCIATED_PROMISES)
 
     @transaction.atomic
     def create_political_party(

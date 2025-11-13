@@ -9,6 +9,9 @@ from promise_tracker.common.utils import get_object_or_none
 from promise_tracker.core.exceptions import NotFoundError
 
 
+NOT_FOUND_MESSAGE = _("Legislative institution not found.")
+
+
 class LegislativeInstitutionFilerSet(FilterSet):
     class Meta:
         model = LegislativeInstitution
@@ -31,6 +34,6 @@ def get_legislative_institution_by_id(self, id: UUID) -> LegislativeInstitution:
     legislative_institution = get_object_or_none(LegislativeInstitution, id=id)
 
     if legislative_institution is None:
-        raise NotFoundError(_("Legislative institution not found."))
+        raise NotFoundError(NOT_FOUND_MESSAGE)
 
     return legislative_institution

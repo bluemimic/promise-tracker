@@ -63,7 +63,12 @@ class CommaSeparatedStringValidator:
 
         if self.max_items is not None and len(items) > self.max_items:
             raise ValidationError(
-                _(f"Ensure there are no more than {self.max_items} items (there are {len(items)})."),
+                _(
+                    "Ensure there are no more than {max_items} items (there are {number_of_items}).".format(
+                        max_items=self.max_items,
+                        number_of_items=len(items),
+                    )
+                ),
                 code="max_items_exceeded",
             )
 
@@ -72,8 +77,11 @@ class CommaSeparatedStringValidator:
                 if len(item) > self.max_item_length:
                     raise ValidationError(
                         _(
-                            f"Ensure each item has no more than {self.max_item_length} characters "
-                            f"(item '{item}' has {len(item)} characters)."
+                            "Ensure each item has no more than {max_item_length} characters (item '{item}' has {length} characters).".format(
+                                max_item_length=self.max_item_length,
+                                item=item,
+                                length=len(item),
+                            ),
                         ),
                         code="max_item_length_exceeded",
                     )

@@ -23,10 +23,13 @@ class LegislativeInstitutionService:
 
     NOT_FOUND_MESSAGE = _("Legislative institution not found.")
     UNIQUE_CONSTRAINT_MESSAGE = _("A legislative institution {name} already exists.")
+    CANNOT_DELETE_BECAUSE_CONVOCATIONS_EXIST = _(
+        "Cannot delete legislative institution because it has associated convocations!"
+    )
 
     def _ensure_have_no_convocations(self, legislative_institution: LegislativeInstitution) -> None:
         if legislative_institution.convocations.exists():
-            raise ApplicationError(_("Cannot delete legislative institution because it have associated convocations!"))
+            raise ApplicationError(self.CANNOT_DELETE_BECAUSE_CONVOCATIONS_EXIST)
 
     @transaction.atomic
     def create_legislative_institution(
