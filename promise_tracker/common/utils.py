@@ -1,6 +1,7 @@
 from typing import Any, Optional, Type
 
 from django.db import models
+from django.db.models import Model
 from loguru import logger
 
 from promise_tracker.common.types import DjangoModelType
@@ -41,3 +42,7 @@ def generate_random_email() -> str:
     random_email = f"{random_username}@{random_domain}.com"
 
     return random_email
+
+
+def get_image_upload_to_path(instance: Model, filename: str) -> str:
+    return f"uploads/images/{filename}"

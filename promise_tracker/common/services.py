@@ -21,3 +21,6 @@ class BaseService(Generic[BaseModelType]):
         instance.save()
 
         return instance
+
+    def delete_base(self, instance: BaseModelType) -> None:
+        instance.delete()
