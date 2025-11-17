@@ -40,7 +40,7 @@ class ConvocationService:
     UNIQUE_CONSTRAINT_MESSAGE = _("Convocation {name} already exists!")
     CANNOT_DELETE_HAS_ASSOCIATED_PROMISES = _("Cannot delete convocation because it has associated promises!")
 
-    def _fetch_parties(self, party_ids: list[UUID]) -> list[PoliticalParty]:
+    def _fetch_parties(self, party_ids: list[UUID] | None) -> list[PoliticalParty]:
         if party_ids is None:
             return []
 
@@ -57,7 +57,7 @@ class ConvocationService:
 
         return parties
 
-    def _fetch_unions(self, union_ids: list[UUID]) -> list[PoliticalUnion]:
+    def _fetch_unions(self, union_ids: list[UUID] | None) -> list[PoliticalUnion]:
         if union_ids is None:
             return []
 
@@ -78,7 +78,7 @@ class ConvocationService:
 
         for union in unions:
             overlapping_parties = union.parties.filter(id__in=parties_ids)
-            
+
             if overlapping_parties.exists():
                 party = overlapping_parties.first()
                 raise ApplicationError(self.PARTY_ALREADY_IN_UNION.format(party_name=party.name, union_name=union.name))

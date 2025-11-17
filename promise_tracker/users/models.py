@@ -8,11 +8,11 @@ from django.db.models.fields import Field
 from django.utils.translation import gettext as _
 
 from promise_tracker.common.fields import UniqueEmailField
-from promise_tracker.common.models import BaseModel
+from promise_tracker.common.models import BaseModel, SoftDeleteModel
 from promise_tracker.common.validators import CustomEmailValidator
 
 
-class BaseUser(BaseModel, AbstractBaseUser, PermissionsMixin):
+class BaseUser(SoftDeleteModel, BaseModel, AbstractBaseUser, PermissionsMixin):
     name: Field = models.CharField(
         max_length=255, null=False, blank=False, verbose_name=_("Name"), help_text=_("The name of the user.")
     )
@@ -79,13 +79,6 @@ class BaseUser(BaseModel, AbstractBaseUser, PermissionsMixin):
         default=False,
         verbose_name=_("Is verified?"),
         help_text=_("Designates whether the user has verified their email address."),
-        null=False,
-        blank=False,
-    )
-    is_deleted: Field = models.BooleanField(
-        default=False,
-        verbose_name=_("Is deleted?"),
-        help_text=_("Designates whether the user has been soft-deleted."),
         null=False,
         blank=False,
     )

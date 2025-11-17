@@ -43,11 +43,13 @@ class CommaSeparatedStringValidator:
         allow_empty_items: bool = False,
         max_items: int | None = None,
         max_item_length: int | None = None,
+        min_items: int | None = None,
         **kwargs,
     ):
         self.max_items = max_items
         self.max_item_length = max_item_length
         self.allow_empty_items = allow_empty_items
+        self.min_items = min_items
 
     def __call__(self, value: list[str] | str):
         if isinstance(value, list):
@@ -85,3 +87,14 @@ class CommaSeparatedStringValidator:
                         ),
                         code="max_item_length_exceeded",
                     )
+
+        if self.min_items is not None and len(items) < self.min_items:
+            raise ValidationError(
+                _(
+                    "Ensure there are at least {min_items} items (there are {number_of_items}).".format(
+                        min_items=self.min_items,
+                        number_of_items=len(items),
+                    )
+                ),
+                code="min_items_not_met",
+            )
