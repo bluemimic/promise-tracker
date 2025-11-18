@@ -34,12 +34,14 @@ ALLOWED_HOSTS = ["*"]
 LOCAL_APPS = [
     "promise_tracker.files.apps.FilesConfig",
     "promise_tracker.emails.apps.EmailsConfig",
+    "promise_tracker.authentication.apps.AuthenticationConfig",
     "promise_tracker.tasks.apps.TasksConfig",
     "promise_tracker.users.apps.UsersConfig",
     "promise_tracker.core.apps.CoreConfig",
     "promise_tracker.common.apps.CommonConfig",
     "promise_tracker.classifiers.apps.ClassifiersConfig",
     "promise_tracker.promises.apps.PromisesConfig",
+    "promise_tracker.home.apps.HomeConfig",
 ]
 
 THIRD_PARTY_APPS = ["django_filters", "corsheaders", "django_extensions", "rolepermissions"]
@@ -128,6 +130,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTH_USER_MODEL = "users.BaseUser"
 ROLEPERMISSIONS_MODULE = "promise_tracker.core.roles"
+
+LOGIN_URL = "/auth/login/"
+LOGIN_REDIRECT_URL = "/"
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
