@@ -3,7 +3,6 @@ from django.conf import settings
 
 
 class BaseTask(Task):
-    bind = True
     max_retries = settings.CELERY_TASK_MAX_RETRIES
     default_retry_delay = settings.CELERY_TASK_DEFAULT_RETRY_DELAY
     time_limit = settings.CELERY_TASK_TIME_LIMIT

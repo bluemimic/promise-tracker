@@ -8,7 +8,6 @@ celery_host = env.str("CELERY_BROKER_HOST", default="rabbitmq")
 celery_port = env.str("CELERY_BROKER_PORT", default="5672")
 
 CELERY_BROKER_URL = f"amqp://{celery_user}:{celery_password}@{celery_host}:{celery_port}//"
-CELERY_RESULT_BACKEND = "django-db"
 
 CELERY_TIMEZONE = env.str("CELERY_TIMEZONE", default="UTC")
 

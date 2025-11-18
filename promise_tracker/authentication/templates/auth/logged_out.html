@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Logged out" %}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body text-center">
+                <h4>{% translate "You have been logged out." %}</h4>
+                <p>
+                    <a href="{% url 'authentication:login' %}" class="btn btn-primary">{% translate "Log in again" %}</a>
+                    <a href="{% url 'home:index' %}" class="btn btn-secondary">{% translate "Return to Home" %}</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

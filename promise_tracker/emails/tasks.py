@@ -5,7 +5,7 @@ from promise_tracker.emails.services import EmailService
 from promise_tracker.tasks.models import BaseTask
 
 
-@shared_task(base=BaseTask, name="send_email_task")
+@shared_task(bind=True, base=BaseTask, name="send_email_task")
 def email_send_task(self, user_email: str, verification_code: str) -> None:
     logger.info(f"Starting task {self.name} (id: {self.request.id})")
 

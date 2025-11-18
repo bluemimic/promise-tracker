@@ -7,7 +7,6 @@ from loguru import logger
 
 class EmailService:
     @transaction.atomic
-    @logger.catch(reraise=True)
     def send_verification_email(self, user_email: str, verification_code: str) -> None:
         logger.debug(f"Sending verification email to {user_email}")
 

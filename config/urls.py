@@ -18,8 +18,15 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
+
+from promise_tracker.authentication import urls as auth_urls
+from promise_tracker.home import urls as home_urls
+from promise_tracker.users import urls as users_urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", include(home_urls)),
+    path("users/", include(users_urls)),
+    path("auth/", include(auth_urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,15 +4,15 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 from loguru import logger
 
+from promise_tracker.common.utils import get_object_or_raise
 from promise_tracker.core.exceptions import ApplicationError, AuthenticationError
 from promise_tracker.users.models import BaseUser
 from promise_tracker.users.services import UserService
 
 
 class AuthService:
-    def __init__(self, user_service: UserService, request: HttpRequest):
+    def __init__(self, request: HttpRequest):
         self.request = request
-        self.user_service = user_service
 
     def _verify_user_not_deleted(self, user: BaseUser):
         if user.is_deleted:
@@ -33,15 +33,20 @@ class AuthService:
             logger.warning(f"Failed login attempt for email: {email}")
             raise AuthenticationError(_("Incorrect email or password."))
 
-        user = self.user_service.get_user_by_id(abstract_user.pk)
+        user = get_object_or_raise(BaseUser, _("User not found."), pk=abstract_user.pk)
 
         self._verify_user_not_deleted(user)
         self._verify_user_is_active(user)
 
         login(self.request, user)
 
-        if not user.is_verified and user.verification_code_expires_at < timezone.now():
-            self.user_service.send_verification_email(user.id)
+        if (
+            not user.is_verified
+            and user.verification_code_expires_at
+            and user.verification_code_expires_at < timezone.now()
+        ):
+            user_service = UserService(performed_by=user)
+            user_service.send_verification_email(user.id)
 
         return True
 

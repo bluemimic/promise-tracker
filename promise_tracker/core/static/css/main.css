@@ -1,0 +1,7 @@
+/* Main site CSS - imports base rules */
+
+/* include base.css rules for backward compatibility */
+.form-group.required .control-label:after {
+  content:"*";
+  color:red;
+}
