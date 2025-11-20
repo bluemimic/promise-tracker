@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+
+{% block title %}{% if registration %}{% translate "Register" %}{% else %}{% translate "Create User" %}{% endif %}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4>{% if registration %}{% translate "Register" %}{% else %}{% translate "Create User" %}{% endif %}</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {% include 'core/_form_fields.html' with form=form %}
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">{% if registration %}{% translate "Register" %}{% else %}{% translate "Create User" %}{% endif %}</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

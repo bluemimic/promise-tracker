@@ -15,10 +15,10 @@ class UserFilterSet(FilterSet):
     class Meta:
         model = BaseUser
         fields = {
-            "name": ["iexact", "icontains"],
-            "surname": ["iexact", "icontains"],
-            "email": ["iexact", "icontains"],
-            "username": ["iexact", "icontains"],
+            "name": ["icontains"],
+            "surname": ["icontains"],
+            "email": ["icontains"],
+            "username": ["icontains"],
             "is_verified": ["exact"],
             "is_active": ["exact"],
             "is_deleted": ["exact"],
@@ -26,25 +26,28 @@ class UserFilterSet(FilterSet):
         }
 
 
-def get_user_by_id(self, id: UUID) -> BaseUser:
-    user = get_object_or_none(BaseUser, id=id)
+class UserSelectors:
+    def __init__(self, performed_by: BaseUser):
+        self.performed_by = performed_by
 
-    if user is None:
-        raise NotFoundError(_("User not found."))
+    def get_user_by_id(self, id: UUID) -> BaseUser:
+        user = get_object_or_none(BaseUser, id=id)
 
-    if not has_role(self.performed_by, Administrator):
-        if self.performed_by.id != user.id or not user.is_active:
-            raise PermissionViolationError()
-
-        if user.is_deleted:
+        if user is None:
             raise NotFoundError(_("User not found."))
 
-    return user
+        if not has_role(self.performed_by, Administrator):
+            if self.performed_by.id != user.id or not user.is_active:
+                raise PermissionViolationError()
 
+            if user.is_deleted:
+                raise NotFoundError(_("User not found."))
 
-def get_users(self, filters: dict | None = None) -> QuerySet[BaseUser]:
-    filters = filters or {}
+        return user
 
-    qs = BaseUser.objects.all()
+    def get_users(self, filters: dict | None = None) -> QuerySet[BaseUser]:
+        filters = filters or {}
 
-    return UserFilterSet(filters, queryset=qs).qs
+        qs = BaseUser.objects.all()
+
+        return UserFilterSet(filters, queryset=qs).qs

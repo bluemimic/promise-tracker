@@ -1,6 +1,7 @@
 from django.conf import settings
-from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 from django.shortcuts import redirect, render
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.utils.translation import gettext as _
 from django.views import View
 
@@ -10,9 +11,20 @@ from promise_tracker.common.utils import bootstrapify_form
 from promise_tracker.core.exceptions import ApplicationError
 
 
-class LoginView(SuccessMessageMixin, View):
+class LoginView(View):
     template_name = "auth/login.html"
-    success_message = _("User have successfully logged in!")
+    success_message = _("User has successfully logged in!")
+
+    def _redirect(self, request):
+        if request.user.is_authenticated and not request.user.is_verified:
+            return redirect("users:verify")
+
+        next_url = request.GET.get("next")
+
+        if url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
+            return redirect(next_url)
+
+        return redirect(settings.LOGIN_REDIRECT_URL)
 
     def get(self, request, *args, **kwargs):
         form = LoginForm()
@@ -30,9 +42,10 @@ class LoginView(SuccessMessageMixin, View):
 
             try:
                 auth_service.login(email=email, password=password)
-                next_url = self.request.GET.get("next")
 
-                return redirect(next_url or settings.LOGIN_REDIRECT_URL)
+                messages.success(request, self.success_message)
+                return self._redirect(request)
+
             except ApplicationError as e:
                 form.add_error(None, e.message)
 
@@ -41,10 +54,12 @@ class LoginView(SuccessMessageMixin, View):
 
 
 class LogoutView(View):
-    template_name = "auth/logged_out.html"
+    success_message = _("User has successfully logged out!")
 
     def get(self, request, *args, **kwargs):
         auth_service = AuthService(request)
         auth_service.logout()
 
-        return render(request, self.template_name)
+        messages.success(request, self.success_message)
+
+        return redirect("home:index")

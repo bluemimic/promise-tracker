@@ -24,6 +24,11 @@ class AuthService:
             logger.warning(f"Inactive user {user.id} attempted to log in.")
             raise AuthenticationError(_("User account is inactive."))
 
+    def _should_send_verification_email(self, user: BaseUser) -> bool:
+        return not user.is_verified and (
+            user.verification_code_expires_at is None or user.verification_code_expires_at < timezone.now()
+        )
+
     def login(self, email: str, password: str) -> bool:
         logger.debug(f"Attempting login for email: {email}")
 
@@ -40,11 +45,7 @@ class AuthService:
 
         login(self.request, user)
 
-        if (
-            not user.is_verified
-            and user.verification_code_expires_at
-            and user.verification_code_expires_at < timezone.now()
-        ):
+        if self._should_send_verification_email(user):
             user_service = UserService(performed_by=user)
             user_service.send_verification_email(user.id)
 

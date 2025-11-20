@@ -3,6 +3,7 @@ FROM python:3.14-slim
 RUN useradd django
 
 EXPOSE 8000
+EXPOSE 5678
 
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -22,4 +23,4 @@ USER django
 
 RUN python manage.py collectstatic --noinput --clear
 
-CMD ["sh", "-c", "set -xe; python manage.py migrate --noinput"]
+CMD ["sh", "-c", "set -xe; python manage.py migrate --noinput && python -m debugpy --listen 0.0.0.0:5678 manage.py runserver 0.0.0.0:8000"]

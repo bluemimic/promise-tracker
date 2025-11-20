@@ -1,24 +1,24 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
+from django.http import Http404
+from django.shortcuts import redirect
 from rolepermissions.checkers import has_role
 from rolepermissions.roles import AbstractUserRole
 
-
-class VerificationRequiredMixin(AccessMixin):
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_verified:
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
+from promise_tracker.core.exceptions import DomainError, NotFoundError, PermissionViolationError
 
 
 class VerifiedLoginRequiredMixin(LoginRequiredMixin):
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_verified:
+        if not request.user.is_authenticated:
             return self.handle_no_permission()
+        if not request.user.is_verified:
+            return redirect("users:verify")
         return super().dispatch(request, *args, **kwargs)
 
 
 class RoleBasedAccessMixin(AccessMixin):
-    required_roles: AbstractUserRole = []
+    required_roles: list[type[AbstractUserRole]] = []
     allow_guests: bool = False
 
     def dispatch(self, request, *args, **kwargs):
@@ -31,3 +31,21 @@ class RoleBasedAccessMixin(AccessMixin):
             return self.handle_no_permission()
 
         return super().dispatch(request, *args, **kwargs)
+
+
+class HandleErrorsMixin:
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            return super().dispatch(request, *args, **kwargs)
+
+        except PermissionViolationError as e:
+            messages.error(request, e.message)
+            return self.handle_no_permission()
+
+        except NotFoundError as e:
+            messages.error(request, e.message)
+            raise Http404(e.message)
+
+        except DomainError as e:
+            messages.error(request, e.message)
+            return redirect("home:index")

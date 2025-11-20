@@ -1,7 +1,16 @@
-/* Main site CSS - imports base rules */
-
-/* include base.css rules for backward compatibility */
 .form-group.required .control-label:after {
-  content:"*";
-  color:red;
+  content: "*";
+  color: red;
+}
+
+.alerts-bottom-right {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1050;
+  max-width: 380px;
+}
+
+.alerts-bottom-right .alert {
+  margin-bottom: .5rem;
 }
