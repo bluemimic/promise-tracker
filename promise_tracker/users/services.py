@@ -3,6 +3,8 @@ import random
 from uuid import UUID
 
 from django.conf import settings
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import gettext as _
@@ -89,7 +91,16 @@ class UserService:
                 )
                 raise PermissionViolationError()
 
-    def _validate_passwords(self, password: str, another_password: str) -> None:
+    def _validate_passwords(self, password: str | None, another_password: str | None) -> None:
+        if password is None or password.strip() == "":
+            return
+
+        try:
+            validate_password(password)
+        except ValidationError as e:
+            logger.error(f"Password validation failed: {e.messages}")
+            raise ApplicationError(e.messages[0])
+
         if password != another_password:
             logger.error("Password and confirmation password do not match.")
             raise ApplicationError(_("Passwords do not match."))
@@ -146,9 +157,9 @@ class UserService:
         surname: str,
         email: str,
         username: str,
-        password: str,
-        another_password: str,
         is_admin: bool,
+        password: str | None = None,
+        another_password: str | None = None,
     ) -> BaseUser:
         self._check_permission_to_create_admin(is_admin)
         self._validate_passwords(password, another_password)
@@ -163,13 +174,15 @@ class UserService:
 
         user.name = name
         user.surname = surname
-        user.email = email
         user.username = username
         user.is_admin = is_admin
-        user.set_password(password)
+
+        if password:
+            user.set_password(password)
 
         if user.email != email:
             user.email = email
+            user.is_verified = False
             self._handle_verification(user)
 
         user = self.base_service.edit_base(user, self.performed_by)
@@ -206,6 +219,7 @@ class UserService:
         self._check_user_is_not_deleted(user)
         self._check_can_edit_inactive(user)
         self._check_email_sending_delay(user)
+        self._check_is_already_verified(user)
 
         logger.debug(f"Resending verification email to user ID {user.id}")
 

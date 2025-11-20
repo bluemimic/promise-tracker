@@ -82,7 +82,7 @@ class PoliticalParty(BaseModel):
         verbose_name=_("Name"),
         help_text=_("The name of the political party."),
         error_messages={
-            "unique": _("A political party {name} already exists.").format(name="%(value)s"),
+            "unique": _("A political party %(value)s already exists."),
         },
     )
     email: Field = models.EmailField(
@@ -166,7 +166,7 @@ class PoliticalUnion(BaseModel):
         verbose_name=_("Name"),
         help_text=_("The name of the political union."),
         error_messages={
-            "unique": _("A political union {name} already exists.").format(name="%(value)s"),
+            "unique": _("A political union %(value)s already exists."),
         },
     )
     email: Field = models.EmailField(
@@ -256,7 +256,7 @@ class Convocation(BaseModel):
         verbose_name=_("Name"),
         help_text=_("The name of the convocation."),
         error_messages={
-            "unique": _("A convocation {name} already exists.").format(name="%(value)s"),
+            "unique": _("A convocation %(value)s already exists."),
         },
     )
     start_date: Field = models.DateField(

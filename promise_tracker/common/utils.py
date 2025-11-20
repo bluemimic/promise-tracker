@@ -51,7 +51,7 @@ def get_image_upload_to_path(instance: Model, filename: str) -> str:
     return f"uploads/images/{filename}"
 
 
-def bootstrapify_form(form: Type[Form], floating: bool = False) -> Type[Form]:
+def bootstrapify_form(form: Form, floating: bool = False) -> Form:
     for field in form.__iter__():
         if isinstance(field.field.widget, CheckboxInput):
             field.field.widget.attrs["class"] = "form-check-input"
@@ -79,3 +79,7 @@ def generate_model_form_errors(fields: list[str]) -> dict[str, dict[str, str]]:
         }
 
     return errors
+
+
+def is_htmx_request(request) -> bool:
+    return request.headers.get("HX-Request") == "true" or request.META.get("HTTP_HX_REQUEST") == "true"

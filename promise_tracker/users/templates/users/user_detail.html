@@ -1,0 +1,72 @@
+{% extends 'core/base.html' %}
+{% load i18n roles_tags %}
+
+{% block title %}{{ user.get_full_name|default:user.username }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h4>{{ user.get_full_name|default:user.username }}</h4>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-3">{% translate "Full name" %}</dt>
+                    <dd class="col-sm-9">{{ user.name }} {{ user.surname }}</dd>
+
+                    <dt class="col-sm-3">{% translate "Email" %}</dt>
+                    <dd class="col-sm-9">{{ user.email }}</dd>
+
+                    <dt class="col-sm-3">{% translate "Username" %}</dt>
+                    <dd class="col-sm-9">{{ user.username }}</dd>
+
+                    <dt class="col-sm-3">{% translate "Verified" %}</dt>
+                    <dd class="col-sm-9">{% if user.is_verified %}{% translate "Yes" %}{% else %}{% translate "No" %}{% endif %}</dd>
+                    
+                    <dt class="col-sm-3">{% translate "Active" %}</dt>
+                    <dd class="col-sm-9">{% if user.is_active %}{% translate "Yes" %}{% else %}{% translate "No" %}{% endif %}</dd>
+                    
+                    <dt class="col-sm-3">{% translate "Deleted" %}</dt>
+                    <dd class="col-sm-9">{% if user.is_deleted %}{% translate "Yes" %}{% else %}{% translate "No" %}{% endif %}</dd>
+
+                    {% if is_admin %}
+                        <dt class="col-sm-3">{% translate "Admin" %}</dt>
+                        <dd class="col-sm-9">{% if user.is_admin %}{% translate "Yes" %}{% else %}{% translate "No" %}{% endif %}</dd>
+                    {% endif %}
+                </dl>
+
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'users:edit' user.id %}" class="btn btn-primary">{% translate "Edit" %}</a>
+                    <a href="{% url 'home:index' %}" class="btn btn-secondary">{% translate "Back" %}</a>
+                    
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
+                        {% translate "Delete" %}
+                    </button>
+
+                    <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="deleteUserModalLabel">{% translate "Confirm Deletion" %}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    {% translate "Are you sure you want to delete this user?" %}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+                                    <form action="{% url 'users:delete' user.id %}" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger">{% translate "Delete" %}</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

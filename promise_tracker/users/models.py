@@ -3,13 +3,63 @@
 from datetime import datetime
 
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import BaseUserManager as BUM
 from django.db import models
 from django.db.models.fields import Field
 from django.utils.translation import gettext as _
 
-from promise_tracker.common.fields import UniqueEmailField
 from promise_tracker.common.models import BaseModel, SoftDeleteModel
 from promise_tracker.common.validators import CustomEmailValidator
+
+
+class BaseUserManager(BUM):
+    def create_user(
+        self,
+        email: str,
+        username: str,
+        name: str,
+        surname: str,
+        is_active: bool = True,
+        is_admin: bool = False,
+        password: str | None = None,
+    ):
+        if not email:
+            raise ValueError("Users must have an email address")
+
+        user = self.model(
+            email=self.normalize_email(email.lower()),
+            username=username,
+            name=name,
+            surname=surname,
+            is_active=is_active,
+            is_admin=is_admin,
+        )
+
+        if password is not None:
+            user.set_password(password)
+        else:
+            user.set_unusable_password()
+
+        user.full_clean()
+        user.save(using=self._db)
+
+        return user
+
+    def create_superuser(self, email: str, name: str, surname: str, username: str, password: str | None = None):
+        user = self.create_user(
+            email=email,
+            username=username,
+            name=name,
+            surname=surname,
+            is_active=True,
+            is_admin=True,
+            password=password,
+        )
+
+        user.is_superuser = True
+        user.save(using=self._db)
+
+        return user
 
 
 class BaseUser(SoftDeleteModel, BaseModel, AbstractBaseUser, PermissionsMixin):
@@ -19,7 +69,7 @@ class BaseUser(SoftDeleteModel, BaseModel, AbstractBaseUser, PermissionsMixin):
     surname: Field = models.CharField(
         max_length=255, null=False, blank=False, verbose_name=_("Surname"), help_text=_("The surname of the user.")
     )
-    email: Field = UniqueEmailField(
+    email: Field = models.EmailField(
         validators=[
             CustomEmailValidator(),
         ],
@@ -29,6 +79,9 @@ class BaseUser(SoftDeleteModel, BaseModel, AbstractBaseUser, PermissionsMixin):
         blank=False,
         verbose_name=_("Email address"),
         help_text=_("The email address of the user."),
+        error_messages={
+            "unique": _("A user with this email already exists."),
+        },
     )
     username: Field = models.CharField(
         max_length=255, null=False, blank=False, verbose_name=_("Username"), help_text=_("The username of the user.")
@@ -87,6 +140,8 @@ class BaseUser(SoftDeleteModel, BaseModel, AbstractBaseUser, PermissionsMixin):
     EMAIL_FIELD = "email"
     REQUIRED_FIELDS = ["username", "name", "surname", "password"]
 
+    objects = BaseUserManager()
+
     def set_verification_code(self, code: str, expires_at: datetime) -> None:
         self.verification_code = code
         self.verification_code_expires_at = expires_at
@@ -94,6 +149,9 @@ class BaseUser(SoftDeleteModel, BaseModel, AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return f"{self.name} {self.surname} ({self.email})"
 
+    def get_full_name(self) -> str:
+        return f"{self.name} {self.surname}"
+    
     class Meta:
         verbose_name = _("User")
         verbose_name_plural = _("Users")

@@ -1,24 +1,6 @@
-from django.db.models import CharField, EmailField, ImageField
-from django.utils.translation import gettext as _
+from django.db.models import CharField, ImageField
 
 from promise_tracker.common.utils import get_image_upload_to_path
-
-
-class UniqueEmailField(EmailField):
-    def __init__(self, *args, **kwargs):
-        kwargs["unique"] = True
-        kwargs["error_messages"] = {
-            "unique": _("A user with email {email} already exists.").format(email="%(value)s"),
-        }
-        super().__init__(*args, **kwargs)
-
-    def deconstruct(self):
-        name, path, args, kwargs = super().deconstruct()
-        if "unique" in kwargs:
-            del kwargs["unique"]
-        if "error_messages" in kwargs:
-            del kwargs["error_messages"]
-        return name, path, args, kwargs
 
 
 class UploadImageField(ImageField):

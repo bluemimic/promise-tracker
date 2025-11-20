@@ -27,7 +27,7 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('name', models.CharField(help_text='The name of the user.', max_length=255, verbose_name='Name')),
                 ('surname', models.CharField(help_text='The surname of the user.', max_length=255, verbose_name='Surname')),
-                ('email', promise_tracker.common.fields.UniqueEmailField(error_messages={'unique': 'A user with email %(value)s already exists.'}, help_text='The email address of the user.', max_length=255, unique=True, validators=[promise_tracker.common.validators.CustomEmailValidator()], verbose_name='E-pasta adrese')),
+                ('email', models.EmailField(error_messages={'unique': 'A user with email %(value)s already exists.'}, help_text='The email address of the user.', max_length=255, unique=True, validators=[promise_tracker.common.validators.CustomEmailValidator()], verbose_name='E-pasta adrese')),
                 ('username', models.CharField(help_text='The username of the user.', max_length=255, verbose_name='Username')),
                 ('password', models.CharField(help_text='The hashed password of the user.', max_length=255, verbose_name='Parole')),
                 ('verification_code', models.CharField(blank=True, help_text='The verification code for email verification.', max_length=255, null=True, verbose_name='Verification code')),
