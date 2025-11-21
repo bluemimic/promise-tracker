@@ -1,7 +1,8 @@
 from typing import Any, Optional, Type
 
+from django.core.paginator import EmptyPage, Page, Paginator
 from django.db import models
-from django.db.models import Model
+from django.db.models import Model, QuerySet
 from django.forms import Form
 from django.forms.widgets import CheckboxInput, Select, SelectMultiple
 from loguru import logger
@@ -83,3 +84,25 @@ def generate_model_form_errors(fields: list[str]) -> dict[str, dict[str, str]]:
 
 def is_htmx_request(request) -> bool:
     return request.headers.get("HX-Request") == "true" or request.META.get("HTTP_HX_REQUEST") == "true"
+
+
+def prepare_get_params(request, exclude: list[str] | None = None) -> str:
+    exclude = exclude or []
+    params = request.GET.copy()
+
+    for param in exclude:
+        if param in params:
+            params.pop(param)
+
+    querystring = params.urlencode()
+
+    return querystring
+
+
+def paginate_queryset(request, queryset: QuerySet, per_page: int = 10) -> Page:
+    paginator = Paginator(queryset, per_page)
+    page_number = request.GET.get("page", 1)
+
+    page_obj = paginator.get_page(page_number)
+
+    return page_obj

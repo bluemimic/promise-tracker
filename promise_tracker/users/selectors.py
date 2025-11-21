@@ -50,4 +50,4 @@ class UserSelectors:
 
         qs = BaseUser.objects.all()
 
-        return UserFilterSet(filters, queryset=qs).qs
+        return UserFilterSet(filters, queryset=qs).qs.order_by("-created_at")
