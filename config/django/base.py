@@ -167,6 +167,8 @@ APP_DOMAIN = env("APP_DOMAIN", default="http://localhost:8000")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+PAGINATE_BY_DEFAULT = env.int("PAGINATE_BY_DEFAULT", default=10)
+
 # Logging setup
 
 from config.settings.loggers.settings import *  # noqa

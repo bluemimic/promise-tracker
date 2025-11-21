@@ -1,5 +1,6 @@
 from typing import Type
 
+from django.conf import settings
 from django.contrib import messages
 from django.forms import BaseForm
 from django.shortcuts import redirect, render
@@ -12,7 +13,7 @@ from promise_tracker.common.mixins import (
     RoleBasedAccessMixin,
     VerifiedLoginRequiredMixin,
 )
-from promise_tracker.common.utils import bootstrapify_form, is_htmx_request
+from promise_tracker.common.utils import bootstrapify_form, is_htmx_request, paginate_queryset, prepare_get_params
 from promise_tracker.common.views import BaseFormView
 from promise_tracker.core.exceptions import ApplicationError
 from promise_tracker.core.roles import Administrator, RegisteredUser
@@ -139,16 +140,19 @@ class UserListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
 
     def get(self, request, *args, **kwargs):
         user_selectors = UserSelectors(performed_by=request.user)
-        users = user_selectors.get_users(filters=request.GET)
+        users_qs = user_selectors.get_users(filters=request.GET)
 
+        page_obj = paginate_queryset(request, users_qs, per_page=settings.PAGINATE_BY_DEFAULT)
+        querystring = prepare_get_params(request, exclude=["page"])
         filter_form = bootstrapify_form(UserFilterSet(request.GET).form)
 
-        is_htmx = is_htmx_request(request)
+        context = {"page_obj": page_obj, "querystring": querystring}
 
-        if is_htmx:
-            return render(request, "users/_users_table.html", {"users": users})
+        if is_htmx_request(request):
+            return render(request, "users/_users_table.html", context)
 
-        return render(request, self.template_name, {"users": users, "filter_form": filter_form})
+        context.update({"filter_form": filter_form})
+        return render(request, self.template_name, context)
 
 
 class UserDeleteView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
