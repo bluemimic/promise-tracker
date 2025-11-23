@@ -1,6 +1,11 @@
 from django.shortcuts import render
+from django.views import View
+
+from promise_tracker.common.mixins import VerifiedLoginRequiredMixin
 
 
-def index(request):
-    """Simple home page view used as `home:index` in templates."""
-    return render(request, "home/index.html", {})
+class IndexView(View):
+    template_name = "home/index.html"
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)

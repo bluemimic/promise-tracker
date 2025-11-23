@@ -1,0 +1,56 @@
+{% extends 'core/base.html' %}
+{% load i18n roles_tags %}
+
+{% block title %}{% translate "Convocation" %}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="h5 mb-3">{{ convocation.name }}</h2>
+
+                {% is_admin request.user as is_admin %}
+
+                <dl class="row">
+                    <dt class="col-sm-3">{% translate "ID" %}</dt>
+                    <dd class="col-sm-9">{{ convocation.id }}</dd>
+
+                    <dt class="col-sm-3">{% translate "Start" %}</dt>
+                    <dd class="col-sm-9">{{ convocation.start_date }}</dd>
+
+                    <dt class="col-sm-3">{% translate "End" %}</dt>
+                    <dd class="col-sm-9">{{ convocation.end_date }}</dd>
+
+                    <dt class="col-sm-3">{% translate "Parties" %}</dt>
+                    <dd class="col-sm-9">{{ convocation.political_parties.all|join:", " }}</dd>
+                </dl>
+
+                {% if is_admin %}
+                <hr />
+                <dl class="row small text-muted">
+                    <dt class="col-sm-3">{% translate "Created" %}</dt>
+                    <dd class="col-sm-9">{{ convocation.created_at }}</dd>
+
+                    <dt class="col-sm-3">{% translate "Created by" %}</dt>
+                    <dd class="col-sm-9">{{ convocation.created_by }}</dd>
+
+                    <dt class="col-sm-3">{% translate "Last modified" %}</dt>
+                    <dd class="col-sm-9">{{ convocation.updated_at }}</dd>
+
+                    <dt class="col-sm-3">{% translate "Modified by" %}</dt>
+                    <dd class="col-sm-9">{{ convocation.updated_by }}</dd>
+                </dl>
+                {% endif %}
+
+                <div class="mt-3">
+                    <a href="{% url 'classifiers:convocations:edit' convocation.id %}"
+                        class="btn btn-outline-secondary">{% translate "Edit" %}</a>
+                    <a href="{% url 'classifiers:convocations:list' %}" class="btn btn-outline-secondary">{% translate "Back" %}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

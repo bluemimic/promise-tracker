@@ -8,6 +8,7 @@ from django.utils.translation import gettext as _
 from django.views import View
 from rolepermissions.checkers import has_role
 
+from promise_tracker.authentication.services import AuthService
 from promise_tracker.common.mixins import (
     HandleErrorsMixin,
     RoleBasedAccessMixin,
@@ -156,16 +157,25 @@ class UserListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
 
 
 class UserDeleteView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
-    required_roles = [Administrator]
+    required_roles = [Administrator, RegisteredUser]
+    success_message = _("User has been successfully deleted!")
 
     def post(self, request, *args, **kwargs):
         requested_user_id = kwargs.get("id")
 
+        current_user_id = request.user.id
+
         user_service = UserService(performed_by=request.user)
         user_service.delete_user(requested_user_id)
 
+        messages.success(request, self.success_message)
+
         if has_role(request.user, Administrator):
             return redirect("users:list")
+
+        if current_user_id == requested_user_id:
+            auth_service = AuthService(request=request)
+            auth_service.logout()
 
         return redirect("home:index")
 

@@ -1,0 +1,32 @@
+{% extends 'core/base.html' %}
+{% load i18n %}
+
+{% block title %}{% translate "Political parties" %}{% endblock %}
+
+{% block content %}
+<div class="mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4">{% translate "Political parties" %}</h1>
+    <a href="{% url 'classifiers:political_parties:create' %}" class="btn btn-success">{% translate "Create" %}</a>
+  </div>
+  
+  <div class="card mb-3">
+    <div class="card-body">
+          <form id="political-parties-filter" method="get" class="mb-3"
+            hx-get="{% url 'classifiers:political_parties:list' %}"
+            hx-trigger="keyup delay:500ms, change from:input, change from:select"
+            hx-target="#political-parties-table"
+            hx-swap="outerHTML">
+          {% csrf_token %}
+          {% include 'core/_filters.html' with form=filter_form %}
+          <div class="mt-2">
+            <a href="{% url 'classifiers:political_parties:list' %}" class="btn btn-outline-secondary">{% translate "Reset" %}</a>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+{% include 'classifiers/political_party/_political_parties_table.html' %}
+
+{% endblock %}

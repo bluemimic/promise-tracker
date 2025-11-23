@@ -1,6 +1,8 @@
 {% extends 'core/base.html' %}
 {% load i18n roles_tags %}
 
+{% is_admin request.user as is_admin %}
+
 {% block title %}{{ user.get_full_name|default:user.username }}{% endblock %}
 
 {% block content %}
@@ -35,6 +37,23 @@
                         <dd class="col-sm-9">{% if user.is_admin %}{% translate "Yes" %}{% else %}{% translate "No" %}{% endif %}</dd>
                     {% endif %}
                 </dl>
+
+                {% if is_admin %}
+                <hr />
+                <dl class="row small text-muted">
+                    <dt class="col-sm-3">{% translate "Created" %}</dt>
+                    <dd class="col-sm-9">{{ user.created_at }}</dd>
+
+                    <dt class="col-sm-3">{% translate "Created by" %}</dt>
+                    <dd class="col-sm-9">{{ user.created_by }}</dd>
+
+                    <dt class="col-sm-3">{% translate "Last modified" %}</dt>
+                    <dd class="col-sm-9">{{ user.updated_at }}</dd>
+
+                    <dt class="col-sm-3">{% translate "Modified by" %}</dt>
+                    <dd class="col-sm-9">{{ user.updated_by }}</dd>
+                </dl>
+                {% endif %}
 
                 <div class="d-flex justify-content-between">
                     <a href="{% url 'users:edit' user.id %}" class="btn btn-primary">{% translate "Edit" %}</a>

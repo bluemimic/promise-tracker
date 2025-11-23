@@ -16,17 +16,18 @@ Including another URLconf
 """
 
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
-from django.contrib import admin
 from django.urls import include, path
 
-from promise_tracker.authentication import urls as auth_urls
+from promise_tracker.authentication import urls as authentication_urls
+from promise_tracker.classifiers import urls as classifiers_urls
 from promise_tracker.home import urls as home_urls
 from promise_tracker.users import urls as users_urls
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
+urlpatterns = i18n_patterns(
     path("", include(home_urls)),
     path("users/", include(users_urls)),
-    path("auth/", include(auth_urls)),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path("classifiers/", include(classifiers_urls)),
+    path("auth/", include(authentication_urls)),
+) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

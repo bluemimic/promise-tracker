@@ -10,6 +10,9 @@ ENV PYTHONDONTWRITEBYTECODE=1
 
 COPY requirements/ requirements/
 
+RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
+    gettext
+
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements/local.txt
 

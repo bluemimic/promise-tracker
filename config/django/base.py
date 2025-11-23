@@ -44,7 +44,13 @@ LOCAL_APPS = [
     "promise_tracker.home.apps.HomeConfig",
 ]
 
-THIRD_PARTY_APPS = ["django_filters", "corsheaders", "django_extensions", "rolepermissions"]
+THIRD_PARTY_APPS = [
+    "django_filters",
+    "corsheaders",
+    "django_extensions",
+    "rolepermissions",
+    "multiselectfield",
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -150,6 +156,10 @@ USE_TZ = True
 LANGUAGES = [
     ("lv", _("Latvian")),
     ("en", _("English")),
+]
+
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, "locales")
 ]
 
 
