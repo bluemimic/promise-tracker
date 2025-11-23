@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from uuid import UUID
 
 from django.db import IntegrityError, transaction
@@ -33,6 +33,7 @@ class PromiseService:
     CANNOT_EDIT_REVIEWED = _("Cannot modify reviewed promise!")
     CANNOT_DELETE_HAS_RESULTS = _("Cannot delete promise because it has reviewed results!")
     STATUSES_ARE_SAME = _("Promise is already in status {status}!")
+    DATE_IN_FUTURE = _("Promise date is in the future.")
 
     def _ensure_party_xor_union(self, party_id: UUID | None, union_id: UUID | None) -> None:
         if party_id is None and union_id is None:
@@ -86,13 +87,17 @@ class PromiseService:
                 logger.error(f"User {self.performed_by.id} attempted to edit promise {promise.id} without permission.")
                 raise PermissionViolationError()
 
+    def _ensure_date_is_valid(self, date: date) -> None:
+        if date > timezone.now().date():
+            raise ApplicationError(self.DATE_IN_FUTURE)
+
     @transaction.atomic
     def create_promise(
         self,
         name: str,
         description: str,
         sources: list[str],
-        date: datetime,
+        date: date,
         convocation_id: UUID,
         party_id: UUID | None = None,
         union_id: UUID | None = None,
@@ -100,6 +105,7 @@ class PromiseService:
         logger.debug(f"Creating promise with name: {name}")
 
         self._ensure_party_xor_union(party_id, union_id)
+        self._ensure_date_is_valid(date)
 
         party, union = self._load_party_or_union(party_id, union_id)
         convocation = get_object_or_raise(Convocation, self.CONVOCATION_NOT_FOUND, id=convocation_id)
@@ -132,7 +138,7 @@ class PromiseService:
         name: str,
         description: str,
         sources: list[str],
-        date: datetime,
+        date: date,
         convocation_id: UUID,
         party_id: UUID | None = None,
         union_id: UUID | None = None,
@@ -141,6 +147,7 @@ class PromiseService:
 
         self._ensure_is_owner_or_admin(promise)
         self._ensure_is_not_reviewed(promise)
+        self._ensure_date_is_valid(date)
 
         party, union = self._load_party_or_union(party_id, union_id)
         convocation = get_object_or_raise(Convocation, self.CONVOCATION_NOT_FOUND, id=convocation_id)

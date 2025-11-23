@@ -126,11 +126,6 @@ class Promise(BaseModel):
 
         constraints = [
             CheckConstraint(
-                check=Q(date__lte=Now()),
-                name="promise_date_not_in_future",
-                violation_error_message=_("Promise date is in the future."),
-            ),
-            CheckConstraint(
                 check=Q(party__isnull=False) | Q(union__isnull=False),
                 name="promise_party_or_union_not_null",
                 violation_error_message=_("Nether party nor union is set."),
@@ -260,11 +255,6 @@ class PromiseResult(BaseModel):
         verbose_name_plural = _("Promise Results")
 
         constraints = [
-            CheckConstraint(
-                check=Q(date__lte=Now()),
-                name="promiseresult_date_not_in_future",
-                violation_error_message=_("Promise result date is in the future."),
-            ),
             CheckConstraint(
                 check=Q(is_final=True, status__isnull=False) | Q(is_final=False),
                 name="promiseresult_final_status_consistency",

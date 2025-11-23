@@ -1,7 +1,8 @@
-from datetime import date, datetime
+from datetime import date
 from uuid import UUID
 
 from django.db import IntegrityError, transaction
+from django.utils import timezone
 from django.utils.translation import gettext as _
 from loguru import logger
 
@@ -39,6 +40,8 @@ class ConvocationService:
     PARTY_ALREADY_IN_UNION = _("Party {party_name} is already included from union {union_name}!")
     UNIQUE_CONSTRAINT_MESSAGE = _("Convocation {name} already exists!")
     CANNOT_DELETE_HAS_ASSOCIATED_PROMISES = _("Cannot delete convocation because it has associated promises!")
+    END_DATE_IN_FUTURE = _("End date is in the future.")
+    START_DATE_IN_FUTURE = _("Start date is in the future.")
 
     def _fetch_parties(self, party_ids: list[UUID] | None) -> list[PoliticalParty]:
         if party_ids is None:
@@ -104,17 +107,28 @@ class ConvocationService:
         if convocation.promises.exists():
             raise ApplicationError(self.CANNOT_DELETE_HAS_ASSOCIATED_PROMISES)
 
+    def _ensure_dates_are_valid(self, start_date: date, end_date: date | None) -> None:
+        today = timezone.now().date()
+
+        if start_date > today:
+            raise ApplicationError(self.START_DATE_IN_FUTURE)
+
+        if end_date is not None and end_date > today:
+            raise ApplicationError(self.END_DATE_IN_FUTURE)
+
     @transaction.atomic
     def create_convocation(
         self,
         name: str,
-        start_date: datetime,
-        end_date: datetime | None,
+        start_date: date,
+        end_date: date | None,
         legislative_institution_id: UUID,
         party_ids: list[UUID] | None = None,
         union_ids: list[UUID] | None = None,
     ) -> Convocation:
         logger.debug(f"Creating convocation with name: {name}")
+
+        self._ensure_dates_are_valid(start_date, end_date)
 
         parties = self._fetch_parties(party_ids)
         unions = self._fetch_unions(union_ids)
@@ -165,6 +179,8 @@ class ConvocationService:
         convocation = get_object_or_raise(Convocation, self.NOT_FOUND_MESSAGE, id=id)
 
         logger.debug(f"Editing convocation: {convocation.id}")
+
+        self._ensure_dates_are_valid(start_date, end_date)
 
         parties = self._fetch_parties(party_ids)
         unions = self._fetch_unions(union_ids)

@@ -1,0 +1,1533 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-11-22 18:04+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : "
+"2);\n"
+#: config/django/base.py:157
+msgid "Latvian"
+msgstr ""
+
+#: config/django/base.py:158
+msgid "English"
+msgstr ""
+
+#: promise_tracker/authentication/forms.py:10
+#: promise_tracker/authentication/forms.py:13
+#: promise_tracker/authentication/forms.py:14
+#: promise_tracker/classifiers/models.py:105
+#: promise_tracker/classifiers/models.py:196
+#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:10
+#: promise_tracker/classifiers/templates/classifiers/political_party/details.html:15
+#: promise_tracker/users/templates/users/_users_table.html:9
+#: promise_tracker/users/templates/users/user_detail.html:18
+msgid "Email"
+msgstr ""
+
+#: promise_tracker/authentication/forms.py:19
+#: promise_tracker/authentication/forms.py:22
+#: promise_tracker/users/models.py:93
+msgid "Password"
+msgstr ""
+
+#: promise_tracker/authentication/services.py:20
+msgid "User has been deleted."
+msgstr ""
+
+#: promise_tracker/authentication/services.py:25
+msgid "User account is inactive."
+msgstr ""
+
+#: promise_tracker/authentication/services.py:39
+msgid "Incorrect email or password."
+msgstr ""
+
+#: promise_tracker/authentication/services.py:41
+#: promise_tracker/users/selectors.py:37 promise_tracker/users/selectors.py:44
+#: promise_tracker/users/services.py:39 promise_tracker/users/services.py:84
+msgid "User not found."
+msgstr ""
+
+#: promise_tracker/authentication/templates/auth/logged_out.html:4
+msgid "Logged out"
+msgstr ""
+
+#: promise_tracker/authentication/templates/auth/logged_out.html:11
+msgid "You have been logged out."
+msgstr ""
+
+#: promise_tracker/authentication/templates/auth/logged_out.html:13
+msgid "Log in again"
+msgstr ""
+
+#: promise_tracker/authentication/templates/auth/logged_out.html:14
+msgid "Return to Home"
+msgstr ""
+
+#: promise_tracker/authentication/templates/auth/login.html:4
+#: promise_tracker/authentication/templates/auth/login.html:22
+#: promise_tracker/core/templates/core/base.html:67
+msgid "Login"
+msgstr ""
+
+#: promise_tracker/authentication/templates/auth/login.html:12
+msgid "Sign In"
+msgstr ""
+
+#: promise_tracker/authentication/views.py:16
+msgid "User has successfully logged in!"
+msgstr ""
+
+#: promise_tracker/authentication/views.py:57
+msgid "User has successfully logged out!"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:18
+msgid "Parliament"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:19
+msgid "Council"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:22
+msgid "National"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:23
+msgid "Regional"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:24
+msgid "State City"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:30
+#: promise_tracker/classifiers/models.py:95
+#: promise_tracker/classifiers/models.py:186
+#: promise_tracker/classifiers/models.py:271
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/_legislative_institutions_table.html:9
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/details.html:15
+#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:9
+#: promise_tracker/promises/models.py:24 promise_tracker/promises/models.py:166
+#: promise_tracker/users/models.py:67
+msgid "Name"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:31
+msgid "The name of the legislative institution."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:38
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/_legislative_institutions_table.html:10
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/details.html:18
+msgid "Type"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:39
+msgid "The type of legislative institution."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:46
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/_legislative_institutions_table.html:11
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/details.html:21
+msgid "Level"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:47
+msgid "The level of the legislative institution."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:56
+#: promise_tracker/classifiers/models.py:133
+#: promise_tracker/classifiers/models.py:225
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/details.html:25
+#: promise_tracker/classifiers/templates/classifiers/political_party/details.html:27
+msgid "Logo"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:57
+msgid "The logo of the legislative institution."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:64
+#: promise_tracker/classifiers/models.py:295
+msgid "Legislative Institution"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:65
+msgid "Legislative Institutions"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:71
+msgid ""
+"A legislative institution with the same name, type and level already exists."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:79
+#: promise_tracker/classifiers/models.py:169
+msgid "Left"
+msgstr "Kreisie"
+
+#: promise_tracker/classifiers/models.py:80
+#: promise_tracker/classifiers/models.py:170
+msgid "Center-Left"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:81
+#: promise_tracker/classifiers/models.py:171
+msgid "Center"
+msgstr "Centristi"
+
+#: promise_tracker/classifiers/models.py:82
+#: promise_tracker/classifiers/models.py:172
+msgid "Center-Right"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:83
+#: promise_tracker/classifiers/models.py:173
+msgid "Right"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:84
+#: promise_tracker/classifiers/models.py:174
+msgid "Libertarian"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:85
+#: promise_tracker/classifiers/models.py:175
+msgid "Green"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:86
+#: promise_tracker/classifiers/models.py:176
+msgid "Far-Right"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:87
+#: promise_tracker/classifiers/models.py:177
+msgid "Far-Left"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:88
+#: promise_tracker/classifiers/models.py:178
+msgid "Populist"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:96
+msgid "The name of the political party."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:98
+#, python-format
+msgid "A political party %(value)s already exists."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:106
+msgid "The contact email of the political party."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:111
+#: promise_tracker/classifiers/models.py:202
+msgid "Established Date"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:112
+msgid "The date when the political party was established."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:117
+#: promise_tracker/classifiers/models.py:208
+msgid "Liquidated Date"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:118
+msgid "The date when the political party was liquidated, if applicable."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:124
+msgid ""
+"The ideologies associated with the political party, separated by commas."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:134
+msgid "The logo of the political party."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:145
+#: promise_tracker/classifiers/templates/classifiers/political_party/details.html:4
+#: promise_tracker/promises/models.py:61
+msgid "Political Party"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:146
+#: promise_tracker/classifiers/models.py:301
+msgid "Political Parties"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:152
+#: promise_tracker/classifiers/models.py:250
+msgid "Liquidated date is smaller than established date."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:157
+#: promise_tracker/classifiers/models.py:255
+msgid "Established date is in the future."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:162
+#: promise_tracker/classifiers/models.py:260
+msgid "Liquidated date is in the future."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:187
+msgid "The name of the political union."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:189
+#, python-format
+msgid "A political union %(value)s already exists."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:197
+msgid "The contact email of the political union."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:203
+msgid "The date when the political union was established."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:209
+msgid "The date when the political union was liquidated, if applicable."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:215
+#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:13
+#: promise_tracker/classifiers/templates/classifiers/political_party/details.html:24
+msgid "Ideologies"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:216
+msgid ""
+"The ideologies associated with the political union, separated by commas."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:226
+msgid "The logo of the political union."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:231
+msgid "Parties"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:232
+msgid "The political parties that are part of this union."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:243
+#: promise_tracker/promises/models.py:70
+msgid "Political Union"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:244
+#: promise_tracker/classifiers/models.py:307
+msgid "Political Unions"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:272
+msgid "The name of the convocation."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:274
+#, python-format
+msgid "A convocation %(value)s already exists."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:280
+msgid "Start Date"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:281
+msgid "The start date of the convocation."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:286
+msgid "End Date"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:287
+msgid "The end date of the convocation, if applicable."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:296
+msgid "The legislative institution associated with this convocation."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:302
+msgid "The political parties participating in this convocation."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:308
+msgid "The political unions participating in this convocation."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:315
+#: promise_tracker/promises/models.py:79
+msgid "Convocation"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:316
+msgid "Convocations"
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:322
+msgid "End date is smaller than start date."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:327
+msgid "Start date is in the future."
+msgstr ""
+
+#: promise_tracker/classifiers/models.py:332
+msgid "End date is in the future."
+msgstr ""
+
+#: promise_tracker/classifiers/selectors/convocation_selectors.py:11
+#: promise_tracker/classifiers/services/convocation_services.py:29
+msgid "Convocation not found."
+msgstr ""
+
+#: promise_tracker/classifiers/selectors/legislative_institution_selectors.py:12
+#: promise_tracker/classifiers/services/legislative_institution_services.py:24
+msgid "Legislative institution not found."
+msgstr ""
+
+#: promise_tracker/classifiers/selectors/political_party_selectors.py:11
+#: promise_tracker/classifiers/services/political_party_services.py:25
+msgid "Political party not found."
+msgstr ""
+
+#: promise_tracker/classifiers/selectors/political_party_selectors.py:15
+msgid "Is Active"
+msgstr ""
+
+#: promise_tracker/classifiers/selectors/political_union_selectors.py:11
+#: promise_tracker/classifiers/services/political_union_services.py:25
+msgid "Political union not found."
+msgstr ""
+
+#: promise_tracker/classifiers/services/convocation_services.py:31
+msgid "No party or union specified!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/convocation_services.py:32
+#: promise_tracker/classifiers/services/political_union_services.py:27
+msgid "Political parties list is not valid!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/convocation_services.py:33
+msgid "Political unions list is not valid!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/convocation_services.py:34
+msgid "Legislative institution is not valid!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/convocation_services.py:35
+#, python-brace-format
+msgid ""
+"Party {party_name} liquidated date is smaller than convocation start date!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/convocation_services.py:36
+#, python-brace-format
+msgid ""
+"Party {party_name} established date is greater than convocation end date!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/convocation_services.py:37
+#, python-brace-format
+msgid ""
+"Union {union_name} liquidated date is smaller than convocation start date!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/convocation_services.py:38
+#, python-brace-format
+msgid ""
+"Union {union_name} established date is greater than convocation end date!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/convocation_services.py:39
+#, python-brace-format
+msgid "Party {party_name} is already included from union {union_name}!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/convocation_services.py:40
+#, python-brace-format
+msgid "Convocation {name} already exists!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/convocation_services.py:41
+msgid "Cannot delete convocation because it has associated promises!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/legislative_institution_services.py:25
+#, python-brace-format
+msgid "A legislative institution {name} already exists."
+msgstr ""
+
+#: promise_tracker/classifiers/services/legislative_institution_services.py:27
+msgid ""
+"Cannot delete legislative institution because it has associated convocations!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/political_party_services.py:26
+#, python-brace-format
+msgid "A political party {name} already exists."
+msgstr ""
+
+#: promise_tracker/classifiers/services/political_party_services.py:27
+msgid "Cannot delete political party because it participates in unions!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/political_party_services.py:28
+msgid ""
+"Cannot delete political party because it has been elected in convocations!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/political_party_services.py:29
+msgid "Cannot delete political party because it has associated promises!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/political_union_services.py:28
+msgid "At least two political parties are required!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/political_union_services.py:29
+#, python-brace-format
+msgid ""
+"Party {party_name} liquidated date is smaller than union established date!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/political_union_services.py:31
+#, python-brace-format
+msgid ""
+"Party {party_name} established date is greater than union liquidated date!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/political_union_services.py:33
+#, python-brace-format
+msgid "Political union {name} already exists!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/political_union_services.py:34
+msgid "Cannot delete political union because it was included in a convocation!"
+msgstr ""
+
+#: promise_tracker/classifiers/services/political_union_services.py:35
+msgid "Cannot delete political union because it has associated promises!"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/_legislative_institutions_table.html:8
+#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:8
+#: promise_tracker/classifiers/templates/classifiers/political_party/details.html:12
+#: promise_tracker/common/models.py:14
+#: promise_tracker/users/templates/users/_users_table.html:7
+msgid "ID"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/_legislative_institutions_table.html:12
+#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:14
+#: promise_tracker/users/templates/users/_users_table.html:15
+msgid "Actions"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/_legislative_institutions_table.html:24
+#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:28
+#: promise_tracker/users/templates/users/_users_table.html:31
+msgid "View"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/_legislative_institutions_table.html:27
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/details.html:33
+#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:31
+#: promise_tracker/classifiers/templates/classifiers/political_party/details.html:38
+#: promise_tracker/users/templates/users/_users_table.html:34
+#: promise_tracker/users/templates/users/user_detail.html:40
+msgid "Edit"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/_legislative_institutions_table.html:30
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/_legislative_institutions_table.html:51
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/details.html:37
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/details.html:54
+#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:34
+#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:55
+#: promise_tracker/users/templates/users/_users_table.html:49
+#: promise_tracker/users/templates/users/_users_table.html:53
+#: promise_tracker/users/templates/users/_users_table.html:75
+#: promise_tracker/users/templates/users/user_detail.html:44
+#: promise_tracker/users/templates/users/user_detail.html:61
+msgid "Delete"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/_legislative_institutions_table.html:41
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/details.html:44
+#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:45
+#: promise_tracker/users/templates/users/_users_table.html:65
+#: promise_tracker/users/templates/users/user_detail.html:51
+msgid "Confirm Deletion"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/_legislative_institutions_table.html:45
+msgid "Are you sure you want to delete this legislative institution?"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/_legislative_institutions_table.html:48
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/create.html:18
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/details.html:51
+#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:52
+#: promise_tracker/classifiers/templates/classifiers/political_party/create.html:18
+#: promise_tracker/classifiers/templates/classifiers/political_party/edit.html:16
+#: promise_tracker/users/templates/users/_users_table.html:72
+#: promise_tracker/users/templates/users/_users_table.html:93
+#: promise_tracker/users/templates/users/_users_table.html:114
+#: promise_tracker/users/templates/users/user_detail.html:58
+#: promise_tracker/users/templates/users/user_edit.html:19
+msgid "Cancel"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/_legislative_institutions_table.html:59
+msgid "No legislative institutions found."
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/create.html:4
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/create.html:11
+msgid "Create Legislative Institution"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/create.html:17
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/list.html:10
+#: promise_tracker/classifiers/templates/classifiers/political_party/create.html:17
+#: promise_tracker/classifiers/templates/classifiers/political_party/list.html:10
+msgid "Create"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/details.html:4
+msgid "Legislative Institution Details"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/details.html:34
+#: promise_tracker/classifiers/templates/classifiers/political_party/details.html:39
+#: promise_tracker/users/templates/users/user_detail.html:41
+msgid "Back"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/details.html:48
+msgid "Are you sure you want to delete this institution?"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/edit.html:4
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/edit.html:11
+msgid "Edit Legislative Institution"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/edit.html:19
+#: promise_tracker/classifiers/templates/classifiers/political_party/edit.html:15
+#: promise_tracker/users/templates/users/user_edit.html:20
+msgid "Save"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/list.html:4
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/list.html:9
+msgid "Legislative institutions"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/legislative_institution/list.html:23
+#: promise_tracker/classifiers/templates/classifiers/political_party/list.html:23
+#: promise_tracker/users/templates/users/user_list.html:27
+msgid "Reset"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:11
+#: promise_tracker/classifiers/templates/classifiers/political_party/details.html:18
+msgid "Established"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:12
+#: promise_tracker/classifiers/templates/classifiers/political_party/details.html:21
+msgid "Liquidated"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:49
+msgid "Are you sure you want to delete this political party?"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:63
+msgid "No political parties found."
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/political_party/create.html:4
+#: promise_tracker/classifiers/templates/classifiers/political_party/create.html:11
+msgid "Create Political Party"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/political_party/details.html:32
+msgid "No logo"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/political_party/edit.html:4
+#: promise_tracker/classifiers/templates/classifiers/political_party/edit.html:9
+msgid "Edit Political Party"
+msgstr ""
+
+#: promise_tracker/classifiers/templates/classifiers/political_party/list.html:4
+#: promise_tracker/classifiers/templates/classifiers/political_party/list.html:9
+msgid "Political parties"
+msgstr ""
+
+#: promise_tracker/classifiers/views/legislative_institution_views.py:30
+msgid "legislative institution has been successfully created!"
+msgstr ""
+
+#: promise_tracker/classifiers/views/legislative_institution_views.py:51
+msgid "Legislative institution has been successfully updated!"
+msgstr ""
+
+#: promise_tracker/classifiers/views/legislative_institution_views.py:112
+msgid "Legislative institution has been successfully deleted!"
+msgstr ""
+
+#: promise_tracker/classifiers/views/political_party_views.py:30
+msgid "Political party has been successfully created!"
+msgstr ""
+
+#: promise_tracker/classifiers/views/political_party_views.py:53
+msgid "Political party has been successfully updated!"
+msgstr ""
+
+#: promise_tracker/classifiers/views/political_party_views.py:116
+msgid "Political party has been successfully deleted!"
+msgstr ""
+
+#: promise_tracker/common/forms.py:3
+#, python-brace-format
+msgid "Field {field} is not valid!"
+msgstr ""
+
+#: promise_tracker/common/forms.py:4
+#, python-brace-format
+msgid "Field {field} is required!"
+msgstr ""
+
+#: promise_tracker/common/models.py:15
+msgid "The unique identifier for the record."
+msgstr ""
+
+#: promise_tracker/common/models.py:21
+msgid "Created At"
+msgstr ""
+
+#: promise_tracker/common/models.py:22
+msgid "The date and time when the record was created."
+msgstr ""
+
+#: promise_tracker/common/models.py:26
+msgid "Updated At"
+msgstr ""
+
+#: promise_tracker/common/models.py:27
+msgid "The date and time when the record was last updated."
+msgstr ""
+
+#: promise_tracker/common/models.py:36
+msgid "Created By"
+msgstr ""
+
+#: promise_tracker/common/models.py:37
+msgid "The user who created the record."
+msgstr ""
+
+#: promise_tracker/common/models.py:46
+msgid "Updated By"
+msgstr ""
+
+#: promise_tracker/common/models.py:47
+msgid "The user who last updated the record."
+msgstr ""
+
+#: promise_tracker/common/models.py:60
+msgid "Is Deleted"
+msgstr ""
+
+#: promise_tracker/common/models.py:61
+msgid "Indicates whether the record has been soft deleted."
+msgstr ""
+
+#: promise_tracker/common/validators.py:11
+msgid "Enter a valid email address."
+msgstr ""
+
+#: promise_tracker/common/validators.py:19
+msgid "Image in not in valid format!"
+msgstr ""
+
+#: promise_tracker/common/validators.py:28
+#, python-brace-format
+msgid "Image size exceds {max_size} MB."
+msgstr ""
+
+#: promise_tracker/common/validators.py:62
+msgid "Empty items are not allowed."
+msgstr ""
+
+#: promise_tracker/common/validators.py:69
+#: promise_tracker/core/validators.py:30
+#, python-brace-format
+msgid ""
+"Ensure there are no more than {max_items} items (there are "
+"{number_of_items})."
+msgstr ""
+
+#: promise_tracker/common/validators.py:82
+#, python-brace-format
+msgid ""
+"Ensure each item has no more than {max_item_length} characters (item "
+"'{item}' has {length} characters)."
+msgstr ""
+
+#: promise_tracker/common/validators.py:94
+#, python-brace-format
+msgid ""
+"Ensure there are at least {min_items} items (there are {number_of_items})."
+msgstr ""
+
+#: promise_tracker/core/exceptions.py:22
+msgid "You do not have permission to perform this action."
+msgstr ""
+
+#: promise_tracker/core/exceptions.py:35
+msgid "Please wait a few seconds before requesting another verification email."
+msgstr ""
+
+#: promise_tracker/core/exceptions.py:46
+msgid "Authentication failed."
+msgstr ""
+
+#: promise_tracker/core/templates/core/base.html:11
+#: promise_tracker/core/templates/core/base.html:113
+msgid "Promise Tracker"
+msgstr ""
+
+#: promise_tracker/core/templates/core/base.html:37
+#: promise_tracker/core/templates/core/base.html:45
+#: promise_tracker/home/templates/home/index.html:4
+#: promise_tracker/home/templates/home/index.html:8
+msgid "Home"
+msgstr ""
+
+#: promise_tracker/core/templates/core/base.html:55
+msgid "Profile"
+msgstr ""
+
+#: promise_tracker/core/templates/core/base.html:58
+msgid "Logout"
+msgstr ""
+
+#: promise_tracker/core/templates/core/base.html:64
+msgid "Sign in"
+msgstr ""
+
+#: promise_tracker/core/templates/core/base.html:95
+msgid "Close"
+msgstr ""
+
+#: promise_tracker/core/validators.py:8
+msgid "Password must contain at least one digit."
+msgstr ""
+
+#: promise_tracker/core/validators.py:11
+msgid "Password must contain at least one uppercase letter."
+msgstr ""
+
+#: promise_tracker/core/validators.py:14
+msgid "Password must contain at least one special character."
+msgstr ""
+
+#: promise_tracker/core/validators.py:17
+msgid ""
+"Your password must contain at least one digit, one uppercase letter, and one "
+"special character."
+msgstr ""
+
+#: promise_tracker/emails/services.py:13
+msgid "Your Verification Code"
+msgstr ""
+
+#: promise_tracker/emails/services.py:16
+#, python-brace-format
+msgid "Your verification code is: {code}"
+msgstr ""
+
+#: promise_tracker/emails/services.py:17
+#, python-brace-format
+msgid "<p>Your verification code is: <strong>{code}</strong></p>"
+msgstr ""
+
+#: promise_tracker/home/templates/home/index.html:9
+msgid "Welcome to Promise Tracker."
+msgstr ""
+
+#: promise_tracker/promises/models.py:16 promise_tracker/promises/models.py:158
+msgid "Pending"
+msgstr ""
+
+#: promise_tracker/promises/models.py:17 promise_tracker/promises/models.py:159
+msgid "Approved"
+msgstr ""
+
+#: promise_tracker/promises/models.py:18 promise_tracker/promises/models.py:160
+msgid "Rejected"
+msgstr ""
+
+#: promise_tracker/promises/models.py:25
+msgid "The name of the promise."
+msgstr ""
+
+#: promise_tracker/promises/models.py:30 promise_tracker/promises/models.py:172
+msgid "Description"
+msgstr ""
+
+#: promise_tracker/promises/models.py:31
+msgid "A detailed description of the promise."
+msgstr ""
+
+#: promise_tracker/promises/models.py:42 promise_tracker/promises/models.py:184
+msgid "Sources"
+msgstr ""
+
+#: promise_tracker/promises/models.py:43
+msgid "A comma-separated list of sources related to the promise."
+msgstr ""
+
+#: promise_tracker/promises/models.py:45 promise_tracker/promises/models.py:187
+msgid "Sources are null."
+msgstr ""
+
+#: promise_tracker/promises/models.py:46 promise_tracker/promises/models.py:188
+msgid "Sources list is not valid."
+msgstr ""
+
+#: promise_tracker/promises/models.py:52 promise_tracker/promises/models.py:194
+msgid "Date"
+msgstr ""
+
+#: promise_tracker/promises/models.py:53
+msgid "The date when the promise was made."
+msgstr ""
+
+#: promise_tracker/promises/models.py:62
+msgid "The political party associated with this promise."
+msgstr ""
+
+#: promise_tracker/promises/models.py:71
+msgid "The political union associated with this promise."
+msgstr ""
+
+#: promise_tracker/promises/models.py:80
+msgid "The convocation during which this promise was made."
+msgstr ""
+
+#: promise_tracker/promises/models.py:89 promise_tracker/promises/models.py:228
+msgid "Review Status"
+msgstr ""
+
+#: promise_tracker/promises/models.py:90
+msgid "The review status of the promise."
+msgstr ""
+
+#: promise_tracker/promises/models.py:95 promise_tracker/promises/models.py:234
+msgid "Review Date"
+msgstr ""
+
+#: promise_tracker/promises/models.py:96
+msgid "The date and time when the promise was reviewed."
+msgstr ""
+
+#: promise_tracker/promises/models.py:104
+#: promise_tracker/promises/models.py:243
+msgid "Reviewer"
+msgstr ""
+
+#: promise_tracker/promises/models.py:105
+msgid "The user who reviewed the promise."
+msgstr ""
+
+#: promise_tracker/promises/models.py:124
+#: promise_tracker/promises/models.py:218
+#: promise_tracker/promises/models.py:295
+msgid "Promise"
+msgstr ""
+
+#: promise_tracker/promises/models.py:125
+msgid "Promises"
+msgstr ""
+
+#: promise_tracker/promises/models.py:131
+msgid "Promise date is in the future."
+msgstr ""
+
+#: promise_tracker/promises/models.py:136
+msgid "Nether party nor union is set."
+msgstr ""
+
+#: promise_tracker/promises/models.py:141
+msgid "Both party and union are set."
+msgstr ""
+
+#: promise_tracker/promises/models.py:147
+#: promise_tracker/promises/models.py:277
+msgid "Inconsistent review date and status."
+msgstr ""
+
+#: promise_tracker/promises/models.py:154
+msgid "Completed"
+msgstr ""
+
+#: promise_tracker/promises/models.py:155
+msgid "Abandoned"
+msgstr ""
+
+#: promise_tracker/promises/models.py:167
+msgid "The name of the promise result."
+msgstr ""
+
+#: promise_tracker/promises/models.py:173
+msgid "A detailed description of the promise result."
+msgstr ""
+
+#: promise_tracker/promises/models.py:185
+msgid "A comma-separated list of sources related to the promise result."
+msgstr ""
+
+#: promise_tracker/promises/models.py:195
+msgid "The date when the promise result was determined."
+msgstr ""
+
+#: promise_tracker/promises/models.py:201
+msgid "Is Final"
+msgstr ""
+
+#: promise_tracker/promises/models.py:202
+msgid "Indicates whether this is the final result for the promise."
+msgstr ""
+
+#: promise_tracker/promises/models.py:209
+msgid "Status"
+msgstr ""
+
+#: promise_tracker/promises/models.py:210
+msgid "The status of the promise result."
+msgstr ""
+
+#: promise_tracker/promises/models.py:219
+msgid "The promise associated with this result."
+msgstr ""
+
+#: promise_tracker/promises/models.py:229
+msgid "The review status of the promise result."
+msgstr ""
+
+#: promise_tracker/promises/models.py:235
+msgid "The date and time when the promise result was reviewed."
+msgstr ""
+
+#: promise_tracker/promises/models.py:244
+msgid "The user who reviewed the promise result."
+msgstr ""
+
+#: promise_tracker/promises/models.py:259
+msgid "Promise Result"
+msgstr ""
+
+#: promise_tracker/promises/models.py:260
+msgid "Promise Results"
+msgstr ""
+
+#: promise_tracker/promises/models.py:266
+msgid "Promise result date is in the future."
+msgstr ""
+
+#: promise_tracker/promises/models.py:271
+msgid "Final promise result status is not set."
+msgstr ""
+
+#: promise_tracker/promises/models.py:286
+msgid "Content"
+msgstr ""
+
+#: promise_tracker/promises/models.py:287
+msgid "The content of the comment."
+msgstr ""
+
+#: promise_tracker/promises/models.py:296
+msgid "The promise associated with this comment."
+msgstr ""
+
+#: promise_tracker/promises/models.py:304
+msgid "Response To"
+msgstr ""
+
+#: promise_tracker/promises/models.py:305
+msgid "The comment this comment is responding to."
+msgstr ""
+
+#: promise_tracker/promises/models.py:312
+msgid "Comment"
+msgstr ""
+
+#: promise_tracker/promises/models.py:313
+msgid "Comments"
+msgstr ""
+
+#: promise_tracker/promises/selectors/analytics_selectors.py:29
+#, python-brace-format
+msgid "Field {field} is invalid!"
+msgstr ""
+
+#: promise_tracker/promises/selectors/analytics_selectors.py:30
+msgid "Analytics can be generated for either a party or a union only!"
+msgstr ""
+
+#: promise_tracker/promises/selectors/analytics_selectors.py:31
+msgid "Party does not exist!"
+msgstr ""
+
+#: promise_tracker/promises/selectors/analytics_selectors.py:32
+msgid "Union does not exist!"
+msgstr ""
+
+#: promise_tracker/promises/selectors/comment_selectors.py:12
+#: promise_tracker/promises/selectors/promise_result_selectors.py:31
+#: promise_tracker/promises/selectors/promise_selectors.py:35
+#: promise_tracker/promises/services/promise_services.py:24
+msgid "Promise not found."
+msgstr ""
+
+#: promise_tracker/promises/selectors/comment_selectors.py:42
+#: promise_tracker/promises/selectors/comment_selectors.py:44
+msgid "[Deleted User]"
+msgstr ""
+
+#: promise_tracker/promises/selectors/comment_selectors.py:47
+msgid "[Deleted]"
+msgstr ""
+
+#: promise_tracker/promises/selectors/promise_result_selectors.py:30
+msgid "Registered users can only view their own promise results!"
+msgstr ""
+
+#: promise_tracker/promises/selectors/promise_selectors.py:34
+msgid "User is not registered!"
+msgstr ""
+
+#: promise_tracker/promises/services/comment_services.py:22
+msgid "Comment not found."
+msgstr ""
+
+#: promise_tracker/promises/services/comment_services.py:23
+#: promise_tracker/promises/services/promise_result_services.py:25
+msgid "Promise does not exist!"
+msgstr ""
+
+#: promise_tracker/promises/services/comment_services.py:24
+msgid "Parent comment does not exist!"
+msgstr ""
+
+#: promise_tracker/promises/services/comment_services.py:25
+msgid "Comment is already deleted!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_result_services.py:23
+msgid "Promise result not found."
+msgstr ""
+
+#: promise_tracker/promises/services/promise_result_services.py:26
+msgid "Cannot add result to final promise!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_result_services.py:27
+msgid "Cannot add final result because promise has later results!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_result_services.py:28
+msgid "Final result status is not specified!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_result_services.py:29
+msgid "Cannot specify result status when result is not final!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_result_services.py:30
+#, python-brace-format
+msgid "Result {name} already exists!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_result_services.py:31
+msgid "Cannot modify reviewed result!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_result_services.py:32
+msgid "Cannot delete reviewed result!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_result_services.py:33
+msgid "Cannot change status of already reviewed result!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_result_services.py:34
+msgid "Cannot evaluate result, because promise has a final result!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_result_services.py:36
+msgid ""
+"Cannot evaluate final result, because promise has later approved final "
+"results!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_services.py:26
+msgid "Neither party nor union is set!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_services.py:27
+msgid "Both party and union are set!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_services.py:28
+msgid "Political party does not exist!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_services.py:29
+msgid "Political union does not exist!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_services.py:30
+msgid "Convocation does not exist!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_services.py:31
+#, python-brace-format
+msgid "Party or union {name} was not elected in convocation {convocation}!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_services.py:32
+#, python-brace-format
+msgid "Promise {name} already exists!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_services.py:33
+msgid "Cannot modify reviewed promise!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_services.py:34
+msgid "Cannot delete promise because it has reviewed results!"
+msgstr ""
+
+#: promise_tracker/promises/services/promise_services.py:35
+#, python-brace-format
+msgid "Promise is already in status {status}!"
+msgstr ""
+
+#: promise_tracker/users/forms.py:13
+msgid "Confirm password"
+msgstr ""
+
+#: promise_tracker/users/forms.py:14
+msgid "Enter the same password as before, for verification."
+msgstr ""
+
+#: promise_tracker/users/forms.py:27
+msgid ""
+"Password must be at least 10 characters long, and contain a mix of letters, "
+"numbers, and special characters."
+msgstr ""
+
+#: promise_tracker/users/forms.py:59
+msgid "Verification Code"
+msgstr ""
+
+#: promise_tracker/users/forms.py:60
+msgid "Enter the 6-digit verification code sent to your email."
+msgstr ""
+
+#: promise_tracker/users/forms.py:62 promise_tracker/users/forms.py:63
+#: promise_tracker/users/models.py:101
+msgid "Verification code"
+msgstr ""
+
+#: promise_tracker/users/models.py:67
+msgid "The name of the user."
+msgstr ""
+
+#: promise_tracker/users/models.py:70
+msgid "Surname"
+msgstr ""
+
+#: promise_tracker/users/models.py:70
+msgid "The surname of the user."
+msgstr ""
+
+#: promise_tracker/users/models.py:80
+msgid "Email address"
+msgstr ""
+
+#: promise_tracker/users/models.py:81
+msgid "The email address of the user."
+msgstr ""
+
+#: promise_tracker/users/models.py:83
+msgid "A user with this email already exists."
+msgstr ""
+
+#: promise_tracker/users/models.py:87
+#: promise_tracker/users/templates/users/_users_table.html:10
+#: promise_tracker/users/templates/users/user_detail.html:21
+msgid "Username"
+msgstr ""
+
+#: promise_tracker/users/models.py:87
+msgid "The username of the user."
+msgstr ""
+
+#: promise_tracker/users/models.py:94
+msgid "The hashed password of the user."
+msgstr ""
+
+#: promise_tracker/users/models.py:102
+msgid "The verification code for email verification."
+msgstr ""
+
+#: promise_tracker/users/models.py:107
+msgid "Verification code expiry"
+msgstr ""
+
+#: promise_tracker/users/models.py:108
+msgid "The expiry date and time of the verification code."
+msgstr ""
+
+#: promise_tracker/users/models.py:113
+msgid "Verification email sent at"
+msgstr ""
+
+#: promise_tracker/users/models.py:114
+msgid "The date and time when the verification email was sent."
+msgstr ""
+
+#: promise_tracker/users/models.py:119
+msgid "Is active?"
+msgstr ""
+
+#: promise_tracker/users/models.py:120
+msgid "Designates whether this user should be treated as active."
+msgstr ""
+
+#: promise_tracker/users/models.py:126
+msgid "Is admin?"
+msgstr ""
+
+#: promise_tracker/users/models.py:127
+msgid "Designates whether the user has admin privileges."
+msgstr ""
+
+#: promise_tracker/users/models.py:133
+msgid "Is verified?"
+msgstr ""
+
+#: promise_tracker/users/models.py:134
+msgid "Designates whether the user has verified their email address."
+msgstr ""
+
+#: promise_tracker/users/models.py:156
+msgid "User"
+msgstr ""
+
+#: promise_tracker/users/models.py:157
+#: promise_tracker/users/templates/users/user_list.html:4
+#: promise_tracker/users/templates/users/user_list.html:10
+msgid "Users"
+msgstr ""
+
+#: promise_tracker/users/services.py:106
+msgid "Passwords do not match."
+msgstr ""
+
+#: promise_tracker/users/services.py:128
+msgid "User is already verified."
+msgstr ""
+
+#: promise_tracker/users/services.py:250
+msgid "Verification failed! Invalid code!"
+msgstr ""
+
+#: promise_tracker/users/services.py:266
+msgid "User is already banned."
+msgstr ""
+
+#: promise_tracker/users/services.py:270
+msgid "User is not banned."
+msgstr ""
+
+#: promise_tracker/users/templates/users/_users_table.html:8
+#: promise_tracker/users/templates/users/user_detail.html:15
+msgid "Full name"
+msgstr ""
+
+#: promise_tracker/users/templates/users/_users_table.html:11
+#: promise_tracker/users/templates/users/user_detail.html:27
+msgid "Active"
+msgstr ""
+
+#: promise_tracker/users/templates/users/_users_table.html:12
+#: promise_tracker/users/templates/users/user_detail.html:24
+msgid "Verified"
+msgstr ""
+
+#: promise_tracker/users/templates/users/_users_table.html:13
+#: promise_tracker/users/templates/users/user_detail.html:34
+msgid "Admin"
+msgstr ""
+
+#: promise_tracker/users/templates/users/_users_table.html:14
+#: promise_tracker/users/templates/users/user_detail.html:30
+msgid "Deleted"
+msgstr ""
+
+#: promise_tracker/users/templates/users/_users_table.html:25
+#: promise_tracker/users/templates/users/_users_table.html:26
+#: promise_tracker/users/templates/users/_users_table.html:27
+#: promise_tracker/users/templates/users/_users_table.html:28
+#: promise_tracker/users/templates/users/user_detail.html:25
+#: promise_tracker/users/templates/users/user_detail.html:28
+#: promise_tracker/users/templates/users/user_detail.html:31
+#: promise_tracker/users/templates/users/user_detail.html:35
+msgid "Yes"
+msgstr ""
+
+#: promise_tracker/users/templates/users/_users_table.html:25
+#: promise_tracker/users/templates/users/_users_table.html:26
+#: promise_tracker/users/templates/users/_users_table.html:27
+#: promise_tracker/users/templates/users/_users_table.html:28
+#: promise_tracker/users/templates/users/user_detail.html:25
+#: promise_tracker/users/templates/users/user_detail.html:28
+#: promise_tracker/users/templates/users/user_detail.html:31
+#: promise_tracker/users/templates/users/user_detail.html:35
+msgid "No"
+msgstr ""
+
+#: promise_tracker/users/templates/users/_users_table.html:39
+#: promise_tracker/users/templates/users/_users_table.html:96
+msgid "Block"
+msgstr ""
+
+#: promise_tracker/users/templates/users/_users_table.html:43
+#: promise_tracker/users/templates/users/_users_table.html:117
+msgid "Unblock"
+msgstr ""
+
+#: promise_tracker/users/templates/users/_users_table.html:69
+#: promise_tracker/users/templates/users/user_detail.html:55
+msgid "Are you sure you want to delete this user?"
+msgstr ""
+
+#: promise_tracker/users/templates/users/_users_table.html:86
+msgid "Confirm Blocking"
+msgstr ""
+
+#: promise_tracker/users/templates/users/_users_table.html:90
+msgid "Are you sure you want to block this user?"
+msgstr ""
+
+#: promise_tracker/users/templates/users/_users_table.html:107
+msgid "Confirm Unblocking"
+msgstr ""
+
+#: promise_tracker/users/templates/users/_users_table.html:111
+msgid "Are you sure you want to unblock this user?"
+msgstr ""
+
+#: promise_tracker/users/templates/users/_users_table.html:125
+msgid "No users found."
+msgstr ""
+
+#: promise_tracker/users/templates/users/user_create.html:4
+#: promise_tracker/users/templates/users/user_create.html:11
+#: promise_tracker/users/templates/users/user_create.html:19
+msgid "Register"
+msgstr ""
+
+#: promise_tracker/users/templates/users/user_create.html:4
+#: promise_tracker/users/templates/users/user_create.html:11
+#: promise_tracker/users/templates/users/user_create.html:19
+#: promise_tracker/users/templates/users/user_list.html:11
+msgid "Create User"
+msgstr ""
+
+#: promise_tracker/users/templates/users/user_edit.html:4
+#: promise_tracker/users/templates/users/user_edit.html:11
+msgid "Edit User"
+msgstr ""
+
+#: promise_tracker/users/templates/users/user_verify.html:4
+#: promise_tracker/users/templates/users/user_verify.html:11
+msgid "Verify User"
+msgstr ""
+
+#: promise_tracker/users/templates/users/user_verify.html:19
+msgid "Verify"
+msgstr ""
+
+#: promise_tracker/users/templates/users/user_verify.html:26
+msgid "Resend Verification Email"
+msgstr ""
+
+#: promise_tracker/users/views.py:48
+msgid "User has been successfully created!"
+msgstr ""
+
+#: promise_tracker/users/views.py:80
+msgid "User has been successfully updated!"
+msgstr ""
+
+#: promise_tracker/users/views.py:118
+msgid "Please verify your new email address!"
+msgstr ""
+
+#: promise_tracker/users/views.py:176
+msgid "User has been successfully verified!"
+msgstr ""
+
+#: promise_tracker/users/views.py:209
+msgid "Verification code has been resent!"
+msgstr ""
+
+#: promise_tracker/users/views.py:232
+msgid "User has been successfully blocked."
+msgstr ""
+
+#: promise_tracker/users/views.py:246
+msgid "User has been successfully unblocked."
+msgstr ""

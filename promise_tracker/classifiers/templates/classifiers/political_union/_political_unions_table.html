@@ -1,0 +1,79 @@
+{% load i18n %}
+
+<div id="political-unions-table">
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th scope="col">{% translate "ID" %}</th>
+          <th scope="col">{% translate "Name" %}</th>
+          <th scope="col">{% translate "Email" %}</th>
+          <th scope="col">{% translate "Parties" %}</th>
+          <th scope="col">{% translate "Established" %}</th>
+          <th scope="col">{% translate "Liquidated" %}</th>
+          <th scope="col">{% translate "Ideologies" %}</th>
+          <th scope="col">{% translate "Actions" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in page_obj %}
+        <tr>
+          <td class="align-middle">{{ u.id }}</td>
+          <td class="align-middle">{{ u.name }}</td>
+          <td class="align-middle">{{ u.email }}</td>
+          <td class="align-middle">{{ u.parties.all|join:", " }}</td>
+          <td class="align-middle">{{ u.established_date }}</td>
+          <td class="align-middle">{% if u.liquidated_date %}{{ u.liquidated_date }}{% else %}{% translate "No" %}{% endif %}</td>
+          <td class="align-middle">{{ u.get_ideologies_display }}</td>
+          <td class="align-middle">
+            <div class="d-flex gap-1">
+              <a href="{% url 'classifiers:political_unions:detail' u.id %}" class="btn btn-sm btn-outline-primary" title="{% translate 'View' %}">
+                <i class="bi bi-eye"></i>
+              </a>
+              <a href="{% url 'classifiers:political_unions:edit' u.id %}" class="btn btn-sm btn-outline-secondary" title="{% translate 'Edit' %}">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deletePoliticalUnionModal-{{ u.id }}" title="{% translate 'Delete' %}">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+
+        <div class="modal fade" id="deletePoliticalUnionModal-{{ u.id }}" tabindex="-1" aria-labelledby="deletePoliticalUnionModalLabel-{{ u.id }}" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="deletePoliticalUnionModalLabel-{{ u.id }}">{% translate "Confirm Deletion" %}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                {% translate "Are you sure you want to delete this political union?" %}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+                <form action="{% url 'classifiers:political_unions:delete' u.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">{% translate "Delete" %}</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% empty %}
+        <tr>
+          <td colspan="8" class="text-center text-muted py-3">{% translate "No political unions found." %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if page_obj %}
+    <div class="d-flex justify-content-center mt-3">
+        {% with page_obj=page_obj url="classifiers:political_unions:list" %}
+            {% include 'core/_paginator.html' with page_obj=page_obj url=url id="#political-unions-table" %}
+        {% endwith %}
+    </div>
+    {% endif %}
+</div>

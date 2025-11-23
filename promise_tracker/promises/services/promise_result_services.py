@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from uuid import UUID
 
 from django.db import IntegrityError, transaction
@@ -35,19 +35,20 @@ class PromiseResultService:
     CANNOT_EVALUATE_FINAL_BECAUSE_LATER_RESULTS = _(
         "Cannot evaluate final result, because promise has later approved final results!"
     )
+    DATE_IN_FUTURE = _("Promise result date is in the future.")
 
     def _ensure_dont_have_approved_final_result(self, promise: Promise, message: str) -> None:
         if promise.results.filter(is_final=True, review_status=PromiseResult.ReviewStatus.APPROVED).exists():
             raise ApplicationError(message)
 
     def _ensure_can_add_final_result(
-        self, promise: Promise, date: datetime, status: PromiseResult.CompletionStatus | None
+        self, promise: Promise, date: date, status: PromiseResult.CompletionStatus | None
     ) -> None:
         self._ensure_status_is_not_null(status)
 
         self._ensure_dont_have_later_approved_final_result(promise, date, self.CANNOT_ADD_FINAL_BECAUSE_LATER_RESULTS)
 
-    def _ensure_dont_have_later_approved_final_result(self, promise: Promise, date: datetime, message: str) -> None:
+    def _ensure_dont_have_later_approved_final_result(self, promise: Promise, date: date, message: str) -> None:
         latest_date = self._get_latest_approved_date(promise)
 
         if latest_date and latest_date > date:
@@ -74,6 +75,10 @@ class PromiseResultService:
         if result.is_reviewed:
             raise ApplicationError(message)
 
+    def _ensure_date_is_valid(self, date: date) -> None:
+        if date > timezone.now().date():
+            raise ApplicationError(self.DATE_IN_FUTURE)
+
     @transaction.atomic
     def create_result(
         self,
@@ -81,7 +86,7 @@ class PromiseResultService:
         description: str,
         sources: list[str],
         is_final: bool,
-        date: datetime,
+        date: date,
         promise_id: UUID,
         status: PromiseResult.CompletionStatus | None = None,
     ) -> PromiseResult:
@@ -90,6 +95,7 @@ class PromiseResultService:
         promise = get_object_or_raise(Promise, self.PROMISE_NOT_FOUND, id=promise_id)
 
         self._ensure_dont_have_approved_final_result(promise, self.CANNOT_ADD_TO_FINAL_PROMISE)
+        self._ensure_date_is_valid(date)
 
         if is_final:
             self._ensure_can_add_final_result(promise, date, status)
@@ -124,7 +130,7 @@ class PromiseResultService:
         description: str,
         sources: list[str],
         is_final: bool,
-        date: datetime,
+        date: date,
         promise_id: UUID,
         status: PromiseResult.CompletionStatus | None = None,
     ) -> PromiseResult:
@@ -132,6 +138,7 @@ class PromiseResultService:
 
         self._ensure_is_owner_or_admin(result)
         self._ensure_is_not_reviewed(result, self.CANNOT_EDIT_REVIEWED)
+        self._ensure_date_is_valid(date)
 
         promise = get_object_or_raise(Promise, self.PROMISE_NOT_FOUND, id=promise_id)
 

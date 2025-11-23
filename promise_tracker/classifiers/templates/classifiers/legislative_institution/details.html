@@ -1,0 +1,85 @@
+{% extends 'core/base.html' %}
+{% load i18n roles_tags %}
+
+{% block title %}{% translate "Legislative Institution Details" %}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-4">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">
+        <h4>{{ legislative_institution.name }}</h4>
+      </div>
+      <div class="card-body">
+        {% is_admin request.user as is_admin %}
+
+        <dl class="row">
+          <dt class="col-sm-3">{% translate "Name" %}</dt>
+          <dd class="col-sm-9">{{ legislative_institution.name }}</dd>
+
+          <dt class="col-sm-3">{% translate "Type" %}</dt>
+          <dd class="col-sm-9">{{ legislative_institution.institution_type }}</dd>
+
+          <dt class="col-sm-3">{% translate "Level" %}</dt>
+          <dd class="col-sm-9">{{ legislative_institution.institution_level }}</dd>
+
+          {% if legislative_institution.logo %}
+            <dt class="col-sm-3">{% translate "Logo" %}</dt>
+            <dd class="col-sm-9">
+              <img src="{{ legislative_institution.logo.url }}" alt="{{ legislative_institution.name }}" class="img-fluid" style="max-height:120px;">
+            </dd>
+          {% endif %}
+        </dl>
+
+        {% if is_admin %}
+        <hr />
+        <dl class="row small text-muted">
+          <dt class="col-sm-3">{% translate "Created" %}</dt>
+          <dd class="col-sm-9">{{ legislative_institution.created_at }}</dd>
+
+          <dt class="col-sm-3">{% translate "Created by" %}</dt>
+          <dd class="col-sm-9">{{ legislative_institution.created_by }}</dd>
+
+          <dt class="col-sm-3">{% translate "Last modified" %}</dt>
+          <dd class="col-sm-9">{{ legislative_institution.updated_at }}</dd>
+
+          <dt class="col-sm-3">{% translate "Modified by" %}</dt>
+          <dd class="col-sm-9">{{ legislative_institution.updated_by }}</dd>
+        </dl>
+        {% endif %}
+
+        <div class="d-flex justify-content-between">
+          <a href="{% url 'classifiers:legislative_institutions:edit' legislative_institution.id %}" class="btn btn-primary">{% translate "Edit" %}</a>
+          <a href="{% url 'classifiers:legislative_institutions:list' %}" class="btn btn-secondary">{% translate "Back" %}</a>
+          
+          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteInstitutionModal">
+            {% translate "Delete" %}
+          </button>
+
+          <div class="modal fade" id="deleteInstitutionModal" tabindex="-1" aria-labelledby="deleteInstitutionModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="deleteInstitutionModalLabel">{% translate "Confirm Deletion" %}</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  {% translate "Are you sure you want to delete this institution?" %}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+                  <form action="{% url 'classifiers:legislative_institutions:delete' legislative_institution.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">{% translate "Delete" %}</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

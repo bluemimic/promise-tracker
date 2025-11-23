@@ -21,7 +21,7 @@ class BaseFormView(HandleErrorsMixin, View):
         form_class = self.get_form_class(request, *args, **kwargs)
         _instance = self.get_instance(request, *args, **kwargs)
 
-        return form_class(request.POST or None, instance=_instance)
+        return form_class(request.POST or None, request.FILES or None, instance=_instance)
 
     def get_extra_context(self, request, form, *args, **kwargs) -> dict:
         return {}

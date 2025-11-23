@@ -3,13 +3,13 @@
 from django.db import models
 from django.db.models import CheckConstraint, F, Q
 from django.db.models.fields import Field
-from django.db.models.functions import Now
 from django.utils import timezone
 from django.utils.translation import gettext as _
+from multiselectfield import MultiSelectField
 
-from promise_tracker.common.fields import CommaSeparatedField, UploadImageField
+from promise_tracker.common.fields import UploadImageField
 from promise_tracker.common.models import BaseModel
-from promise_tracker.common.validators import CommaSeparatedStringValidator, FileSizeValidator, ImageValidator
+from promise_tracker.common.validators import FileSizeValidator, ImageValidator
 
 
 class LegislativeInstitution(BaseModel):
@@ -74,6 +74,18 @@ class LegislativeInstitution(BaseModel):
 
 
 class PoliticalParty(BaseModel):
+    class Ideologies(models.TextChoices):
+        LEFT = "Left", _("Left")
+        CENTER_LEFT = "Center-Left", _("Center-Left")
+        CENTER = "Center", _("Center")
+        CENTER_RIGHT = "Center-Right", _("Center-Right")
+        RIGHT = "Right", _("Right")
+        LIBERTARIAN = "Libertarian", _("Libertarian")
+        GREEN = "Green", _("Green")
+        FAR_RIGHT = "Far-Right", _("Far-Right")
+        FAR_LEFT = "Far-Left", _("Far-Left")
+        POPULIST = "Populist", _("Populist")
+
     name: Field = models.CharField(
         unique=True,
         max_length=255,
@@ -104,17 +116,11 @@ class PoliticalParty(BaseModel):
         verbose_name=_("Liquidated Date"),
         help_text=_("The date when the political party was liquidated, if applicable."),
     )
-    ideologies: Field = CommaSeparatedField(
+    ideologies: Field = MultiSelectField(
         null=True,
         blank=True,
-        validators=[
-            CommaSeparatedStringValidator(max_item_length=255),
-        ],
-        verbose_name=_("Ideologies"),
+        choices=Ideologies.choices,
         help_text=_("The ideologies associated with the political party, separated by commas."),
-        error_messages={
-            "empty_item_not_allowed": _("Ideology array is not valid!"),
-        },
     )
     logo: Field = UploadImageField(
         null=True,
@@ -131,6 +137,11 @@ class PoliticalParty(BaseModel):
     def is_active(self) -> bool:
         return self.liquidated_date is None or self.liquidated_date > timezone.now()
 
+    def get_ideologies_display(self):
+        choice_dict = dict(self.Ideologies.choices)
+        
+        return ", ".join(choice_dict.get(v, v) for v in self.ideologies or [])
+
     def __str__(self) -> str:
         return self.name
 
@@ -143,21 +154,23 @@ class PoliticalParty(BaseModel):
                 check=(Q(liquidated_date__isnull=True) | Q(liquidated_date__gte=F("established_date"))),
                 name="liquidated_date_gte_established_date",
                 violation_error_message=_("Liquidated date is smaller than established date."),
-            ),
-            CheckConstraint(
-                check=Q(established_date__lte=Now()),
-                name="established_date_lte_today",
-                violation_error_message=_("Established date is in the future."),
-            ),
-            CheckConstraint(
-                check=(Q(liquidated_date__isnull=True) | Q(liquidated_date__lte=Now())),
-                name="liquidated_date_lte_today",
-                violation_error_message=_("Liquidated date is in the future."),
-            ),
+            )
         ]
 
 
 class PoliticalUnion(BaseModel):
+    class Ideologies(models.TextChoices):
+        LEFT = "Left", _("Left")
+        CENTER_LEFT = "Center-Left", _("Center-Left")
+        CENTER = "Center", _("Center")
+        CENTER_RIGHT = "Center-Right", _("Center-Right")
+        RIGHT = "Right", _("Right")
+        LIBERTARIAN = "Libertarian", _("Libertarian")
+        GREEN = "Green", _("Green")
+        FAR_RIGHT = "Far-Right", _("Far-Right")
+        FAR_LEFT = "Far-Left", _("Far-Left")
+        POPULIST = "Populist", _("Populist")
+
     name: Field = models.CharField(
         unique=True,
         max_length=255,
@@ -188,17 +201,12 @@ class PoliticalUnion(BaseModel):
         verbose_name=_("Liquidated Date"),
         help_text=_("The date when the political union was liquidated, if applicable."),
     )
-    ideologies: Field = CommaSeparatedField(
+    ideologies: Field = MultiSelectField(
         null=True,
         blank=True,
-        validators=[
-            CommaSeparatedStringValidator(max_item_length=255),
-        ],
+        choices=Ideologies.choices,
         verbose_name=_("Ideologies"),
         help_text=_("The ideologies associated with the political union, separated by commas."),
-        error_messages={
-            "empty_item_not_allowed": _("Ideology array is not valid!"),
-        },
     )
     logo: Field = UploadImageField(
         null=True,
@@ -221,6 +229,11 @@ class PoliticalUnion(BaseModel):
     def is_active(self) -> bool:
         return self.liquidated_date is None or self.liquidated_date > timezone.now().date()
 
+    def get_ideologies_display(self):
+        choice_dict = dict(self.Ideologies.choices)
+        
+        return ", ".join(choice_dict.get(v, v) for v in self.ideologies or [])
+
     def __str__(self) -> str:
         return self.name
 
@@ -233,17 +246,7 @@ class PoliticalUnion(BaseModel):
                 check=(Q(liquidated_date__isnull=True) | Q(liquidated_date__gte=F("established_date"))),
                 name="union_liquidated_date_gte_established_date",
                 violation_error_message=_("Liquidated date is smaller than established date."),
-            ),
-            CheckConstraint(
-                check=Q(established_date__lte=Now()),
-                name="union_established_date_lte_today",
-                violation_error_message=_("Established date is in the future."),
-            ),
-            CheckConstraint(
-                check=(Q(liquidated_date__isnull=True) | Q(liquidated_date__lte=Now())),
-                name="union_liquidated_date_lte_today",
-                violation_error_message=_("Liquidated date is in the future."),
-            ),
+            )
         ]
 
 
@@ -305,15 +308,5 @@ class Convocation(BaseModel):
                 check=(Q(end_date__isnull=True) | Q(end_date__gte=F("start_date"))),
                 name="convocation_end_date_gte_start_date",
                 violation_error_message=_("End date is smaller than start date."),
-            ),
-            CheckConstraint(
-                check=Q(start_date__lte=Now()),
-                name="convocation_start_date_lte_today",
-                violation_error_message=_("Start date is in the future."),
-            ),
-            CheckConstraint(
-                check=(Q(end_date__isnull=True) | Q(end_date__lte=Now())),
-                name="convocation_end_date_lte_today",
-                violation_error_message=_("End date is in the future."),
-            ),
+            )
         ]

@@ -1,4 +1,5 @@
-{% load i18n static %}
+{% load i18n static roles_tags %}
+{% is_admin request.user as is_admin %}
 {% get_current_language as CURRENT_LANGUAGE %}
 <!DOCTYPE html>
 <html lang="{{ LANGUAGE_CODE|default:CURRENT_LANGUAGE }}">
@@ -34,39 +35,48 @@
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container">
-                <a class="navbar-brand" href="#">{% translate "Home" %}</a>
+                <a class="navbar-brand" href="{% url 'home:index' %}">{% translate "Home" %}</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="{% url 'home:index' %}">{% translate "Home" %}</a>
+
+                        {% if is_admin %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% translate "Classifiers" %}</a>
+                            <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                                <li><a class="dropdown-item" href="{% url 'classifiers:legislative_institutions:list' %}">{% translate "Legislative institutions" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'classifiers:political_parties:list' %}">{% translate "Political parties" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'classifiers:political_unions:list' %}">{% translate "Political unions" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'classifiers:convocations:list' %}">{% translate "Convocations" %}</a></li>
+                            </ul>
                         </li>
+                        {% endif %}
                     </ul>
                     <ul class="navbar-nav ms-auto">
                         {% if request.user.is_authenticated %}
-                        <div class="d-flex gap-2">
-                            <li class="nav-item d-flex align-items-center">
-                                <span class="navbar-text">@{{ request.user.username }}</span>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btn btn-outline-primary" href="{% url 'users:detail' id=request.user.id %}">{% translate "Profile" %}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btn btn-outline-secondary" href="{% url 'authentication:logout' %}">{% translate "Logout" %}</a>
-                            </li>
-                        </div>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle me-1"></i>
+                                {{ request.user.username }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                                <li><a class="dropdown-item" href="{% url 'users:detail' id=request.user.id %}">{% translate "Profile" %}</a></li>
+                                {% if is_admin %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'users:list' %}">{% translate "All users" %}</a></li>
+                                {% endif %}
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="{% url 'authentication:logout' %}">{% translate "Logout" %}</a></li>
+                            </ul>
+                        </li>
                         {% else %}
-                        <div class="div d-flex gap-2">
-                            <li class="nav-item">
-                                <a class="btn btn-outline-secondary" href="{% url 'users:create' %}">{% translate "Sign in" %}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="btn btn-primary" href="{% url 'authentication:login' %}">{% translate "Login" %}</a>
-                            </li>
-                        </div>
+                        <li class="nav-item d-flex gap-2">
+                            <a class="btn btn-outline-secondary" href="{% url 'users:create' %}">{% translate "Sign in" %}</a>
+                            <a class="btn btn-primary" href="{% url 'authentication:login' %}">{% translate "Login" %}</a>
+                        </li>
                         {% endif %}
                     </ul>
                 </div>

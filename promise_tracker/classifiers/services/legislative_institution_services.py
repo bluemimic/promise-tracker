@@ -49,6 +49,8 @@ class LegislativeInstitutionService:
 
         if logo is not None:
             legislative_institution.logo = logo
+        else:
+            legislative_institution.logo = None
 
         try:
             legislative_institution = self.base_service.create_base(legislative_institution, self.performed_by)
@@ -80,6 +82,8 @@ class LegislativeInstitutionService:
 
         if logo is not None:
             legislative_institution.logo = logo
+        else:
+            legislative_institution.logo = None
 
         try:
             legislative_institution = self.base_service.edit_base(legislative_institution, self.performed_by)

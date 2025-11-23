@@ -14,6 +14,9 @@ if FILE_UPLOAD_STORAGE == FileUploadStorage.LOCAL:
     MEDIA_URL = f"/{MEDIA_ROOT_NAME}/"
 
     STORAGES = {
+        "default": {
+            "BACKEND": "django.core.files.storage.FileSystemStorage",
+        },
         "staticfiles": {
             "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
         },

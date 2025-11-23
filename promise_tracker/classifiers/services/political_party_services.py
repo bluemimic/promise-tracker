@@ -1,8 +1,9 @@
-from datetime import datetime
+from datetime import date
 from uuid import UUID
 
 from django.core.files import File
 from django.db import IntegrityError, transaction
+from django.utils import timezone
 from django.utils.translation import gettext as _
 from loguru import logger
 
@@ -13,7 +14,7 @@ from promise_tracker.core.exceptions import ApplicationError
 from promise_tracker.users.models import BaseUser
 
 
-class oliticalPartyService:
+class PoliticalPartyService:
     def __init__(
         self,
         performed_by: BaseUser,
@@ -25,8 +26,12 @@ class oliticalPartyService:
     NOT_FOUND_MESSAGE = _("Political party not found.")
     UNIQUE_CONSTRAINT_MESSAGE = _("A political party {name} already exists.")
     CANNOT_DELETE_PARTICIPATES_IN_UNIONS = _("Cannot delete political party because it participates in unions!")
-    CANNOT_DELETE_ELECTED_IN_CONVOCATIONS = _("Cannot delete political party because it has been elected in convocations!")
+    CANNOT_DELETE_ELECTED_IN_CONVOCATIONS = _(
+        "Cannot delete political party because it has been elected in convocations!"
+    )
     CANNOT_DELETE_HAS_ASSOCIATED_PROMISES = _("Cannot delete political party because it has associated promises!")
+    LIQUIDATED_DATE_IN_FUTURE = _("Liquidated date is in the future.")
+    ESTABLISHED_DATE_IN_FUTURE = _("Established date is in the future.")
 
     def _ensure_doesnt_participate_in_unions(self, political_party: PoliticalParty) -> None:
         if political_party.unions.exists():
@@ -40,17 +45,32 @@ class oliticalPartyService:
         if political_party.promises.exists():
             raise ApplicationError(self.CANNOT_DELETE_HAS_ASSOCIATED_PROMISES)
 
+    def _ensure_dates_are_valid(
+        self,
+        established_date: date,
+        liquidated_date: date | None = None,
+    ) -> None:
+        now = timezone.now().date()
+
+        if established_date > now:
+            raise ApplicationError(self.ESTABLISHED_DATE_IN_FUTURE)
+
+        if liquidated_date and liquidated_date > now:
+            raise ApplicationError(self.LIQUIDATED_DATE_IN_FUTURE)
+
     @transaction.atomic
     def create_political_party(
         self,
         name: str,
         email: str,
-        established_date: datetime,
-        liquidated_date: datetime | None = None,
+        established_date: date,
+        liquidated_date: date | None = None,
         ideologies: list[str] | None = None,
         logo: File | None = None,
     ) -> PoliticalParty:
         logger.debug(f"Creating political party with name: {name}")
+
+        self._ensure_dates_are_valid(established_date, liquidated_date)
 
         political_party = PoliticalParty(
             name=name,
@@ -76,14 +96,16 @@ class oliticalPartyService:
         id: UUID,
         name: str,
         email: str,
-        established_date: datetime,
-        liquidated_date: datetime | None = None,
+        established_date: date,
+        liquidated_date: date | None = None,
         ideologies: list[str] | None = None,
         logo: File | None = None,
     ) -> PoliticalParty:
         political_party = get_object_or_raise(PoliticalParty, self.NOT_FOUND_MESSAGE, id=id)
 
         logger.debug(f"Editing political party: {political_party.id}")
+
+        self._ensure_dates_are_valid(established_date, liquidated_date)
 
         political_party.name = name
         political_party.email = email
@@ -92,9 +114,13 @@ class oliticalPartyService:
 
         if ideologies is not None:
             political_party.ideologies = ideologies
+        else:
+            political_party.ideologies = []
 
         if logo is not None:
             political_party.logo = logo
+        else:
+            political_party.logo = None
 
         try:
             political_party = self.base_service.edit_base(political_party, self.performed_by)

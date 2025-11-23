@@ -1,6 +1,6 @@
 from typing import Any, Optional, Type
 
-from django.core.paginator import EmptyPage, Page, Paginator
+from django.core.paginator import Page, Paginator
 from django.db import models
 from django.db.models import Model, QuerySet
 from django.forms import Form
