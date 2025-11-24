@@ -117,6 +117,14 @@ class Promise(BaseModel):
     def is_unreviewed(self) -> bool:
         return self.review_status == self.ReviewStatus.PENDING
 
+    @property
+    def final_result(self) -> PromiseResult.CompletionStatus | None:
+        final_result_qs = self.results.filter(is_final=True)
+
+        if final_result_qs.exists():
+            return final_result_qs.first().status
+        return None
+
     def __str__(self) -> str:
         return self.name
 

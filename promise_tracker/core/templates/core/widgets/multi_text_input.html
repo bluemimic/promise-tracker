@@ -1,0 +1,16 @@
+{% load i18n %}
+
+<div id="{{ widget.container_id }}" data-row-id-prefix="{{ widget.row_id_prefix }}" data-add-button-id="{{ widget.add_button_id }}" data-field-name="{{ widget.name }}">
+    {% for val in widget.values %}
+        <div class="{{ widget.row_class }} d-flex mb-2 gap-2" id="{{ widget.row_id_prefix }}-{{ forloop.counter0 }}">
+            <input type="text" name="{{ widget.name }}" value="{{ val|escape }}" class="{{ widget.input_class }}" />
+            <button type="button" class="{{ widget.remove_button_class }} btn btn-outline-danger" data-target="{{ widget.row_id_prefix }}-{{ forloop.counter0 }}">
+                <i class="bi bi-dash-lg"></i>
+            </button>
+        </div>
+    {% endfor %}
+
+    <button type="button" id="{{ widget.add_button_id }}" class="{{ widget.add_button_class }} btn btn-outline-primary">
+        <i class="bi bi-plus-lg"></i> {% translate "Add another" %}
+    </button>
+</div>

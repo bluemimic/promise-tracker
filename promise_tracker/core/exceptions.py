@@ -17,7 +17,7 @@ class ApplicationError(DomainError):
         super().__init__(message, extra)
 
 
-class PermissionViolationError(DomainError):
+class PermissionViolationError(ApplicationError):
     def __init__(self, extra=None):
         super().__init__(_("You do not have permission to perform this action."), extra)
 

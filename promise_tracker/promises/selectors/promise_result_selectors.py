@@ -35,7 +35,7 @@ class PromiseResultSelectors:
             raise ApplicationError(self.REGISTERED_USER_ONLY_OWN_ERROR)
 
     def _ensure_unreviewed_only_for_admin(self, filters: dict) -> None:
-        if filters.get("is_unreviewed") and not has_role(self.performed_by, Administrator):
+        if self._param_is_truthy(filters, "is_unreviewed") and not has_role(self.performed_by, Administrator):
             raise PermissionViolationError()
 
     def _ensure_can_view(self, result: PromiseResult) -> None:
@@ -50,7 +50,7 @@ class PromiseResultSelectors:
         qs = PromiseResult.objects.filter(promise=promise)
 
         # Guests
-        if not has_role(self.performed_by, (RegisteredUser, Administrator)):
+        if not (has_role(self.performed_by, RegisteredUser) or has_role(self.performed_by, Administrator)):
             return qs.filter(review_status=PromiseResult.ReviewStatus.APPROVED)
 
         # Admins
@@ -62,7 +62,7 @@ class PromiseResultSelectors:
 
     def _get_all_promise_results(self, filters: dict) -> QuerySet[PromiseResult]:
         # Guests
-        if not has_role(self.performed_by, (RegisteredUser, Administrator)):
+        if not (has_role(self.performed_by, RegisteredUser) or has_role(self.performed_by, Administrator)):
             raise PermissionViolationError()
 
         # Admins

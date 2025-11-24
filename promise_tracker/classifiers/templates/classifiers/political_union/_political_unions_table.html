@@ -39,27 +39,6 @@
             </div>
           </td>
         </tr>
-
-        <div class="modal fade" id="deletePoliticalUnionModal-{{ u.id }}" tabindex="-1" aria-labelledby="deletePoliticalUnionModalLabel-{{ u.id }}" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="deletePoliticalUnionModalLabel-{{ u.id }}">{% translate "Confirm Deletion" %}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                {% translate "Are you sure you want to delete this political union?" %}
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
-                <form action="{% url 'classifiers:political_unions:delete' u.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">{% translate "Delete" %}</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
         {% empty %}
         <tr>
           <td colspan="8" class="text-center text-muted py-3">{% translate "No political unions found." %}</td>
@@ -77,3 +56,27 @@
     </div>
     {% endif %}
 </div>
+
+{% for u in page_obj %}
+ <div class="modal fade" id="deletePoliticalUnionModal-{{ u.id }}" tabindex="-1" aria-labelledby="deletePoliticalUnionModalLabel-{{ u.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deletePoliticalUnionModalLabel-{{ u.id }}">{% translate "Confirm Deletion" %}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% translate "Are you sure you want to delete this political union?" %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+        <form action="{% url 'classifiers:political_unions:delete' u.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">{% translate "Delete" %}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+

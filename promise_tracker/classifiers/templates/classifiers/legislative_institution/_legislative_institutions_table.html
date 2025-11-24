@@ -5,21 +5,21 @@
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th scope="col-3">{% translate "ID" %}</th>
-          <th scope="col-3">{% translate "Name" %}</th>
-          <th scope="col-2">{% translate "Type" %}</th>
-          <th scope="col-2">{% translate "Level" %}</th>
-          <th scope="col-3">{% translate "Actions" %}</th>
+          <th class="col-3">{% translate "ID" %}</th>
+          <th class="col-3">{% translate "Name" %}</th>
+          <th class="col-3">{% translate "Type" %}</th>
+          <th class="col-3">{% translate "Level" %}</th>
+          <th class="col-3">{% translate "Actions" %}</th>
         </tr>
       </thead>
       <tbody>
         {% for li in page_obj %}
         <tr>
-          <td class="align-middle col-3">{{ li.id }}</td>
-          <td class="align-middle col-3">{{ li.name }}</td>
-          <td class="align-middle col-2">{{ li.institution_type }}</td>
-          <td class="align-middle col-2">{{ li.institution_level }}</td>
-          <td class="align-middle col-3">
+          <td class="align-middle">{{ li.id }}</td>
+          <td class="align-middle">{{ li.name }}</td>
+          <td class="align-middle">{{ li.get_institution_type_display }}</td>
+          <td class="align-middle">{{ li.get_institution_level_display }}</td>
+          <td class="align-middle">
             <div class="d-flex gap-1">
               <a href="{% url 'classifiers:legislative_institutions:detail' li.id %}" class="btn btn-sm btn-outline-primary" title="{% translate 'View' %}">
                 <i class="bi bi-eye"></i>
@@ -33,27 +33,6 @@
             </div>
           </td>
         </tr>
-
-        <div class="modal fade" id="deleteInstitutionModal-{{ li.id }}" tabindex="-1" aria-labelledby="deleteInstitutionModalLabel-{{ li.id }}" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="deleteInstitutionModalLabel-{{ li.id }}">{% translate "Confirm Deletion" %}</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                {% translate "Are you sure you want to delete this legislative institution?" %}
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
-                <form action="{% url 'classifiers:legislative_institutions:delete' li.id %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-danger">{% translate "Delete" %}</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
         {% empty %}
         <tr>
           <td colspan="5" class="text-center text-muted py-3">{% translate "No legislative institutions found." %}</td>
@@ -71,3 +50,26 @@
     </div>
     {% endif %}
 </div>
+
+{% for li in page_obj %}
+<div class="modal fade" id="deleteInstitutionModal-{{ li.id }}" tabindex="-1" aria-labelledby="deleteInstitutionModalLabel-{{ li.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteInstitutionModalLabel-{{ li.id }}">{% translate "Confirm Deletion" %}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% translate "Are you sure you want to delete this legislative institution?" %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+        <form action="{% url 'classifiers:legislative_institutions:delete' li.id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">{% translate "Delete" %}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}

@@ -90,7 +90,7 @@ class PoliticalUnionDetailView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin,
         return render(request, self.template_name, context)
 
 
-class PoliticalUnionListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
+class PoliticalUnionListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, HandleErrorsMixin, View):
     template_name = "classifiers/political_union/list.html"
     required_roles = [Administrator]
 
@@ -110,7 +110,7 @@ class PoliticalUnionListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, V
         return render(request, self.template_name, context)
 
 
-class PoliticalUnionDeleteView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
+class PoliticalUnionDeleteView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, HandleErrorsMixin, View):
     required_roles = [Administrator]
     success_message = _("Political union has been successfully deleted!")
 

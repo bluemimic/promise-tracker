@@ -18,10 +18,10 @@
           <dd class="col-sm-9">{{ legislative_institution.name }}</dd>
 
           <dt class="col-sm-3">{% translate "Type" %}</dt>
-          <dd class="col-sm-9">{{ legislative_institution.institution_type }}</dd>
+          <dd class="col-sm-9">{{ legislative_institution.get_institution_type_display }}</dd>
 
           <dt class="col-sm-3">{% translate "Level" %}</dt>
-          <dd class="col-sm-9">{{ legislative_institution.institution_level }}</dd>
+          <dd class="col-sm-9">{{ legislative_institution.get_institution_level_display }}</dd>
 
           {% if legislative_institution.logo %}
             <dt class="col-sm-3">{% translate "Logo" %}</dt>

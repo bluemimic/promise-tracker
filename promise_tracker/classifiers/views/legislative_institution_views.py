@@ -87,7 +87,7 @@ class LegislativeInstitutionDetailView(VerifiedLoginRequiredMixin, RoleBasedAcce
         return render(request, self.template_name, context)
 
 
-class LegislativeInstitutionListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
+class LegislativeInstitutionListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, HandleErrorsMixin, View):
     template_name = "classifiers/legislative_institution/list.html"
     required_roles = [Administrator]
 
@@ -107,7 +107,7 @@ class LegislativeInstitutionListView(VerifiedLoginRequiredMixin, RoleBasedAccess
         return render(request, self.template_name, context)
 
 
-class LegislativeInstitutionDeleteView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
+class LegislativeInstitutionDeleteView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, HandleErrorsMixin, View):
     required_roles = [Administrator]
     success_message = _("Legislative institution has been successfully deleted!")
 

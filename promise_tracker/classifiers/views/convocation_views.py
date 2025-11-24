@@ -83,7 +83,7 @@ class ConvocationDetailView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, Ha
         return render(request, self.template_name, context)
 
 
-class ConvocationListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
+class ConvocationListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, HandleErrorsMixin, View):
     template_name = "classifiers/convocation/list.html"
     required_roles = [Administrator]
 
@@ -103,7 +103,7 @@ class ConvocationListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View
         return render(request, self.template_name, context)
 
 
-class ConvocationDeleteView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
+class ConvocationDeleteView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, HandleErrorsMixin, View):
     required_roles = [Administrator]
     success_message = _("Convocation has been successfully deleted!")
 

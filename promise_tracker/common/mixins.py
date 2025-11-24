@@ -1,11 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
-from django.http import Http404
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import redirect
 from rolepermissions.checkers import has_role
 from rolepermissions.roles import AbstractUserRole
 
-from promise_tracker.core.exceptions import DomainError, NotFoundError, PermissionViolationError
+from promise_tracker.core.exceptions import ApplicationError, DomainError, NotFoundError, PermissionViolationError
 
 
 class VerifiedLoginRequiredMixin(LoginRequiredMixin):
@@ -27,7 +27,7 @@ class RoleBasedAccessMixin(AccessMixin):
                 return super().dispatch(request, *args, **kwargs)
             return self.handle_no_permission()
 
-        if not has_role(request.user, self.required_roles):
+        if not any(has_role(request.user, role) for role in self.required_roles):
             return self.handle_no_permission()
 
         return super().dispatch(request, *args, **kwargs)
@@ -46,6 +46,10 @@ class HandleErrorsMixin:
             messages.error(request, e.message)
             raise Http404(e.message)
 
+        except ApplicationError as e:
+            messages.error(request, e.message)
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
+
         except DomainError as e:
             messages.error(request, e.message)
-            return redirect("home:index")
+            return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))

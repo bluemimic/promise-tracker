@@ -31,6 +31,8 @@ class PromiseService:
     PARTY_NOT_ELECTED_IN_CONVOCATION = _("Party or union {name} was not elected in convocation {convocation}!")
     UNIQUE_CONSTRAINT_MESSAGE = _("Promise {name} already exists!")
     CANNOT_EDIT_REVIEWED = _("Cannot modify reviewed promise!")
+    CANNOT_DELETE_REVIEWED = _("Cannot delete reviewed promise!")
+    CANNOT_EVALUATE_REVIEWED = _("Cannot evaluate already reviewed promise!")
     CANNOT_DELETE_HAS_RESULTS = _("Cannot delete promise because it has reviewed results!")
     STATUSES_ARE_SAME = _("Promise is already in status {status}!")
     DATE_IN_FUTURE = _("Promise date is in the future.")
@@ -73,9 +75,9 @@ class PromiseService:
         if promise.results.filter(is_reviewed=True).exists():
             raise ApplicationError(self.CANNOT_DELETE_HAS_RESULTS)
 
-    def _ensure_is_not_reviewed(self, promise: Promise) -> None:
+    def _ensure_is_not_reviewed(self, promise: Promise, message: str) -> None:
         if promise.is_reviewed:
-            raise ApplicationError(self.CANNOT_EDIT_REVIEWED)
+            raise ApplicationError(message)
 
     def _ensure_status_is_different(self, promise: Promise, new_status: Promise.ReviewStatus) -> None:
         if promise.review_status == new_status:
@@ -146,7 +148,7 @@ class PromiseService:
         promise = get_object_or_raise(Promise, self.NOT_FOUND_MESSAGE, id=id)
 
         self._ensure_is_owner_or_admin(promise)
-        self._ensure_is_not_reviewed(promise)
+        self._ensure_is_not_reviewed(promise, self.CANNOT_EDIT_REVIEWED)
         self._ensure_date_is_valid(date)
 
         party, union = self._load_party_or_union(party_id, union_id)
@@ -176,7 +178,7 @@ class PromiseService:
         promise = get_object_or_raise(Promise, self.NOT_FOUND_MESSAGE, id=id)
 
         self._ensure_is_owner_or_admin(promise)
-        self._ensure_is_not_reviewed(promise)
+        self._ensure_is_not_reviewed(promise, self.CANNOT_DELETE_REWIEWED)
         self._ensure_doesnt_have_results(promise)
 
         logger.debug(f"Deleting promise: {promise.id}")
@@ -189,7 +191,7 @@ class PromiseService:
     def evaluate_promise(self, id: UUID, new_status: Promise.ReviewStatus) -> Promise:
         promise = get_object_or_raise(Promise, self.NOT_FOUND_MESSAGE, id=id)
 
-        self._ensure_is_not_reviewed(promise)
+        self._ensure_is_not_reviewed(promise, self.CANNOT_EVALUATE_REVIEWED)
         self._ensure_status_is_different(promise, new_status)
 
         promise.review_status = new_status

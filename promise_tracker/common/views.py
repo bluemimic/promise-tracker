@@ -1,4 +1,4 @@
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, ValidationError
 from django.forms import BaseForm
 from django.shortcuts import render
 from django.views import View
@@ -40,12 +40,19 @@ class BaseFormView(HandleErrorsMixin, View):
 
         return render(request, self.template_name, context)
 
+    def ensure_access(self, request, *args, **kwargs) -> None:
+        pass
+
     def get(self, request, *args, **kwargs):
+        self.ensure_access(request, *args, **kwargs)
+
         form = self.get_form(request, *args, **kwargs)
 
         return self.render_form(request, form)
 
     def post(self, request, *args, **kwargs):
+        self.ensure_access(request, *args, **kwargs)
+
         form = self.get_form(request, *args, **kwargs)
 
         if form.is_valid():
@@ -54,6 +61,11 @@ class BaseFormView(HandleErrorsMixin, View):
 
             except ApplicationError as e:
                 form.add_error(None, e.message)
+
+                return self.render_form(request, form, *args, **kwargs)
+
+            except ValidationError as e:
+                form.add_error(None, str(e))
 
                 return self.render_form(request, form, *args, **kwargs)
 

@@ -91,7 +91,7 @@ class PoliticalPartyDetailView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin,
         return render(request, self.template_name, context)
 
 
-class PoliticalPartyListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
+class PoliticalPartyListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, HandleErrorsMixin, View):
     template_name = "classifiers/political_party/list.html"
     required_roles = [Administrator]
 
@@ -111,7 +111,7 @@ class PoliticalPartyListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, V
         return render(request, self.template_name, context)
 
 
-class PoliticalPartyDeleteView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
+class PoliticalPartyDeleteView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, HandleErrorsMixin, View):
     required_roles = [Administrator]
     success_message = _("Political party has been successfully deleted!")
 
