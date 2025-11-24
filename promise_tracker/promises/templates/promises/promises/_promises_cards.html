@@ -1,0 +1,136 @@
+{% load i18n roles_tags %}
+
+<div id="promises-cards">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for p in page_obj %}
+    <div class="col">
+      <div class="
+      card
+      h-100
+
+      {% if p.is_final %}
+        {% with p.final_result as final_result %}
+          {% if final_result.is_completed %}
+            border-success
+          {% else %}
+            border-danger
+          {% endif %}
+        {% endwith %}
+      {% endif %}
+
+      {% if not p.is_reviewed %}
+        border-dashed
+      {% endif %}
+
+      {% if p.is_rejected %}
+        bg-body-tertiary
+      {% endif %}
+      ">
+        <div class="card-body d-flex flex-column h-100">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <h5 class="card-title">{{ p.name }}</h5>
+
+            <div class="d-flex gap-2">
+              {% is_admin request.user as is_admin %}
+              {% if is_admin or p.created_by.id == request.user.id %}
+              <div>
+                {% if p.is_approved %}
+                  <span class="badge text-bg-primary">{{ p.get_review_status_display }}</span>
+                {% elif p.is_rejected %}
+                  <span class="badge text-bg-danger">{{ p.get_review_status_display }}</span>
+                {% endif %}
+              </div>
+              {% endif %}
+  
+              {% if p.is_final %}
+                {% with p.final_result as final_result %}
+                    {% if final_result.is_completed %}
+                        <div>
+                          <span class="badge text-bg-success">
+                            {{ final_result.get_status_display }}
+                          </span>
+                        </div>
+                    {% else %}
+                        <div>
+                          <span class="badge text-bg-danger">
+                            {{ final_result.get_status_display }}
+                          </span>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+              {% else %}
+                <div><span class="badge text-bg-secondary">{% translate "In Progress" %}</span></div>
+              {% endif %}
+            </div>
+          </div>
+
+          <p class="card-text text-muted small">{{ p.description|truncatechars:160 }}</p>
+
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            {% blocktranslate with party=p.party.name date=p.date|date:"d.m.Y" url=party_url %}
+            <strong>Promised by: </strong>{{ party }} at {{ date }}
+            {% endblocktranslate %}
+          </li>
+
+          <li class="list-group-item"><strong>{% translate "Convocation" %}:</strong> {{ p.convocation.name }}</li>
+        </ul>
+
+        <div class="card-body d-flex gap-2">
+          <a href="{% url 'promises:promises:details' p.id %}" class="btn btn-sm btn-outline-primary">{% translate "Details" %}</a>
+          {% if is_admin or request.user.id == p.created_by.id %}
+          <a href="{% url 'promises:promises:edit' p.id %}" class="btn btn-sm btn-outline-secondary">{% translate "Edit" %}</a>
+          <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+            data-bs-target="#deletePromiseModal-{{ p.id }}">{% translate "Delete" %}</button>
+          {% endif %}
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">
+            {% blocktranslate with created_at=p.created_at|date:"d.m.Y" created_by=p.created_by.username %}
+            Created at {{ created_at }} by {{ created_by }}
+            {% endblocktranslate %}
+          </small>
+        </div>
+
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-12 w-100">
+      <div class="text-center text-muted py-4">{% translate "No promises found." %}</div>
+    </div>
+    {% endfor %}
+  </div>
+
+  {% if page_obj %}
+  <div class="d-flex justify-content-center mt-3">
+    {% with page_obj=page_obj url="promises:promises:list" %}
+    {% include 'core/_paginator.html' with page_obj=page_obj url=url id="#promises-cards" %}
+    {% endwith %}
+  </div>
+  {% endif %}
+</div>
+
+{% for p in page_obj %}
+<div class="modal fade" id="deletePromiseModal-{{ p.id }}" tabindex="-1"
+  aria-labelledby="deletePromiseModalLabel-{{ p.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deletePromiseModalLabel-{{ p.id }}">{% translate "Confirm Deletion" %}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% translate "Are you sure you want to delete this promise?" %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+        <form action="{% url 'promises:promises:delete' p.id %}" method="post">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-danger">{% translate "Delete" %}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}

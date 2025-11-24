@@ -23,11 +23,13 @@ from django.urls import include, path
 from promise_tracker.authentication import urls as authentication_urls
 from promise_tracker.classifiers import urls as classifiers_urls
 from promise_tracker.home import urls as home_urls
+from promise_tracker.promises import urls as promises_urls
 from promise_tracker.users import urls as users_urls
 
 urlpatterns = i18n_patterns(
     path("", include(home_urls)),
-    path("users/", include(users_urls)),
-    path("classifiers/", include(classifiers_urls)),
     path("auth/", include(authentication_urls)),
+    path("users/", include(users_urls)),
+    path("promises/", include((promises_urls))),
+    path("classifiers/", include(classifiers_urls)),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
