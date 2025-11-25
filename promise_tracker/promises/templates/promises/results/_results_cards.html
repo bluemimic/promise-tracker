@@ -1,0 +1,194 @@
+{% load i18n roles_tags %}
+{% is_admin request.user as is_admin %}
+
+<div id="results-cards">
+  {% for result in page_obj %}
+    <div class="
+      card
+      mb-3
+
+      {% if result.is_final %}
+        {% if result.is_completed %}
+          border-success
+        {% else %}
+          border-danger
+        {% endif %}
+      {% endif %}
+
+      {% if not result.is_reviewed %}
+        border-dashed
+      {% endif %}
+      
+      {% if result.is_rejected %}
+        bg-body-tertiary
+      {% endif %}
+      ">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center ">
+          <div>
+            <h5 class="h5 mb-1">{{ result.name }}</h5>
+            <div class="text-muted small mb-2">{{ result.date }}</div>
+            {% if all or mine %}
+            <div class="text-muted small">{% translate "Promise:" %} <a href="{% url 'promises:promises:details' result.promise.id %}">{{ result.promise.name }}</a></div>
+            {% endif %}
+          </div>
+          <div class="d-flex flex-row align-items-end gap-2">
+
+            {% if result.is_final %}
+            <div>
+              <span class="badge {% if result.is_completed %}text-bg-success{% else %}text-bg-danger{% endif %}">
+                {{ result.get_status_display }}
+              </span>
+            </div>
+            {% else %}
+            <div><span class="badge text-bg-secondary">{% translate "In Progress" %}</span></div>
+            {% endif %}
+
+            {% if result.status %}
+            <div>
+              <span class="badge text-bg-primary">{{ result.get_review_status_display }}</span>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+        
+        <hr />
+        
+        <div class="row g-4">
+          <div class="col-12 col-md-7">
+              <div class="mb-3">
+                  <h6 class="mb-1">{% translate "Description" %}:</h6>
+                  <p class="mb-0">{{ result.description }}</p>
+              </div>
+
+              <div class="mb-3">
+                  <h6 class="mb-1">{% translate "Sources" %}:</h6>
+                  {% if result.sources %}
+                  <ul class="list-group list-group-flush">
+                      {% for source in result.sources %}
+                      <li class="list-group-item {% if result.is_rejected %}bg-body-tertiary{% endif %}">
+                          {{ source }}
+                      </li>
+                      {% endfor %}
+                  </ul>
+                  {% else %}
+                  <div class="text-muted">&mdash;</div>
+                  {% endif %}
+              </div>
+          </div>
+
+          <div class="col-12 col-md-5">
+              <div class="mb-3">
+                  <h6 class="mb-1">{% translate "Is final?" %}</h6>
+                  <p class="mb-0">{% if result.is_final %}{% translate "Yes" %}{% else %}{% translate "No" %}{% endif %}</p>
+              </div>
+
+              <div class="mb-3">
+                  <h6 class="mb-1">{% translate "Result date" %}:</h6>
+                  <p class="mb-0">{{ result.date }}</p>
+              </div>
+
+              {% if is_admin %}
+              <div class="mb-3">
+                  <h6 class="mb-1">{% translate "Review Date" %}:</h6>
+                  <p class="mb-0">{% if result.review_date %}{{ result.review_date|date:"SHORT_DATETIME_FORMAT" }}{% else %}&mdash;{% endif %}</p>
+              </div>
+              {% endif %}
+
+              <div class="mb-3">
+                  <h6 class="mb-1">{% translate "Created By" %}:</h6>
+                  <p class="mb-0">{{ result.created_by.username }}</p>
+              </div>
+          </div>
+        </div>
+
+        {% if is_admin %}
+        <hr />
+        <dl class="row small text-muted">
+            <dt class="col-sm-3">{% translate "Created" %}</dt>
+            <dd class="col-sm-9">{{ result.created_at }}</dd>
+
+            <dt class="col-sm-3">{% translate "Created by" %}</dt>
+            <dd class="col-sm-9">{{ result.created_by }}</dd>
+
+            <dt class="col-sm-3">{% translate "Last modified" %}</dt>
+            <dd class="col-sm-9">{{ result.updated_at }}</dd>
+
+            <dt class="col-sm-3">{% translate "Modified by" %}</dt>
+            <dd class="col-sm-9">{{ result.updated_by }}</dd>
+        </dl>
+        {% endif %}
+
+        <div class="card-body">
+          <div class="d-flex gap-2">
+            {% if not result.promise.is_final %}
+              {% if is_admin or request.user.id == result.created_by.id and not result.is_reviewed %}
+                <a href="{% url 'promises:promises:edit_result' result.promise.id result.id %}"
+                  class="btn btn-sm btn-outline-secondary">{% translate "Edit" %}</a>
+                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                        data-bs-target="#deleteResultModal-{{ result.id }}">{% translate "Delete" %}</button>
+              {% endif %}
+            {% endif %}
+
+            {% if is_admin and not result.is_reviewed %}
+            <form action="{% url 'promises:promises:approve_result' result.promise.id result.id %}" method="post"
+              class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-success">{% translate "Approve" %}</button>
+            </form>
+
+            <form action="{% url 'promises:promises:reject_result' result.promise.id result.id %}" method="post"
+              class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-warning">{% translate "Reject" %}</button>
+            </form>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="deleteResultModal-{{ result.id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">{% translate "Confirm Deletion" %}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">{% translate "Are you sure you want to delete this result?" %}</div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+              <form action="{% url 'promises:promises:delete_result' result.promise.id result.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">{% translate "Delete" %}</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    {% if mine or all %}
+    <div class="text-muted">{% translate "No results found." %}</div>
+    {% else %}
+    <div class="text-muted">{% translate "No results have been added yet." %}</div>
+    {% endif %}
+  {% endfor %}
+
+  {% if page_obj %}
+    <div class="d-flex justify-content-center mt-3">
+        {% if all %}
+            {% with page_obj=page_obj url="promises:promise_results:list" %}
+            {% include 'core/_paginator.html' with page_obj=page_obj url=url id="#results-cards" %}
+            {% endwith %}
+        {% elif mine %}
+            {% with page_obj=page_obj url="promises:promise_results:mine" %}
+            {% include 'core/_paginator.html' with page_obj=page_obj url=url id="#results-cards" %}
+            {% endwith %}
+        {% else %}
+            {% with page_obj=page_obj url="promises:promises:details" args=promise.id %}
+            {% include 'core/_paginator.html' with page_obj=page_obj url=url args=args id="#results-cards" %}
+            {% endwith %}
+        {% endif %}
+    </div>
+  {% endif %}
+</div>

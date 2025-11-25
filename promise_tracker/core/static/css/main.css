@@ -14,3 +14,7 @@
 .alerts-bottom-right .alert {
   margin-bottom: .5rem;
 }
+
+.border-dashed {
+  border-style: dashed !important;
+}

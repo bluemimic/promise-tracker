@@ -1,0 +1,18 @@
+{% load i18n %}
+<div class="mt-4">
+    <div class="d-flex align-items-center">
+        <h5 class="mb-0">{% translate "Results" %}</h5>
+
+        {% if not promise.is_final %}
+        <div class="ms-auto">
+            <a href="{% url 'promises:promises:create_result' promise.id %}" class="btn btn-sm btn-primary">{% translate "Add Result" %}</a>
+        </div>
+        {% endif %}
+        
+    </div>
+
+    <hr />
+
+    {% include 'promises/results/_results_cards.html' with page_obj=results %}
+
+</div>
