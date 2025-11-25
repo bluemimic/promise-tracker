@@ -63,7 +63,7 @@ def get_political_unions(filters: dict | None = None) -> QuerySet[PoliticalUnion
 
     qs = PoliticalUnion.objects.all()
 
-    return PoliticalUnionFitlerSet(data=filters, queryset=qs).qs
+    return PoliticalUnionFitlerSet(data=filters, queryset=qs).qs.order_by("-created_at")
 
 
 def get_political_union_by_id(id: UUID) -> PoliticalUnion:

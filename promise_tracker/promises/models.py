@@ -1,7 +1,6 @@
 from django.db import models
-from django.db.models import CheckConstraint, F, Q
+from django.db.models import CheckConstraint, Q
 from django.db.models.fields import Field
-from django.db.models.functions import Now
 from django.utils.translation import gettext as _
 
 from promise_tracker.classifiers.models import Convocation, PoliticalParty, PoliticalUnion
@@ -107,7 +106,7 @@ class Promise(BaseModel):
 
     @property
     def is_final(self) -> bool:
-        return self.results.filter(is_final=True).exists()
+        return self.results.filter(is_final=True, review_status=PromiseResult.ReviewStatus.APPROVED).exists()
 
     @property
     def is_reviewed(self) -> bool:
@@ -118,11 +117,19 @@ class Promise(BaseModel):
         return self.review_status == self.ReviewStatus.PENDING
 
     @property
+    def is_approved(self) -> bool:
+        return self.review_status == self.ReviewStatus.APPROVED
+
+    @property
+    def is_rejected(self) -> bool:
+        return self.review_status == self.ReviewStatus.REJECTED
+
+    @property
     def final_result(self) -> PromiseResult.CompletionStatus | None:
-        final_result_qs = self.results.filter(is_final=True)
+        final_result_qs = self.results.filter(is_final=True, review_status=PromiseResult.ReviewStatus.APPROVED)
 
         if final_result_qs.exists():
-            return final_result_qs.first().status
+            return final_result_qs.first()
         return None
 
     def __str__(self) -> str:
@@ -254,6 +261,22 @@ class PromiseResult(BaseModel):
     @property
     def is_unreviewed(self) -> bool:
         return self.review_status == self.ReviewStatus.PENDING
+
+    @property
+    def is_completed(self) -> bool:
+        return self.status == self.CompletionStatus.COMPLETED
+
+    @property
+    def is_abandoned(self) -> bool:
+        return self.status == self.CompletionStatus.ABANDONED
+
+    @property
+    def is_approved(self) -> bool:
+        return self.review_status == self.ReviewStatus.APPROVED
+
+    @property
+    def is_rejected(self) -> bool:
+        return self.review_status == self.ReviewStatus.REJECTED
 
     def __str__(self) -> str:
         return f"{self.name} ({self.promise.name})"

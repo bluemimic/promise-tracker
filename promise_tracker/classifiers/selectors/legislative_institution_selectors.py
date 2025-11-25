@@ -32,7 +32,7 @@ def get_legislative_institutions(filters: dict | None = None) -> QuerySet[Legisl
 
     qs = LegislativeInstitution.objects.all()
 
-    return LegislativeInstitutionFilerSet(filters, queryset=qs).qs
+    return LegislativeInstitutionFilerSet(filters, queryset=qs).qs.order_by("-created_at")
 
 
 def get_legislative_institution_by_id(id: UUID) -> LegislativeInstitution:

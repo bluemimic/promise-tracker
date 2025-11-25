@@ -57,7 +57,7 @@ def get_political_parties(filters: dict | None = None) -> QuerySet[PoliticalPart
 
     qs = PoliticalParty.objects.all()
 
-    return PoliticalPartyFilerSet(data=filters, queryset=qs).qs
+    return PoliticalPartyFilerSet(data=filters, queryset=qs).qs.order_by("-created_at")
 
 
 def get_political_party_by_id(id: UUID) -> PoliticalParty:

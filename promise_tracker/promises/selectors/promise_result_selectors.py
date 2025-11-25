@@ -2,6 +2,7 @@ from uuid import UUID
 
 import django_filters
 from django.db.models import Q, QuerySet
+from django.forms.widgets import CheckboxInput
 from django.utils.translation import gettext as _
 from django_filters import FilterSet
 from rolepermissions.checkers import has_role
@@ -14,13 +15,36 @@ from promise_tracker.users.models import BaseUser
 
 
 class PromiseResultFilterSet(FilterSet):
-    is_mine = django_filters.BooleanFilter()
+    is_mine = django_filters.BooleanFilter(
+        method="filter_is_mine",
+        label=_("Is Mine"),
+        help_text=_("Filter results created by the current user"),
+    )
+    is_unreviewed = django_filters.BooleanFilter(
+        field_name="review_status",
+        method="filter_unreviewed",
+        label=_("Is Unreviewed"),
+        help_text=_("Filter to only unreviewed promise results"),
+        widget=CheckboxInput(),
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.performed_by = kwargs.pop('performed_by', None)
+        super().__init__(*args, **kwargs)
+
+    def filter_is_mine(self, queryset: QuerySet[PromiseResult], name: str, value: bool) -> QuerySet[PromiseResult]:
+        if value:
+            return queryset.filter(created_by=self.performed_by)
+        return queryset
+
+    def filter_unreviewed(self, queryset: QuerySet[PromiseResult], name: str, value: bool) -> QuerySet[PromiseResult]:
+        if value:
+            return queryset.filter(Q(review_status=PromiseResult.ReviewStatus.PENDING))
+        return queryset
 
     class Meta:
         model = PromiseResult
-        fields = {
-            "is_unreviewed": ["exact"],
-        }
+        fields = []
 
 
 class PromiseResultSelectors:
@@ -31,11 +55,14 @@ class PromiseResultSelectors:
     NOT_FOUND_ERROR = _("Promise not found.")
 
     def _ensure_registered_users_access_only_their_own(self, filters: dict) -> None:
+        if has_role(self.performed_by, Administrator):
+            return
+
         if has_role(self.performed_by, RegisteredUser) and not filters.get("is_mine"):
             raise ApplicationError(self.REGISTERED_USER_ONLY_OWN_ERROR)
 
     def _ensure_unreviewed_only_for_admin(self, filters: dict) -> None:
-        if self._param_is_truthy(filters, "is_unreviewed") and not has_role(self.performed_by, Administrator):
+        if filters.get("is_unreviewed") and not has_role(self.performed_by, Administrator):
             raise PermissionViolationError()
 
     def _ensure_can_view(self, result: PromiseResult) -> None:
@@ -77,7 +104,14 @@ class PromiseResultSelectors:
 
         qs = self._get_queryset_for_promise(result)
 
-        return qs
+        return qs.order_by("date")
+
+    def get_promise_results_by_id(self, id: UUID) -> PromiseResult:
+        result = get_object_or_raise(PromiseResult, self.NOT_FOUND_ERROR, id=id)
+
+        self._ensure_can_view(result)
+
+        return result
 
     def get_results(self, filters: dict | None = None) -> QuerySet[PromiseResult]:
         filters = filters or {}
@@ -87,4 +121,4 @@ class PromiseResultSelectors:
 
         qs = self._get_all_promise_results(filters)
 
-        return PromiseResultFilterSet(filters, queryset=qs).qs
+        return PromiseResultFilterSet(filters, queryset=qs, performed_by=self.performed_by).qs.order_by("-date")

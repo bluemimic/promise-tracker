@@ -57,7 +57,7 @@ class CommaSeparatedStringValidator:
         else:
             items = [item.strip() for item in value.split(",")]
 
-        if not self.allow_empty_items and any(not item for item in items):
+        if not self.allow_empty_items and (len(items) == 0 or any(not item for item in items)):
             raise ValidationError(
                 _("Empty items are not allowed."),
                 code="empty_item_not_allowed",

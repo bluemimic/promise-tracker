@@ -63,7 +63,9 @@ class PromiseFilterSet(FilterSet):
 
     def filter_result_status(self, queryset: QuerySet[Promise], name: str, value: str) -> QuerySet[Promise]:
         if value:
-            return queryset.filter(results__status=value)
+            return queryset.filter(
+                results__is_final=True, results__review_status=Promise.ReviewStatus.APPROVED, results__status=value
+            )
         return queryset
 
     class Meta:
@@ -168,7 +170,7 @@ class PromiseSelectors:
         qs = self._get_queryset(filters)
         filterset_class = self.get_filterset_class()
 
-        return filterset_class(filters, request=self.request, queryset=qs).qs
+        return filterset_class(filters, request=self.request, queryset=qs).qs.order_by("date")
 
     def get_promise_by_id(self, id: UUID) -> Promise:
         promise = get_object_or_raise(Promise, self.NOT_FOUND_ERROR, id=id)

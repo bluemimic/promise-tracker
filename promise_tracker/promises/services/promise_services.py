@@ -178,7 +178,7 @@ class PromiseService:
         promise = get_object_or_raise(Promise, self.NOT_FOUND_MESSAGE, id=id)
 
         self._ensure_is_owner_or_admin(promise)
-        self._ensure_is_not_reviewed(promise, self.CANNOT_DELETE_REWIEWED)
+        self._ensure_is_not_reviewed(promise, self.CANNOT_DELETE_REVIEWED)
         self._ensure_doesnt_have_results(promise)
 
         logger.debug(f"Deleting promise: {promise.id}")

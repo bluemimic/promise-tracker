@@ -1,16 +1,14 @@
 from django import forms
-from django.forms import Field
 from django.utils.translation import gettext as _
 
-from promise_tracker.classifiers.models import Convocation, PoliticalParty, PoliticalUnion
 from promise_tracker.common.fields import CommaSeparatedFormField
 from promise_tracker.common.utils import generate_model_form_errors
 from promise_tracker.common.validators import CommaSeparatedStringValidator
 from promise_tracker.common.widgets import MultiTextInput
-from promise_tracker.promises.models import Promise
+from promise_tracker.promises.models import PromiseResult
 
 
-class PromiseEditForm(forms.ModelForm):
+class PromiseResultEditForm(forms.ModelForm):
     sources = CommaSeparatedFormField(
         required=True,
         label=_("Sources"),
@@ -30,24 +28,6 @@ class PromiseEditForm(forms.ModelForm):
             )
         ],
     )
-    convocation: Field = forms.ModelChoiceField(
-        queryset=Convocation.objects.all(),
-        required=True,
-        label=_("Convocation"),
-        help_text=_("Select the convocation for the promise"),
-    )
-    party: Field = forms.ModelChoiceField(
-        queryset=PoliticalParty.objects.all(),
-        required=False,
-        label=_("Parties"),
-        help_text=_("Select parties who made the promise"),
-    )
-    union = forms.ModelChoiceField(
-        queryset=PoliticalUnion.objects.all(),
-        required=False,
-        label=_("Political Union"),
-        help_text=_("Select the political union who made the promise"),
-    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -66,8 +46,8 @@ class PromiseEditForm(forms.ModelForm):
         return cleaned
 
     class Meta:
-        model = Promise
-        fields = ["name", "description", "sources", "date", "party", "union", "convocation"]
+        model = PromiseResult
+        fields = ["name", "description", "sources", "is_final", "date", "status"]
         error_messages = generate_model_form_errors(fields)
 
         widgets = {

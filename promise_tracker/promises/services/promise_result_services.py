@@ -36,6 +36,7 @@ class PromiseResultService:
         "Cannot evaluate final result, because promise has later approved final results!"
     )
     DATE_IN_FUTURE = _("Promise result date is in the future.")
+    RESULT_EARLIER_THAN_PROMISE = _("Result date is earlier than promise date.")
 
     def _ensure_dont_have_approved_final_result(self, promise: Promise, message: str) -> None:
         if promise.results.filter(is_final=True, review_status=PromiseResult.ReviewStatus.APPROVED).exists():
@@ -75,9 +76,12 @@ class PromiseResultService:
         if result.is_reviewed:
             raise ApplicationError(message)
 
-    def _ensure_date_is_valid(self, date: date) -> None:
+    def _ensure_date_is_valid(self, promise: Promise, date: date) -> None:
         if date > timezone.now().date():
             raise ApplicationError(self.DATE_IN_FUTURE)
+
+        if date < promise.date:
+            raise ApplicationError(self.RESULT_EARLIER_THAN_PROMISE)
 
     @transaction.atomic
     def create_result(
@@ -95,7 +99,7 @@ class PromiseResultService:
         promise = get_object_or_raise(Promise, self.PROMISE_NOT_FOUND, id=promise_id)
 
         self._ensure_dont_have_approved_final_result(promise, self.CANNOT_ADD_TO_FINAL_PROMISE)
-        self._ensure_date_is_valid(date)
+        self._ensure_date_is_valid(promise, date)
 
         if is_final:
             self._ensure_can_add_final_result(promise, date, status)
@@ -138,9 +142,9 @@ class PromiseResultService:
 
         self._ensure_is_owner_or_admin(result)
         self._ensure_is_not_reviewed(result, self.CANNOT_EDIT_REVIEWED)
-        self._ensure_date_is_valid(date)
-
         promise = get_object_or_raise(Promise, self.PROMISE_NOT_FOUND, id=promise_id)
+
+        self._ensure_date_is_valid(promise, date)
 
         self._ensure_dont_have_approved_final_result(promise, self.CANNOT_ADD_TO_FINAL_PROMISE)
 

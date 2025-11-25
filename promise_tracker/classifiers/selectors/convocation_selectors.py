@@ -48,7 +48,7 @@ def get_convocations(filters: dict | None = None) -> QuerySet[Convocation]:
 
     qs = Convocation.objects.all()
 
-    return ConvocationFilterSet(filters, queryset=qs).qs
+    return ConvocationFilterSet(filters, queryset=qs).qs.order_by("-created_at")
 
 
 def get_convocation_by_id(id: UUID) -> Convocation:
