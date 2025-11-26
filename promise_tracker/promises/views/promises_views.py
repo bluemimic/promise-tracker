@@ -106,11 +106,8 @@ class PromiseDetailView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, Handle
         return render(request, self.template_name, context)
 
 
-class PromiseListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, HandleErrorsMixin, View):
+class PromiseListView(HandleErrorsMixin, View):
     template_name = "promises/promises/list.html"
-    required_roles = [Administrator, RegisteredUser]
-
-    allow_guests = True
 
     def get(self, request, *args, **kwargs):
         selectors = PromiseSelectors(

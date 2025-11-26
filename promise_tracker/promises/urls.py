@@ -1,5 +1,6 @@
 from django.urls import include, path
 
+from promise_tracker.promises.views.analytics_views import AnalyticsView
 from promise_tracker.promises.views.comments_views import (
     CommentCreateView,
     CommentDeleteView,
@@ -55,6 +56,9 @@ promise_comments_urlpatterns = [
     path("<uuid:promise_id>/<uuid:id>", CommentNodeView.as_view(), name="get_comment"),
 ]
 
+promise_analytics_urlpatterns = [
+    path("", AnalyticsView.as_view(), name="analytics"),
+]
 
 urlpatterns = [
     path(
@@ -68,5 +72,9 @@ urlpatterns = [
     path(
         "comments/",
         include((promise_comments_urlpatterns, "promise_comments"), namespace="promise_comments"),
+    ),
+    path(
+        "analytics/",
+        include((promise_analytics_urlpatterns, "promise_analytics"), namespace="promise_analytics"),
     ),
 ]

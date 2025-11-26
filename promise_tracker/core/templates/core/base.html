@@ -46,17 +46,21 @@
                             <a class="nav-link" href="{% url 'promises:promises:list' %}">{% translate "Promises" %}</a>
                         </li>
 
+                        {% if request.user.is_authenticated %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="resultsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% translate "Results" %}</a>
                             <ul class="dropdown-menu" aria-labelledby="resultsDropdown">
-                                {% if request.user.is_authenticated %}
-                                    {% if is_admin %}
-                                        <li><a class="dropdown-item" href="{% url 'promises:promise_results:list' %}">{% translate "All results" %}</a></li>
-                                    {% else %}
-                                        <li><a class="dropdown-item" href="{% url 'promises:promise_results:mine' %}">{% translate "My results" %}</a></li>
-                                    {% endif %}
+                                {% if is_admin %}
+                                    <li><a class="dropdown-item" href="{% url 'promises:promise_results:list' %}">{% translate "All results" %}</a></li>
+                                {% else %}
+                                    <li><a class="dropdown-item" href="{% url 'promises:promise_results:mine' %}">{% translate "My results" %}</a></li>
                                 {% endif %}
                             </ul>
+                        </li>
+                        {% endif %}
+                            
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'promises:promise_analytics:analytics' %}">{% translate "Analytics" %}</a>
                         </li>
 
                         {% if is_admin %}
@@ -72,6 +76,25 @@
                         {% endif %}
                     </ul>
                     <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown me-2">
+                            {% get_current_language as LANG_CODE %}
+                            {% get_available_languages as LANGUAGES %}
+                            <button class="btn btn-outline-secondary dropdown-toggle" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-globe"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="langDropdown">
+                                {% for code, name in LANGUAGES %}
+                                <li>
+                                    <form action="{% url 'set_language' %}" method="post" class="m-0">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                                        <input type="hidden" name="language" value="{{ code }}">
+                                        <button type="submit" class="dropdown-item {% if code == LANG_CODE %}active{% endif %}">{{ name }}</button>
+                                    </form>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
                         {% if request.user.is_authenticated %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -122,7 +145,7 @@
         {% endfor %}
     </div>
 
-    <main role="main">
+    <main role="main" class="h-100">
         <div class="container">
             {% block content %}
             {% endblock %}
