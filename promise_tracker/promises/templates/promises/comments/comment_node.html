@@ -1,0 +1,98 @@
+{% load i18n roles_tags %}
+{% is_admin request.user as is_admin %}
+
+<div id="comment-{{ comment.id }}" class="card mb-2 {% if is_reply %}ms-4{% endif %}">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-start mb-2">
+      <div>
+        {% if comment.created_by.is_deleted %}
+          <p class="mb-2 text-muted"><em>{% translate "[Deleted user]" %}</em></p>
+        {% else %}
+          <strong>{% if comment.username %}{{ comment.username }}{% else %}{{ comment.created_by.username }}{% endif %}</strong>
+        {% endif %}
+        <div class="small text-muted">{{ comment.created_at }}</div>
+      </div>
+      {% if comment.is_deleted %}
+        <span class="badge bg-secondary">{% translate "Deleted" %}</span>
+      {% endif %}
+    </div>
+
+    {% if comment.is_deleted %}
+      <p class="mb-2 text-muted">{% translate "[Deleted]" %}</p>
+    {% else %}
+      <p class="mb-2">{% if comment.text %}{{ comment.text }}{% else %}{{ comment.content }}{% endif %}</p>
+    {% endif %}
+
+    {% if not comment.is_deleted %}
+      <div class="d-flex flex-row gap-2">
+        {% if request.user.id == comment.created_by.id or is_admin %}
+          <div class="d-flex gap-2">
+            <button
+              type="button"
+              hx-get="{% url 'promises:promise_comments:edit_comment' promise.id comment.id %}"
+              hx-target="#comment-{{ comment.id }}"
+              hx-swap="outerHTML"
+              class="btn btn-sm btn-outline-secondary"
+            >
+              {% translate "Edit" %}
+            </button>
+            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+            data-bs-target="#deleteCommentModal-{{ comment.id }}">{% translate "Delete" %}</button>
+          </div>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+          <div class="d-flex gap-2">
+            <button
+              type="button"
+              hx-get="{% url 'promises:promise_comments:create_comment_reply' promise.id comment.id %}"
+              hx-target="#comment-{{ comment.id }}"
+              hx-swap="afterend"
+              class="btn btn-sm btn-outline-primary"
+            >
+              {% translate "Reply" %}
+            </button>
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<div class="modal fade" id="deleteCommentModal-{{ comment.id }}" tabindex="-1"
+  aria-labelledby="deleteCommentModalLabel-{{ comment.id }}" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteCommentModalLabel-{{ comment.id }}">{% translate "Confirm Deletion" %}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        {% translate "Are you sure you want to delete this comment?" %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{% translate "Cancel" %}</button>
+        <form
+          hx-post="{% url 'promises:promise_comments:delete_comment' promise.id comment.id %}"
+          hx-target="#comment-{{ comment.id }}"
+          hx-swap="outerHTML"
+          class="d-inline"
+        >
+          {% csrf_token %}
+          <button
+            type="submit"
+            class="btn btn-outline-danger"
+            data-bs-dismiss="modal"
+          >
+            {% translate "Delete" %}
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% if comment.replies %}
+  <div class="ms-4">
+    {% include "promises/comments/comment_list.html" with comments=comment.replies promise=promise %}
+  </div>
+{% endif %}

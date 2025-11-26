@@ -305,6 +305,7 @@ class Comment(BaseModel, SoftDeleteModel):
         null=False,
         blank=False,
         verbose_name=_("Content"),
+        max_length=2000,
         help_text=_("The content of the comment."),
     )
     promise: Field = models.ForeignKey(

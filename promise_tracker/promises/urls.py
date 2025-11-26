@@ -1,5 +1,11 @@
 from django.urls import include, path
 
+from promise_tracker.promises.views.comments_views import (
+    CommentCreateView,
+    CommentDeleteView,
+    CommentEditView,
+    CommentNodeView,
+)
 from promise_tracker.promises.views.promise_results_views import (
     PromiseResultApproveView,
     PromiseResultCreateView,
@@ -41,6 +47,14 @@ promise_results_urlpatterns = [
     path("mine/", PromiseResultMineListView.as_view(), name="mine"),
 ]
 
+promise_comments_urlpatterns = [
+    path("<uuid:promise_id>/add/", CommentCreateView.as_view(), name="create_comment"),
+    path("<uuid:promise_id>/add/<uuid:parent_comment_id>/", CommentCreateView.as_view(), name="create_comment_reply"),
+    path("<uuid:promise_id>/<uuid:id>/edit/", CommentEditView.as_view(), name="edit_comment"),
+    path("<uuid:promise_id>/<uuid:id>/delete/", CommentDeleteView.as_view(), name="delete_comment"),
+    path("<uuid:promise_id>/<uuid:id>", CommentNodeView.as_view(), name="get_comment"),
+]
+
 
 urlpatterns = [
     path(
@@ -50,5 +64,9 @@ urlpatterns = [
     path(
         "results/",
         include((promise_results_urlpatterns, "promise_results"), namespace="promise_results"),
+    ),
+    path(
+        "comments/",
+        include((promise_comments_urlpatterns, "promise_comments"), namespace="promise_comments"),
     ),
 ]

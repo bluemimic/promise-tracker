@@ -14,6 +14,7 @@ from promise_tracker.common.views import BaseFormView
 from promise_tracker.core.roles import Administrator, RegisteredUser
 from promise_tracker.promises.forms.promises_forms import PromiseEditForm
 from promise_tracker.promises.models import Promise
+from promise_tracker.promises.selectors.comment_selectors import CommentSelectors
 from promise_tracker.promises.selectors.promise_result_selectors import PromiseResultSelectors
 from promise_tracker.promises.selectors.promise_selectors import PromiseSelectors
 from promise_tracker.promises.services.promise_services import PromiseService
@@ -86,6 +87,7 @@ class PromiseDetailView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, Handle
         result_selectors = PromiseResultSelectors(
             performed_by=(request.user if request.user.is_authenticated else None)
         )
+        comment_selectors = CommentSelectors(performed_by=(request.user if request.user.is_authenticated else None))
 
         promise = promise_selectors.get_promise_by_id(kwargs["id"])
         results_qs = result_selectors.get_promise_results_by_promise_id(kwargs["id"])
@@ -93,7 +95,9 @@ class PromiseDetailView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, Handle
         results = paginate_queryset(request, results_qs, per_page=settings.PAGINATE_BY_DEFAULT)
         querystring = prepare_get_params(request, exclude=["page"])
 
-        context = {"promise": promise, "results": results, "querystring": querystring}
+        comments_tree = comment_selectors.get_comments_tree_for_promise(kwargs["id"])
+
+        context = {"promise": promise, "results": results, "comments": comments_tree, "querystring": querystring}
 
         if is_htmx_request(request):
             context["page_obj"] = results

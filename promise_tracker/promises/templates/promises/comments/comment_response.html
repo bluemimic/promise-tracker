@@ -1,0 +1,6 @@
+{% include "promises/comments/comment_node.html" with comment=comment promise=promise %}
+{% include "core/_messages_oob.html" %}
+
+<div id="comment-form-area" hx-swap-oob="true"></div>
+
+<div id="comment-create-{{ promise.id }}" hx-swap-oob="true"></div>

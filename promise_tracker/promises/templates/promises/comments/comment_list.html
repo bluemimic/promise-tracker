@@ -1,0 +1,3 @@
+{% for comment in comments %}
+    {% include "promises/comments/comment_node.html" with comment=comment promise=promise %}
+{% endfor %}

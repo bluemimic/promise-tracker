@@ -1,0 +1,36 @@
+{% load i18n %}
+
+<div id="comment-{{ form.instance.id }}"  class="card mb-2">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-start mb-2">
+        <div>
+            <strong>{% if comment.username %}{{ comment.username }}{% else %}{{ comment.created_by.username }}{% endif %}</strong>
+            <div class="small text-muted">{{ comment.created_at }}</div>
+        </div>
+        </div>
+
+        <form
+            hx-post="{% url 'promises:promise_comments:edit_comment' form.instance.promise_id form.instance.id %}"
+            hx-target="#comment-{{ form.instance.id }}"
+            hx-swap="outerHTML">
+            {% csrf_token %}
+
+            <div class="mb-2">
+                {% include "core/_form_fields.html" with form=form %}
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-sm btn-primary">{% translate "Save" %}</button>
+
+                <button
+                    hx-get="{% url 'promises:promise_comments:get_comment' form.instance.promise_id form.instance.id %}"
+                    hx-target="#comment-{{ form.instance.id }}"
+                    hx-swap="outerHTML"
+                    class="btn btn-sm btn-secondary"
+                >
+                    {% translate "Cancel" %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+{% load i18n %}
+<div id="comment-create-{{ request.resolver_match.kwargs.promise_id }}" class="card mb-3">
+  <div class="card-body">
+    <form
+      {% if request.resolver_match.kwargs.parent_comment_id %}
+        hx-post="{% url 'promises:promise_comments:create_comment_reply' request.resolver_match.kwargs.promise_id request.resolver_match.kwargs.parent_comment_id %}"
+        hx-target="#comment-{{ request.resolver_match.kwargs.parent_comment_id }}"
+        hx-swap="afterend"
+      {% else %}
+        hx-post="{% url 'promises:promise_comments:create_comment' request.resolver_match.kwargs.promise_id %}"
+        hx-target="#comments"
+        hx-swap="afterbegin"
+      {% endif %}
+    >
+      {% csrf_token %}
+
+      <div class="mb-2">
+        {% include "core/_form_fields.html" with form=form %}
+      </div>
+
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-sm btn-primary">{% translate "Save" %}</button>
+        <button
+          type="button"
+          class="btn btn-sm btn-secondary"
+          onclick="document.getElementById('comment-create-{{ request.resolver_match.kwargs.promise_id }}').remove();"
+      >
+    {% translate "Cancel" %}
+</button>
+    </form>
+  </div>
+</div>

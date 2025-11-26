@@ -165,4 +165,35 @@
     </div>
 </div>
 
+<hr />
+<div class="row justify-content-center mt-4">
+    <div class="col-lg-9">
+        <div class="d-flex align-items-center">
+                <h5 class="mb-0">{% translate "Comments" %}</h5>
+                {% if request.user.is_authenticated %}
+                <div class="ms-auto">
+                    <button
+                        hx-get="{% url 'promises:promise_comments:create_comment' promise.id %}"
+                        hx-target="#comment-form-area"
+                        hx-swap="innerHTML"
+                        class="btn btn-sm btn-outline-primary"
+                    >
+                        {% translate "Add comment" %}
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+
+            <div id="comment-form-area" class="mt-3"></div>
+
+            <div id="comments">
+            {% if comments %}
+                {% include 'promises/comments/comment_list.html' with comments=comments promise=promise %}
+            {% else %}
+                <div class="text-muted">{% translate "No comments yet." %}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
 {% endblock %}
