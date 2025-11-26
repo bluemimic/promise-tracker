@@ -4,11 +4,12 @@
 }
 
 .alerts-bottom-right {
-  position: absolute;
+  position: fixed;
   bottom: 1rem;
   right: 1rem;
   z-index: 1050;
   max-width: 380px;
+  pointer-events: auto;
 }
 
 .alerts-bottom-right .alert {
