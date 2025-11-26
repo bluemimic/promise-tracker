@@ -1,5 +1,6 @@
 from django.urls import include, path
 
+from promise_tracker.promises.views.analytics_views import AnalyticsView
 from promise_tracker.promises.views.promise_results_views import (
     PromiseResultApproveView,
     PromiseResultCreateView,
@@ -41,6 +42,9 @@ promise_results_urlpatterns = [
     path("mine/", PromiseResultMineListView.as_view(), name="mine"),
 ]
 
+promise_analytics_urlpatterns = [
+    path("", AnalyticsView.as_view(), name="analytics"),
+]
 
 urlpatterns = [
     path(
@@ -50,5 +54,9 @@ urlpatterns = [
     path(
         "results/",
         include((promise_results_urlpatterns, "promise_results"), namespace="promise_results"),
+    ),
+    path(
+        "analytics/",
+        include((promise_analytics_urlpatterns, "promise_analytics"), namespace="promise_analytics"),
     ),
 ]

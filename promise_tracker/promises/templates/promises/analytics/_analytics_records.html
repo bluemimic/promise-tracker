@@ -1,0 +1,55 @@
+{% load i18n core_tags %}
+
+<div id="analytics-cards">
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    {% for rec in page_obj %}
+    {% with total=rec.completed_count|add:rec.uncompleted_count %}
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="h5 mb-1">{{ rec.name }}</h5>
+                        <div class="small text-muted">{% translate "Party" %}</div>
+                    </div>
+        
+                    <hr />
+        
+                    <div class="d-flex justify-content-between">
+                        <p class="small text-muted mt-1">{% translate "Completed" %}: {{ rec.completed_count }} ({{ rec.completed_pct|to_decimal }}%)</p>
+                        <p class="small text-muted mt-1">{% translate "Abandoned" %}: {{ rec.uncompleted_count }} ({{ rec.uncompleted_pct|to_decimal }}%)</p>
+                    </div>
+        
+                    <div class="mb-2">
+                        {% if total > 0 %}
+                        <div class="progress" style="height: 1.25rem;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ rec.completed_pct|to_decimal }}%;"
+                                aria-valuenow="{{ rec.completed_count }}" aria-valuemin="0" aria-valuemax="{{ total }}">
+                                &nbsp;</div>
+        
+                            <div class="progress-bar bg-danger" role="progressbar"
+                                style="width: {{ rec.uncompleted_pct|to_decimal }}%;" aria-valuenow="{{ rec.uncompleted_count }}"
+                                aria-valuemin="0" aria-valuemax="{{ total }}">&nbsp;</div>
+                        </div>
+                        <div class="small text-muted mt-1">{% translate "Total" %}: {{ total }}</div>
+                        {% else %}
+                        <div class="text-muted">{% translate "No records" %}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endwith %}
+        {% empty %}
+        <div class="text-muted">{% translate "No analytics records found." %}</div>
+        {% endfor %}
+    </div>
+
+    {% if page_obj %}
+    <div class="d-flex justify-content-center mt-3">
+        {% with page_obj=page_obj url="promise_analytics:analytics" %}
+        {% include 'core/_paginator.html' with page_obj=page_obj url=url querystring=querystring id="#analytics-cards" %}
+        {% endwith %}
+    </div>
+    {% endif %}
+</div>

@@ -32,4 +32,5 @@ urlpatterns = i18n_patterns(
     path("users/", include(users_urls)),
     path("promises/", include((promises_urls))),
     path("classifiers/", include(classifiers_urls)),
+    path("i18n/", include("django.conf.urls.i18n")),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

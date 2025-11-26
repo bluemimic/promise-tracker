@@ -1,10 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from rolepermissions.checkers import has_role
 from rolepermissions.roles import AbstractUserRole
 
+from promise_tracker.common.utils import is_htmx_request
 from promise_tracker.core.exceptions import ApplicationError, DomainError, NotFoundError, PermissionViolationError
 
 
@@ -40,6 +41,10 @@ class HandleErrorsMixin:
 
         except PermissionViolationError as e:
             messages.error(request, e.message)
+
+            if is_htmx_request(request):
+                return render(request, "core/_messages_oob.html", {})
+
             return self.handle_no_permission()
 
         except NotFoundError as e:
@@ -48,8 +53,16 @@ class HandleErrorsMixin:
 
         except ApplicationError as e:
             messages.error(request, e.message)
+
+            if is_htmx_request(request):
+                return render(request, "core/_messages_oob.html", {})
+
             return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
 
         except DomainError as e:
             messages.error(request, e.message)
+
+            if is_htmx_request(request):
+                return render(request, "core/_messages_oob.html", {})
+
             return HttpResponseRedirect(request.META.get("HTTP_REFERER", "/"))
