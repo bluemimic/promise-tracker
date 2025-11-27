@@ -55,7 +55,7 @@ msgid "User account is inactive."
 msgstr "Lietotāja konts ir neaktīvs."
 
 #: promise_tracker/authentication/services.py:39
-msgid "Nepareiza e-pasta adrese vai parole."
+msgid "Incorrect email or password."
 msgstr "Nepareizi noradīts e-pasts vai parole!"
 
 #: promise_tracker/authentication/services.py:41
@@ -66,11 +66,11 @@ msgstr "Lietotājs nav atrasts!"
 
 #: promise_tracker/authentication/templates/auth/logged_out.html:4
 msgid "Logged out"
-msgstr ""
+msgstr "Atteikts"
 
 #: promise_tracker/authentication/templates/auth/logged_out.html:11
 msgid "You have been logged out."
-msgstr ""
+msgstr "Jūs esat veiksmigi ateikusies"
 
 #: promise_tracker/authentication/templates/auth/logged_out.html:13
 msgid "Log in again"
@@ -234,12 +234,12 @@ msgstr "Libertāriešu"
 #: promise_tracker/classifiers/models.py:84
 #: promise_tracker/classifiers/models.py:169
 msgid "Green"
-msgstr ""
+msgstr "Zaļā"
 
 #: promise_tracker/classifiers/models.py:85
 #: promise_tracker/classifiers/models.py:170
 msgid "Far-Right"
-msgstr "Zaļā"
+msgstr "Galēji labējā"
 
 #: promise_tracker/classifiers/models.py:86
 #: promise_tracker/classifiers/models.py:171
@@ -316,7 +316,7 @@ msgstr "Politiskās apvienības nosaukums."
 #: promise_tracker/classifiers/models.py:182
 #, python-format
 msgid "A political union %(value)s already exists."
-msgstr ""
+msgstr "Politiskā savienība %(value)s jau eksistē."
 
 #: promise_tracker/classifiers/models.py:190
 msgid "The contact email of the political union."
@@ -465,7 +465,7 @@ msgstr "Politisku partiju saraksts nav derīgs!"
 
 #: promise_tracker/classifiers/services/convocation_services.py:34
 msgid "Political unions list is not valid!"
-msgstr ""
+msgstr "Partiju apvienību saraksts nav derīgs!"
 
 #: promise_tracker/classifiers/services/convocation_services.py:35
 msgid "Legislative institution is not valid!"
@@ -1136,11 +1136,11 @@ msgstr "Solījumi"
 #: promise_tracker/core/templates/core/base.html:51
 #: promise_tracker/promises/templates/promises/promises/_results_list.html:4
 msgid "Results"
-msgstr ""
+msgstr "Rezultāti"
 
 #: promise_tracker/core/templates/core/base.html:54
 msgid "All results"
-msgstr "Rezultāti"
+msgstr "Visi rezultāti"
 
 #: promise_tracker/core/templates/core/base.html:56
 msgid "My results"
@@ -1282,7 +1282,7 @@ msgstr "Atsauces"
 #: promise_tracker/promises/forms/promise_results_forms.py:15
 #: promise_tracker/promises/forms/promises_forms.py:17
 msgid "Add sources; use the + button to add rows."
-msgstr ""
+msgstr "Pievienot atsauces; izmantojiet pogu +, lai pievienotu rindas."
 
 #: promise_tracker/promises/forms/promises_forms.py:37
 msgid "Select the convocation for the promise"
@@ -1366,7 +1366,7 @@ msgstr "Solījuma izvērtēšanas statuss."
 #: promise_tracker/promises/templates/promises/promises/details.html:87
 #: promise_tracker/promises/templates/promises/results/_results_cards.html:93
 msgid "Review Date"
-msgstr "Izvērtēšanas datums."
+msgstr "Izvērtēšanas datums"
 
 #: promise_tracker/promises/models.py:95
 msgid "The date and time when the promise was reviewed."
@@ -1545,7 +1545,7 @@ msgstr "[Dzēsts]"
 #: promise_tracker/promises/selectors/promise_result_selectors.py:20
 #: promise_tracker/promises/selectors/promise_selectors.py:80
 msgid "Is Mine"
-msgstr "Ir mans"
+msgstr "Ir mani"
 
 #: promise_tracker/promises/selectors/promise_result_selectors.py:21
 msgid "Filter results created by the current user"
@@ -1917,7 +1917,7 @@ msgstr "Rediģēt rezultātu"
 #: promise_tracker/promises/templates/promises/results/list.html:4
 #: promise_tracker/promises/templates/promises/results/list.html:9
 msgid "Promise results"
-msgstr "Solījums rezultāti"
+msgstr "Solījumu rezultāti"
 
 #: promise_tracker/promises/views/comments_views.py:22
 msgid "Comment has been successfully created!"
@@ -2014,11 +2014,11 @@ msgstr "Lietotāja uzvārds."
 
 #: promise_tracker/users/models.py:80
 msgid "Email address"
-msgstr ""
+msgstr "E-pasta adrese"
 
 #: promise_tracker/users/models.py:81
 msgid "The email address of the user."
-msgstr "E-pasta adrese"
+msgstr "Lietotāja e-pasta adrese"
 
 #: promise_tracker/users/models.py:83
 msgid "A user with this email already exists."
@@ -2229,3 +2229,23 @@ msgstr "Lietotājs tika veiksmīgi bloķēts."
 #: promise_tracker/users/views.py:256
 msgid "User has been successfully unblocked."
 msgstr "Lietotājs tika veiksmīgi atbloķēts."
+
+#: promise_tracker/classifiers/services/political_union_services.py:39
+#, python-brace-format
+msgid "Party {party_name} established date is greater than union established date!"
+msgstr "Partijai {party_name} dibināšanas datums ir lielāks nekā apvienības dibināšanas datums!"
+
+#: promise_tracker/classifiers/services/political_union_services.py:40
+#, python-brace-format
+msgid "Party {party_name} liquidated date is smaller than union liquidated date!"
+msgstr "Partijai {party_name} likvidēšanas datums ir mazāks nekā apvienības likvidēšanas datums!"
+
+#: promise_tracker/promises/services/promise_services.py:39
+#, python-brace-format
+msgid "Party or union {name} established date is later than the promise date."
+msgstr "Partijas vai apvienības {name} dibināšanas datums ir lielāks nekā solījuma datums!"
+
+#: promise_tracker/promises/services/promise_services.py:40
+#, python-brace-format
+msgid "Party or union {name} liquidated date is earlier than the promise date."
+msgstr "Partijas vai apvienības {name} likvidēšanas datums ir mazāks nekā solījuma datums!"
