@@ -36,6 +36,12 @@ class PoliticalUnionService:
     CANNOT_DELETE_HAS_ASSOCIATED_PROMISES = _("Cannot delete political union because it has associated promises!")
     LIQUIDATED_DATE_IN_FUTURE = _("Liquidated date is in the future.")
     ESTABLISHED_DATE_IN_FUTURE = _("Established date is in the future.")
+    PARTY_ESTABLISHED_AFTER_UNION_ESTABLISHED = _(
+        "Party {party_name} established date is greater than union established date!"
+    )
+    PARTY_LIQUIDATED_BEFORE_UNION_LIQUIDATED = _(
+        "Party {party_name} liquidated date is smaller than union liquidated date!"
+    )
 
     def _fetch_parties(self, party_ids: list[UUID]) -> list[PoliticalParty]:
         parties_qs = PoliticalParty.objects.filter(id__in=party_ids)
@@ -58,6 +64,16 @@ class PoliticalUnionService:
 
             if liquidated_date is not None and party.established_date > liquidated_date:
                 raise ApplicationError(self.PARTY_ESTABLISHED_AFTER_UNION_LIQUIDATED.format(party_name=party.name))
+
+            if party.established_date > established_date:
+                raise ApplicationError(self.PARTY_ESTABLISHED_AFTER_UNION_ESTABLISHED.format(party_name=party.name))
+
+            if (
+                liquidated_date is not None
+                and party.liquidated_date is not None
+                and party.liquidated_date < liquidated_date
+            ):
+                raise ApplicationError(self.PARTY_LIQUIDATED_BEFORE_UNION_LIQUIDATED.format(party_name=party.name))
 
     def _ensure_not_in_convocations(self, political_union: PoliticalUnion) -> None:
         if political_union.convocations.exists():

@@ -36,6 +36,8 @@ class PromiseService:
     CANNOT_DELETE_HAS_RESULTS = _("Cannot delete promise because it has reviewed results!")
     STATUSES_ARE_SAME = _("Promise is already in status {status}!")
     DATE_IN_FUTURE = _("Promise date is in the future.")
+    ESTABLISHED_DATE_LATER_THAN_PROMISE = _("Party or union {name} established date is later than the promise date.")
+    LIQIDATED_DATE_EARLIER_THAN_PROMISE = _("Party or union {name} liquidated date is earlier than the promise date.")
 
     def _ensure_party_xor_union(self, party_id: UUID | None, union_id: UUID | None) -> None:
         if party_id is None and union_id is None:
@@ -93,6 +95,21 @@ class PromiseService:
         if date > timezone.now().date():
             raise ApplicationError(self.DATE_IN_FUTURE)
 
+    def _ensure_party_or_union_dates_are_valid(
+        self, date: date, party: PoliticalParty | None, union: PoliticalUnion | None
+    ) -> None:
+        if party:
+            if party.established_date and party.established_date > date:
+                raise ApplicationError(self.ESTABLISHED_DATE_LATER_THAN_PROMISE.format(name=party.name))
+            if party.liquidated_date and party.liquidated_date < date:
+                raise ApplicationError(self.LIQIDATED_DATE_EARLIER_THAN_PROMISE.format(name=party.name))
+
+        if union:
+            if union.established_date and union.established_date > date:
+                raise ApplicationError(self.ESTABLISHED_DATE_LATER_THAN_PROMISE.format(name=union.name))
+            if union.liquidated_date and union.liquidated_date < date:
+                raise ApplicationError(self.LIQIDATED_DATE_EARLIER_THAN_PROMISE.format(name=union.name))
+
     @transaction.atomic
     def create_promise(
         self,
@@ -113,6 +130,7 @@ class PromiseService:
         convocation = get_object_or_raise(Convocation, self.CONVOCATION_NOT_FOUND, id=convocation_id)
 
         self._ensure_elected_in_convocation(convocation, party, union)
+        self._ensure_party_or_union_dates_are_valid(date, party, union)
 
         promise = Promise(
             name=name,
@@ -155,6 +173,7 @@ class PromiseService:
         convocation = get_object_or_raise(Convocation, self.CONVOCATION_NOT_FOUND, id=convocation_id)
 
         self._ensure_elected_in_convocation(convocation, party, union)
+        self._ensure_party_or_union_dates_are_valid(date, party, union)
 
         promise.name = name
         promise.description = description
