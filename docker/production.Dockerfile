@@ -25,4 +25,4 @@ USER django
 
 RUN python manage.py collectstatic --noinput --clear
 
-CMD ["sh", "-c", "set -xe; python manage.py migrate --noinput; gunicorn promise_tracker.wsgi:application --bind 0.0.0.0:8000"]
+CMD ["sh", "-c", "set -xe; python manage.py migrate --noinput; gunicorn config.wsgi:application --bind 0.0.0.0:8000"]
