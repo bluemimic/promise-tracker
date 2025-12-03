@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.forms import BaseForm
 from django.shortcuts import redirect, render
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from django.views import View
 from rolepermissions.checkers import has_role
 

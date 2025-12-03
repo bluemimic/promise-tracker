@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.utils.http import url_has_allowed_host_and_scheme
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from django.views import View
 
 from promise_tracker.authentication.forms import LoginForm

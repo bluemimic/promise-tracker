@@ -1,7 +1,7 @@
 from uuid import UUID
 
 from django.db.models import QuerySet
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from django_filters import FilterSet
 from rolepermissions.checkers import has_role
 

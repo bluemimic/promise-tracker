@@ -1,7 +1,7 @@
 from datetime import timedelta
 
-from django.utils.translation import gettext as _
-from django.utils.translation import ngettext as plural
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import ngettext_lazy as plural
 
 
 class DomainError(Exception):

@@ -1,5 +1,5 @@
 from django import forms
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from promise_tracker.common.fields import CommaSeparatedFormField
 from promise_tracker.common.utils import generate_model_form_errors
@@ -27,6 +27,10 @@ class PromiseResultEditForm(forms.ModelForm):
                 max_item_length=1000,
             )
         ],
+        error_messages={
+            "required": _("Sources list is empty!"),
+            "empty_item_not_allowed": _("Sources list is invalid!"),
+        },
     )
 
     def __init__(self, *args, **kwargs):

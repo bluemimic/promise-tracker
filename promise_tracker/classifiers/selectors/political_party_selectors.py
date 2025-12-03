@@ -7,9 +7,6 @@ from django_filters import BooleanFilter, FilterSet
 
 from promise_tracker.classifiers.models import PoliticalParty
 from promise_tracker.common.utils import get_object_or_none
-from promise_tracker.common.widgets import (
-    BootstrapCheckboxSelectMultiple,
-)
 from promise_tracker.core.exceptions import NotFoundError
 
 NOT_FOUND_MESSAGE = _("Political party not found.")

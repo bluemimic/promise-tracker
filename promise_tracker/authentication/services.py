@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpRequest
 from django.utils import timezone
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 from loguru import logger
 
 from promise_tracker.common.utils import get_object_or_raise
