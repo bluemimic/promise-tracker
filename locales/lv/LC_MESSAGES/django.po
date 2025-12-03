@@ -68,7 +68,7 @@ msgstr "Pieteikties"
 
 #: promise_tracker/authentication/templates/auth/login.html:12
 msgid "Sign In"
-msgstr "Reģistrēties"
+msgstr "Pieteikties"
 
 #: promise_tracker/authentication/views.py:16
 msgid "User has successfully logged in!"
@@ -698,7 +698,7 @@ msgstr "Atteikties"
 
 #: promise_tracker/core/templates/core/base.html:114
 msgid "Sign in"
-msgstr "Reģistrēties"
+msgstr "Pieteikties"
 
 #: promise_tracker/core/templates/core/widgets/multi_text_input.html:14
 msgid "Add another"
