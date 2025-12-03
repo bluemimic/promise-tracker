@@ -1629,3 +1629,15 @@ msgstr "Lietotājs tika veiksmīgi bloķēts."
 #: promise_tracker/users/views.py:256
 msgid "User has been successfully unblocked."
 msgstr "Lietotājs tika veiksmīgi atbloķēts."
+
+#: promise_tracker/core/templates/core/403.html:9
+msgid "Access denied!"
+msgstr "Piekļuve liegta!"
+
+#: promise_tracker/core/templates/core/403.html:8
+msgid "403 - Forbidden"
+msgstr "403 - Aizliegts"
+
+#: promise_tracker/core/templates/core/403.html:4
+msgid "Forbidden (403)"
+msgstr "Aizliegts (403)"

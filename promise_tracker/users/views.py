@@ -2,6 +2,7 @@ from typing import Type
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import BaseForm
 from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
@@ -70,7 +71,7 @@ class UserCreateView(RoleBasedAccessMixin, BaseFormView):
         messages.success(request, self.success_message)
 
         if not has_role(request.user, Administrator):
-            return redirect("users:verify")
+            return redirect("authentication:login")
 
         return redirect("home:index")
 
@@ -183,6 +184,7 @@ class UserDeleteView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
 class UserVerifyView(RoleBasedAccessMixin, View):
     template_name = "users/user_verify.html"
     required_roles = [RegisteredUser, Administrator]
+    allow_unverified = True
     success_message = _("User has been successfully verified!")
 
     def get(self, request, *args, **kwargs):
@@ -214,8 +216,9 @@ class UserVerifyView(RoleBasedAccessMixin, View):
         return render(request, self.template_name, {"form": form})
 
 
-class UserResendVerificationView(RoleBasedAccessMixin, View):
+class UserResendVerificationView(LoginRequiredMixin, RoleBasedAccessMixin, View):
     required_roles = [RegisteredUser, Administrator]
+    allow_unverified = True
     success_message = _("Verification code has been resent!")
 
     def post(self, request, *args, **kwargs):

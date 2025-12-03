@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import AccessMixin, LoginRequiredMixin
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import redirect, render
+from django.utils.translation import gettext as _
 from rolepermissions.checkers import has_role
 from rolepermissions.roles import AbstractUserRole
 
@@ -21,14 +22,28 @@ class VerifiedLoginRequiredMixin(LoginRequiredMixin):
 class RoleBasedAccessMixin(AccessMixin):
     required_roles: list[type[AbstractUserRole]] = []
     allow_guests: bool = False
+    allow_unverified: bool = False
+    raise_exception: bool = True
 
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
+        user = request.user
+
+        if not user.is_authenticated or not user.is_active:
             if self.allow_guests:
                 return super().dispatch(request, *args, **kwargs)
+
+            messages.error(request, _("Access denied!"))
             return self.handle_no_permission()
 
-        if not any(has_role(request.user, role) for role in self.required_roles):
+        if not user.is_verified:
+            if self.allow_guests or self.allow_unverified:
+                return super().dispatch(request, *args, **kwargs)
+
+            messages.error(request, _("Access denied!"))
+            return self.handle_no_permission()
+
+        if not any(has_role(user, role) for role in self.required_roles):
+            messages.error(request, _("Access denied!"))
             return self.handle_no_permission()
 
         return super().dispatch(request, *args, **kwargs)

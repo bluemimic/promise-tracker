@@ -27,6 +27,7 @@ from promise_tracker.promises import urls as promises_urls
 from promise_tracker.users import urls as users_urls
 
 handler404 = "promise_tracker.core.views.custom_404"
+handler403 = "promise_tracker.core.views.custom_403"
 handler500 = "promise_tracker.core.views.custom_500"
 
 urlpatterns = i18n_patterns(
