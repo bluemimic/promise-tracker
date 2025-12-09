@@ -1,7 +1,7 @@
 from datetime import date
 from uuid import UUID
 
-from django.db import IntegrityError, transaction
+from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from loguru import logger
@@ -10,9 +10,10 @@ from rolepermissions.checkers import has_role
 from promise_tracker.classifiers.models import Convocation, PoliticalParty
 from promise_tracker.common.services import BaseService
 from promise_tracker.common.utils import get_object_or_raise
+from promise_tracker.common.wrappers import handle_unique_error
 from promise_tracker.core.exceptions import ApplicationError, PermissionViolationError
 from promise_tracker.core.roles import Administrator
-from promise_tracker.promises.models import Promise
+from promise_tracker.promises.models import Promise, PromiseResult
 from promise_tracker.users.models import BaseUser
 
 
@@ -34,6 +35,7 @@ class PromiseService:
     DATE_IN_FUTURE = _("Promise date is in the future.")
     ESTABLISHED_DATE_LATER_THAN_PROMISE = _("Party {name} established date is later than the promise date.")
     LIQIDATED_DATE_EARLIER_THAN_PROMISE = _("Party {name} liquidated date is earlier than the promise date.")
+    PARTY_NOT_ELECTED_IN_CONVOCATION = _("Party {name} is not elected in convocation {convocation}.")
 
     def _ensure_elected_in_convocation(self, convocation: Convocation, party: PoliticalParty | None) -> None:
         if party is not None:
@@ -43,7 +45,7 @@ class PromiseService:
                 )
 
     def _ensure_doesnt_have_results(self, promise: Promise) -> None:
-        if promise.results.filter(is_reviewed=True).exists():
+        if promise.results.exclude(review_status=PromiseResult.ReviewStatus.PENDING).exists():
             raise ApplicationError(self.CANNOT_DELETE_HAS_RESULTS)
 
     def _ensure_is_not_reviewed(self, promise: Promise, message: str) -> None:
@@ -68,9 +70,10 @@ class PromiseService:
         if party:
             if party.established_date and party.established_date > date:
                 raise ApplicationError(self.ESTABLISHED_DATE_LATER_THAN_PROMISE.format(name=party.name))
-            if party.liquidated_date and party.liquidated_date < date:
+            if party.liquidated_date and party.liquidated_date <= date:
                 raise ApplicationError(self.LIQIDATED_DATE_EARLIER_THAN_PROMISE.format(name=party.name))
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def create_promise(
         self,
@@ -100,15 +103,13 @@ class PromiseService:
             convocation=convocation,
         )
 
-        try:
-            promise = self.base_service.create_base(promise, self.performed_by)
-        except IntegrityError:
-            raise ApplicationError(self.UNIQUE_CONSTRAINT_MESSAGE.format(name=name))
+        promise = self.base_service.create_base(promise, self.performed_by)
 
         logger.info(f"Created promise: {promise.name} (ID: {promise.id})")
 
         return promise
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def edit_promise(
         self,
@@ -139,15 +140,13 @@ class PromiseService:
         promise.party = party
         promise.convocation = convocation
 
-        try:
-            promise = self.base_service.edit_base(promise, self.performed_by)
-        except IntegrityError:
-            raise ApplicationError(self.UNIQUE_CONSTRAINT_MESSAGE.format(name=name))
+        promise = self.base_service.edit_base(promise, self.performed_by)
 
         logger.info(f"Edited promise: {promise.id}")
 
         return promise
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def delete_promise(self, id: UUID) -> None:
         promise = get_object_or_raise(Promise, self.NOT_FOUND_MESSAGE, id=id)
@@ -162,6 +161,7 @@ class PromiseService:
 
         logger.info(f"Deleted promise: {promise.id}")
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def evaluate_promise(self, id: UUID, new_status: Promise.ReviewStatus) -> Promise:
         promise = get_object_or_raise(Promise, self.NOT_FOUND_MESSAGE, id=id)

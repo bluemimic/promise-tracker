@@ -1,6 +1,8 @@
 from django import forms
+from django.utils.translation import gettext_lazy as _
 
 from promise_tracker.classifiers.models import Convocation, PoliticalParty
+from promise_tracker.common.forms import FIELD_INVALID, FIELD_REQUIRED, ErrorMessageFormMixin
 from promise_tracker.common.utils import generate_model_form_errors
 from promise_tracker.common.widgets import BootstrapCheckboxSelectMultiple
 
@@ -10,7 +12,13 @@ class ConvocationEditForm(forms.ModelForm):
         queryset=PoliticalParty.objects.all(),
         required=True,
         widget=BootstrapCheckboxSelectMultiple(),
-        label="Political parties",
+        label=_("Political parties"),
+        error_messages={
+            "required": FIELD_REQUIRED.format(field=_("Political parties")),
+            "invalid_pk_value": FIELD_INVALID.format(field=_("Political parties")),
+            "invalid_choice": FIELD_INVALID.format(field=_("Political parties")),
+            "invalid_list": FIELD_INVALID.format(field=_("Political parties")),
+        },
     )
 
     class Meta:
@@ -21,7 +29,7 @@ class ConvocationEditForm(forms.ModelForm):
             "end_date",
             "political_parties",
         ]
-        error_messages = generate_model_form_errors(fields)
+        error_messages = generate_model_form_errors(fields, Convocation)
 
         widgets = {
             "start_date": forms.DateInput(attrs={"type": "date"}),

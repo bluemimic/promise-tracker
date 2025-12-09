@@ -1,5 +1,7 @@
 from django.db.models import CharField
-from django.forms import Field
+from django.forms import Field, ModelChoiceField, ValidationError
+
+from promise_tracker.common.forms import FIELD_INVALID
 
 
 class CommaSeparatedField(CharField):
@@ -42,3 +44,14 @@ class CommaSeparatedFormField(Field):
             return [s.strip() for s in value.split(",") if s.strip()]
 
         return []
+
+
+class SafeModelChoiceField(ModelChoiceField):
+    def to_python(self, value):
+        if not value:
+            return None
+
+        try:
+            return super(ModelChoiceField, self).to_python(value)
+        except Exception:
+            raise ValidationError(FIELD_INVALID.format(field=self.label))

@@ -7,13 +7,13 @@ from django_filters import BooleanFilter, FilterSet
 
 from promise_tracker.classifiers.models import PoliticalParty
 from promise_tracker.common.utils import get_object_or_none
-from promise_tracker.core.exceptions import NotFoundError
+from promise_tracker.core.exceptions import ApplicationError, NotFoundError
 
 NOT_FOUND_MESSAGE = _("Political party not found.")
 
 
 class PoliticalPartyFilerSet(FilterSet):
-    is_active = BooleanFilter(method="filter_is_active", label=_("Is Active"))
+    is_active = BooleanFilter(method="filter_is_active", label=_("Is active"))
 
     class Meta:
         model = PoliticalParty

@@ -28,14 +28,14 @@ class UserCreateForm(forms.ModelForm):
             ),
         }
 
-        error_messages = generate_model_form_errors(fields)
+        error_messages = generate_model_form_errors(fields, BaseUser)
 
 
 class UserCreateAdminForm(UserCreateForm):
     class Meta(UserCreateForm.Meta):
         fields = UserCreateForm.Meta.fields + ["is_admin"]
 
-        error_messages = generate_model_form_errors(fields)
+        error_messages = generate_model_form_errors(fields, BaseUser)
 
 
 class UserEditForm(UserCreateForm):

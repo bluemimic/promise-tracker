@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 from promise_tracker.classifiers.models import Convocation, PoliticalParty
 from promise_tracker.common.fields import CommaSeparatedField
-from promise_tracker.common.models import BaseModel, SoftDeleteModel
+from promise_tracker.common.models import BaseModel
 from promise_tracker.common.validators import CommaSeparatedStringValidator
 from promise_tracker.users.models import BaseUser
 
@@ -18,12 +18,14 @@ class Promise(BaseModel):
 
     name: Field = models.CharField(
         max_length=255,
+        unique=True,
         null=False,
         blank=False,
         verbose_name=_("Name"),
         help_text=_("The name of the promise."),
     )
     description: Field = models.TextField(
+        max_length=2000,
         null=False,
         blank=False,
         verbose_name=_("Description"),
@@ -53,8 +55,8 @@ class Promise(BaseModel):
     )
     party: Field = models.ForeignKey(
         to=PoliticalParty,
-        null=True,
-        blank=True,
+        null=False,
+        blank=False,
         on_delete=models.PROTECT,
         related_name="promises",
         verbose_name=_("Political Party"),
@@ -76,7 +78,7 @@ class Promise(BaseModel):
         default=ReviewStatus.PENDING,
         null=False,
         blank=False,
-        verbose_name=_("Review Status"),
+        verbose_name=_("Review status"),
         help_text=_("The review status of the promise."),
     )
     review_date: Field = models.DateTimeField(
@@ -158,6 +160,7 @@ class PromiseResult(BaseModel):
         help_text=_("The name of the promise result."),
     )
     description: Field = models.TextField(
+        max_length=2000,
         null=False,
         blank=False,
         verbose_name=_("Description"),
@@ -216,7 +219,7 @@ class PromiseResult(BaseModel):
         default=ReviewStatus.PENDING,
         null=False,
         blank=False,
-        verbose_name=_("Review Status"),
+        verbose_name=_("Review status"),
         help_text=_("The review status of the promise result."),
     )
     review_date: Field = models.DateTimeField(
@@ -268,7 +271,7 @@ class PromiseResult(BaseModel):
 
         constraints = [
             CheckConstraint(
-                check=Q(is_final=True, status__isnull=False) | Q(is_final=False),
+                check=Q(is_final=True, status__isnull=False) | Q(is_final=False, status__isnull=True),
                 name="promiseresult_final_status_consistency",
                 violation_error_message=_("Final promise result status is not set."),
             ),
@@ -278,4 +281,8 @@ class PromiseResult(BaseModel):
                 name="promiseresult_review_date_status_consistency",
                 violation_error_message=_("Inconsistent review date and status."),
             ),
+        ]
+
+        unique_together = [
+            ("promise", "name"),
         ]

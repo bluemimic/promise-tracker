@@ -52,9 +52,11 @@ class PromiseResultEditForm(forms.ModelForm):
     class Meta:
         model = PromiseResult
         fields = ["name", "description", "sources", "is_final", "date", "status"]
-        error_messages = generate_model_form_errors(fields)
+        error_messages = generate_model_form_errors(fields, PromiseResult)
 
         widgets = {
             "description": forms.Textarea(attrs={"rows": 4}),
             "date": forms.DateInput(attrs={"type": "date"}),
         }
+        
+

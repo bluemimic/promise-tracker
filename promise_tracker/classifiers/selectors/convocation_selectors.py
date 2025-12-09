@@ -6,13 +6,13 @@ from django_filters import FilterSet, ModelMultipleChoiceFilter
 
 from promise_tracker.classifiers.models import Convocation, PoliticalParty
 from promise_tracker.common.utils import get_object_or_none
-from promise_tracker.core.exceptions import NotFoundError
+from promise_tracker.core.exceptions import ApplicationError, NotFoundError
 
 NOT_FOUND_MESSAGE = _("Convocation not found.")
 
 
 class ConvocationFilterSet(FilterSet):
-    parties = ModelMultipleChoiceFilter(
+    political_parties = ModelMultipleChoiceFilter(
         field_name="political_parties__id",
         queryset=PoliticalParty.objects.all(),
         label=_("Parties"),

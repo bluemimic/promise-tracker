@@ -11,8 +11,7 @@ from rolepermissions.roles import remove_role
 
 from promise_tracker.common.mixins import RoleBasedAccessMixin, VerifiedLoginRequiredMixin
 from promise_tracker.core.roles import RegisteredUser
-
-from .factories import UnverifiedUserFactory, VerifiedUserFactory
+from promise_tracker.users.tests.factories import UnverifiedUserFactory, VerifiedUserFactory
 
 
 class DummyView(VerifiedLoginRequiredMixin, View):
@@ -43,7 +42,7 @@ class DummyRoleUnverifiedView(RoleBasedAccessMixin, View):
         return HttpResponse("OK")
 
 
-class VerifiedLoginRequiredMixinTestCase(TestCase):
+class VerifiedLoginRequiredMixinUnitTests(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.request = self.factory.get("/")
@@ -78,7 +77,7 @@ class VerifiedLoginRequiredMixinTestCase(TestCase):
         self.assertEqual(response.content, b"OK")
 
 
-class RoleBasedAccessMixinTestCase(TestCase):
+class RoleBasedAccessMixinUnitTests(TestCase):
     def setUp(self):
         self.factory = RequestFactory()
         self.request = self.factory.get("/")
