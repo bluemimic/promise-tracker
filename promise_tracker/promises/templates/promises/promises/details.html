@@ -115,10 +115,12 @@
 
                 <div class="mt-3 d-flex gap-2">
                     <a href="{% url 'promises:promises:list' %}" class="btn btn-outline-secondary">{% translate "Back" %}</a>
-                    {% if is_admin or request.user.id == promise.created_by.id %}
-                    <a href="{% url 'promises:promises:edit' promise.id %}" class="btn btn-outline-secondary">{% translate "Edit" %}</a>
-                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
-                        data-bs-target="#deletePromiseModal">{% translate "Delete" %}</button>
+                    {% if not promise.is_final and not promise.is_rejected %}
+                        {% if is_admin or request.user.id == promise.created_by.id %}
+                        <a href="{% url 'promises:promises:edit' promise.id %}" class="btn btn-outline-secondary">{% translate "Edit" %}</a>
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#deletePromiseModal">{% translate "Delete" %}</button>
+                        {% endif %}
                     {% endif %}
                 </div>
 

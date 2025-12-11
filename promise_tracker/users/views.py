@@ -73,7 +73,7 @@ class UserCreateView(RoleBasedAccessMixin, BaseFormView):
         if not has_role(request.user, Administrator):
             return redirect("authentication:login")
 
-        return redirect("home:index")
+        return redirect("users:list")
 
 
 class UserEditView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, BaseFormView):

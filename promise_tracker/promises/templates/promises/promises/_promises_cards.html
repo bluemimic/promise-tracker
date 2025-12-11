@@ -79,10 +79,12 @@
 
         <div class="card-body d-flex gap-2">
           <a href="{% url 'promises:promises:details' p.id %}" class="btn btn-sm btn-outline-primary">{% translate "Details" %}</a>
-          {% if is_admin or request.user.id == p.created_by.id %}
-          <a href="{% url 'promises:promises:edit' p.id %}" class="btn btn-sm btn-outline-secondary">{% translate "Edit" %}</a>
-          <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
-            data-bs-target="#deletePromiseModal-{{ p.id }}">{% translate "Delete" %}</button>
+          {% if not p.is_final and not p.is_rejected %}
+            {% if is_admin or request.user.id == p.created_by.id %}
+            <a href="{% url 'promises:promises:edit' p.id %}" class="btn btn-sm btn-outline-secondary">{% translate "Edit" %}</a>
+            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"
+              data-bs-target="#deletePromiseModal-{{ p.id }}">{% translate "Delete" %}</button>
+            {% endif %}
           {% endif %}
         </div>
         <div class="card-footer">
