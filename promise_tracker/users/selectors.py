@@ -30,18 +30,20 @@ class UserSelectors:
     def __init__(self, performed_by: BaseUser):
         self.performed_by = performed_by
 
+    NOT_FOUND_ERROR = _("User not found.")
+
     def get_user_by_id(self, id: UUID) -> BaseUser:
         user = get_object_or_none(BaseUser, id=id)
 
         if user is None:
-            raise NotFoundError(_("User not found."))
+            raise NotFoundError(self.NOT_FOUND_ERROR)
 
         if not has_role(self.performed_by, Administrator):
             if self.performed_by.id != user.id or not user.is_active:
                 raise PermissionViolationError()
 
             if user.is_deleted:
-                raise NotFoundError(_("User not found."))
+                raise NotFoundError(self.NOT_FOUND_ERROR)
 
         return user
 
@@ -50,4 +52,4 @@ class UserSelectors:
 
         qs = BaseUser.objects.all()
 
-        return UserFilterSet(filters, queryset=qs).qs.order_by("-created_at")
+        return UserFilterSet(data=filters, queryset=qs).qs.order_by("-created_at")

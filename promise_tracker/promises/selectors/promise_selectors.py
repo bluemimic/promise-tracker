@@ -17,6 +17,12 @@ from promise_tracker.users.models import BaseUser
 
 
 class PromiseFilterSet(FilterSet):
+    name = django_filters.CharFilter(
+        field_name="name",
+        lookup_expr="icontains",
+        label=_("Name"),
+        help_text=_("Filter by name"),
+    )
     convocation = ModelChoiceFilter(
         field_name="convocation__id",
         queryset=Convocation.objects.all(),
@@ -58,9 +64,7 @@ class PromiseFilterSet(FilterSet):
 
     class Meta:
         model = Promise
-        fields = {
-            "name": ["icontains"],
-        }
+        fields = {}
 
 
 class PromiseRegisteredUserFilterSet(PromiseFilterSet):
@@ -158,7 +162,7 @@ class PromiseSelectors:
         qs = self._get_queryset(filters)
         filterset_class = self.get_filterset_class()
 
-        return filterset_class(filters, request=self.request, queryset=qs).qs.order_by("date")
+        return filterset_class(filters, request=self.request, queryset=qs).qs.distinct().order_by("date")
 
     def get_promise_by_id(self, id: UUID) -> Promise:
         promise = get_object_or_raise(Promise, self.NOT_FOUND_ERROR, id=id)

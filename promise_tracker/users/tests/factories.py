@@ -5,19 +5,18 @@ from rolepermissions.roles import assign_role
 from promise_tracker.core.roles import Administrator, RegisteredUser
 from promise_tracker.users.models import BaseUser
 
+fake = Faker()
 
-class UniversalUnverifiedUserFactory(factory.django.DjangoModelFactory):
+
+class UnverifiedUserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = BaseUser
 
-    name = factory.LazyAttribute(lambda x: Faker().first_name())
-    surname = factory.LazyAttribute(lambda x: Faker().last_name())
-    email = factory.LazyAttribute(lambda x: Faker().email())
-    username = factory.LazyAttribute(lambda x: Faker().user_name())
+    name = factory.LazyAttribute(lambda x: fake.unique.name()[:50])
+    surname = factory.LazyAttribute(lambda x: fake.last_name()[:50])
+    email = factory.LazyAttribute(lambda x: fake.unique.email()[:254])
+    username = factory.LazyAttribute(lambda x: fake.user_name()[:150])
     password = factory.django.Password("some2233SSPassword!")
-    is_active = True
-    is_verified = False
-    is_deleted = False
     is_admin = False
 
     @factory.post_generation
@@ -28,11 +27,11 @@ class UniversalUnverifiedUserFactory(factory.django.DjangoModelFactory):
         assign_role(obj, RegisteredUser)
 
 
-class UniversalUserFactory(UniversalUnverifiedUserFactory):
+class VerifiedUserFactory(UnverifiedUserFactory):
     is_verified = True
 
 
-class AdministratorUserFactory(UniversalUserFactory):
+class AdminUserFactory(VerifiedUserFactory):
     is_admin = True
 
     @factory.post_generation

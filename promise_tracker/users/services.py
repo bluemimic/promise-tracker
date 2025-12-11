@@ -16,9 +16,9 @@ from promise_tracker.common.services import BaseService
 from promise_tracker.common.utils import (
     generate_random_email,
     generate_randon_string,
-    get_object_or_none,
     get_object_or_raise,
 )
+from promise_tracker.common.wrappers import handle_unique_error
 from promise_tracker.core.exceptions import ApplicationError, EmailDelayError, NotFoundError, PermissionViolationError
 from promise_tracker.core.roles import Administrator, RegisteredUser
 from promise_tracker.emails.tasks import email_send_task
@@ -37,6 +37,13 @@ class UserService:
         self.base_service: BaseService[BaseUser] = base_service or BaseService()
 
     NOT_FOUND_MESSAGE = _("User not found.")
+    UNIQUE_CONSTRAINT_MESSAGE = _("A user with this email already exists.")
+    PASSWORDS_DONT_MATCH = _("Passwords do not match.")
+    USER_NOT_FOUND = _("User not found.")
+    USER_IS_ALREADY_VERIFIED = _("User is already verified.")
+    VERIFICATION_FAILED = _("Verification failed! Invalid code!")
+    USER_IS_ALREADY_BANNED = _("User is already banned.")
+    USER_IS_NOT_BANNED = _("User is not banned.")
 
     def _generate_verification_code(self) -> str:
         digits = "0123456789"
@@ -81,7 +88,7 @@ class UserService:
     def _check_user_is_not_deleted(self, user: BaseUser) -> None:
         if user.is_deleted:
             logger.error(f"Attempted operation on deleted user ID {user.id}.")
-            raise NotFoundError(_("User not found."))
+            raise NotFoundError(self.USER_NOT_FOUND)
 
     def _check_can_edit_inactive(self, user: BaseUser) -> None:
         if not has_role(self.performed_by, Administrator):
@@ -103,7 +110,7 @@ class UserService:
 
         if password != another_password:
             logger.error("Password and confirmation password do not match.")
-            raise ApplicationError(_("Passwords do not match."))
+            raise ApplicationError(self.PASSWORDS_DONT_MATCH)
 
     def _anonymize_user_data(self, user: BaseUser) -> None:
         user.name = generate_randon_string(10)
@@ -125,8 +132,9 @@ class UserService:
     def _check_is_already_verified(self, user: BaseUser) -> None:
         if user.is_verified:
             logger.error(f"User {user.id} attempted to verify an already verified email.")
-            raise ApplicationError(_("User is already verified."))
+            raise ApplicationError(self.USER_IS_ALREADY_VERIFIED)
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def create_user(
         self, name: str, surname: str, email: str, username: str, password: str, another_password: str, is_admin: bool
@@ -149,6 +157,7 @@ class UserService:
 
         return user
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def edit_user(
         self,
@@ -193,6 +202,7 @@ class UserService:
 
         return user
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def delete_user(self, id: UUID) -> None:
         user = get_object_or_raise(BaseUser, self.NOT_FOUND_MESSAGE, id=id)
@@ -211,6 +221,7 @@ class UserService:
 
         logger.info(f"Soft-deleted user: {user.id}")
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def send_verification_email(self, id: UUID) -> None:
         user = get_object_or_raise(BaseUser, self.NOT_FOUND_MESSAGE, id=id)
@@ -229,6 +240,7 @@ class UserService:
 
         logger.info(f"Resent verification email to user ID {user.id}")
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def verify_user_email(self, id: UUID, verification_code: str) -> None:
         user = get_object_or_raise(BaseUser, self.NOT_FOUND_MESSAGE, id=id)
@@ -247,7 +259,7 @@ class UserService:
             or timezone.now() > user.verification_code_expires_at
         ):
             logger.error(f"Invalid or expired verification code for user ID {user.id}")
-            raise ApplicationError(_("Verification failed! Invalid code!"))
+            raise ApplicationError(self.VERIFICATION_FAILED)
 
         user.is_verified = True
 
@@ -255,6 +267,7 @@ class UserService:
 
         logger.info(f"Verified user: {user.id}")
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def moderate_user(self, id: UUID, action: ModerationAction) -> None:
         user = get_object_or_raise(BaseUser, self.NOT_FOUND_MESSAGE, id=id)
@@ -263,11 +276,11 @@ class UserService:
 
         if action == ModerationAction.BAN and not user.is_active:
             logger.error(f"Attempted to ban already inactive user ID {user.id}.")
-            raise ApplicationError(_("User is already banned."))
+            raise ApplicationError(self.USER_IS_ALREADY_BANNED)
 
         if action == ModerationAction.UNBAN and user.is_active:
             logger.error(f"Attempted to unban already active user ID {user.id}.")
-            raise ApplicationError(_("User is not banned."))
+            raise ApplicationError(self.USER_IS_NOT_BANNED)
 
         match action:
             case ModerationAction.BAN:

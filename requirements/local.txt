@@ -13,3 +13,4 @@ django-stubs==5.2.7
 ruff==0.14.0
 
 debugpy==1.8.16
+locust==2.41.0

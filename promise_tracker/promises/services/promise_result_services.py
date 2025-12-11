@@ -1,7 +1,7 @@
 from datetime import date
 from uuid import UUID
 
-from django.db import IntegrityError, transaction
+from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from loguru import logger
@@ -9,6 +9,7 @@ from rolepermissions.checkers import has_role
 
 from promise_tracker.common.services import BaseService
 from promise_tracker.common.utils import get_object_or_raise
+from promise_tracker.common.wrappers import handle_unique_error
 from promise_tracker.core.exceptions import ApplicationError, PermissionViolationError
 from promise_tracker.core.roles import Administrator
 from promise_tracker.promises.models import Promise, PromiseResult
@@ -83,6 +84,7 @@ class PromiseResultService:
         if date < promise.date:
             raise ApplicationError(self.RESULT_EARLIER_THAN_PROMISE)
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def create_result(
         self,
@@ -117,15 +119,13 @@ class PromiseResultService:
             promise=promise,
         )
 
-        try:
-            result = self.base_service.create_base(result, self.performed_by)
-        except IntegrityError:
-            raise ApplicationError(self.UNIQUE_CONSTRAINT_MESSAGE.format(name=name))
+        result = self.base_service.create_base(result, self.performed_by)
 
         logger.info(f"Created promise result: {result.name} (ID: {result.id})")
 
         return result
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def edit_result(
         self,
@@ -162,15 +162,13 @@ class PromiseResultService:
         result.status = status
         result.promise = promise
 
-        try:
-            result = self.base_service.edit_base(result, self.performed_by)
-        except IntegrityError:
-            raise ApplicationError(self.UNIQUE_CONSTRAINT_MESSAGE.format(name=name))
+        result = self.base_service.edit_base(result, self.performed_by)
 
         logger.info(f"Edited promise result: {result.id}")
 
         return result
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def delete_result(self, id: UUID) -> None:
         result = get_object_or_raise(PromiseResult, self.NOT_FOUND_MESSAGE, id=id)
@@ -180,6 +178,7 @@ class PromiseResultService:
 
         self.base_service.delete_base(result)
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def evaluate_result(self, id: UUID, new_status: PromiseResult.ReviewStatus) -> PromiseResult:
         result = get_object_or_raise(PromiseResult, self.NOT_FOUND_MESSAGE, id=id)

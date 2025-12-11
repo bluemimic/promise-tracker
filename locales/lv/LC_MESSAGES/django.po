@@ -197,7 +197,7 @@ msgid "Political party not found."
 msgstr "Politiskā partija nav atrasta."
 
 #: promise_tracker/classifiers/selectors/political_party_selectors.py:16
-msgid "Is Active"
+msgid "Is active"
 msgstr "Ir aktīvs"
 
 #: promise_tracker/classifiers/services/convocation_services.py:30
@@ -894,7 +894,7 @@ msgid "The convocation during which this promise was made."
 msgstr "Sasaukums, uz kuru tika dots šis solījums."
 
 #: promise_tracker/promises/models.py:79 promise_tracker/promises/models.py:219
-msgid "Review Status"
+msgid "Review status"
 msgstr "Izvērtēšanas statuss"
 
 #: promise_tracker/promises/models.py:80

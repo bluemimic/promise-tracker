@@ -13,7 +13,7 @@ NOT_FOUND_MESSAGE = _("Political party not found.")
 
 
 class PoliticalPartyFilerSet(FilterSet):
-    is_active = BooleanFilter(method="filter_is_active", label=_("Is Active"))
+    is_active = BooleanFilter(method="filter_is_active", label=_("Is active"))
 
     class Meta:
         model = PoliticalParty

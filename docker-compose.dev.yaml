@@ -38,5 +38,17 @@ services:
       - rabbitmq
     networks: [backend]
 
+  locust:
+    build:
+      context: .
+      dockerfile: docker/local.Dockerfile
+    command: locust -f load/locustfile.py --host=http://django:8000
+    container_name: locust-dev
+    ports:
+      - "8089:8089"
+    depends_on:
+      - django
+    networks: [backend]
+
 networks:
   backend:

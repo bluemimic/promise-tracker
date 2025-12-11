@@ -14,15 +14,20 @@ class AuthService:
     def __init__(self, request: HttpRequest):
         self.request = request
 
+    USER_IS_DELETED = _("User has been deleted.")
+    USER_IS_INACTIVE = _("User account is inactive.")
+    INCORRECT_CREDENTIALS = _("Incorrect email or password.")
+    USER_NOT_FOUND = _("User not found.")
+
     def _verify_user_not_deleted(self, user: BaseUser):
         if user.is_deleted:
             logger.warning(f"Deleted user {user.id} attempted to log in.")
-            raise ApplicationError(_("User has been deleted."))
+            raise ApplicationError(self.USER_IS_DELETED)
 
     def _verify_user_is_active(self, user: BaseUser):
         if not user.is_active:
             logger.warning(f"Inactive user {user.id} attempted to log in.")
-            raise AuthenticationError(_("User account is inactive."))
+            raise AuthenticationError(self.USER_IS_INACTIVE)
 
     def _should_send_verification_email(self, user: BaseUser) -> bool:
         return not user.is_verified and (
@@ -36,9 +41,9 @@ class AuthService:
 
         if not abstract_user:
             logger.warning(f"Failed login attempt for email: {email}")
-            raise AuthenticationError(_("Incorrect email or password."))
+            raise AuthenticationError(self.INCORRECT_CREDENTIALS)
 
-        user = get_object_or_raise(BaseUser, _("User not found."), pk=abstract_user.pk)
+        user = get_object_or_raise(BaseUser, self.USER_NOT_FOUND, pk=abstract_user.pk)
 
         self._verify_user_not_deleted(user)
         self._verify_user_is_active(user)

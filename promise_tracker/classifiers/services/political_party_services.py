@@ -1,8 +1,7 @@
 from datetime import date
 from uuid import UUID
 
-from django.core.files import File
-from django.db import IntegrityError, transaction
+from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from loguru import logger
@@ -10,6 +9,7 @@ from loguru import logger
 from promise_tracker.classifiers.models import PoliticalParty
 from promise_tracker.common.services import BaseService
 from promise_tracker.common.utils import get_object_or_raise
+from promise_tracker.common.wrappers import handle_unique_error
 from promise_tracker.core.exceptions import ApplicationError
 from promise_tracker.users.models import BaseUser
 
@@ -57,6 +57,7 @@ class PoliticalPartyService:
         if liquidated_date and liquidated_date < established_date:
             raise ApplicationError(self.LIQUIDATED_DATE_SMALLER_THAN_ESTABLISHED_DATE)
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def create_political_party(
         self,
@@ -74,15 +75,13 @@ class PoliticalPartyService:
             liquidated_date=liquidated_date,
         )
 
-        try:
-            political_party = self.base_service.create_base(political_party, self.performed_by)
-        except IntegrityError:
-            raise ApplicationError(self.UNIQUE_CONSTRAINT_MESSAGE.format(name=name))
+        political_party = self.base_service.create_base(political_party, self.performed_by)
 
         logger.info(f"Created political party: {political_party.name} (ID: {political_party.id})")
 
         return political_party
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def edit_political_party(
         self,
@@ -101,15 +100,13 @@ class PoliticalPartyService:
         political_party.established_date = established_date
         political_party.liquidated_date = liquidated_date
 
-        try:
-            political_party = self.base_service.edit_base(political_party, self.performed_by)
-        except IntegrityError:
-            raise ApplicationError(self.UNIQUE_CONSTRAINT_MESSAGE.format(name=name))
+        political_party = self.base_service.edit_base(political_party, self.performed_by)
 
         logger.info(f"Edited political party: {political_party.id}")
 
         return political_party
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def delete_political_party(self, id: UUID) -> None:
         political_party = get_object_or_raise(PoliticalParty, self.NOT_FOUND_MESSAGE, id=id)

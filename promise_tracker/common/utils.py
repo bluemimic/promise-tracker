@@ -1,10 +1,12 @@
 from typing import Any, Optional, Type
 
+from django.core.exceptions import ValidationError
 from django.core.paginator import Page, Paginator
 from django.db import models
-from django.db.models import Model, QuerySet
+from django.db.models import QuerySet
 from django.forms import Form
 from django.forms.widgets import CheckboxInput, Select, SelectMultiple
+from django.utils.translation import gettext as _
 from loguru import logger
 
 from promise_tracker.common.forms import FIELD_INVALID, FIELD_REQUIRED
@@ -66,13 +68,30 @@ def bootstrapify_form(form: Form, floating: bool = False) -> Form:
     return form
 
 
-def generate_model_form_errors(fields: list[str]) -> dict[str, dict[str, str]]:
-    errors = {}
+def generate_model_form_errors(fields: list[str], model: type[DjangoModelType]) -> dict[str, dict[str, str]]:
+    errors: dict[str, dict[str, str]] = {}
 
     for field in fields:
+        label = None
+
+        try:
+            field_obj = model._meta.get_field(field)
+            label = str(field_obj.verbose_name)
+        except Exception:
+            label = None
+
+        if not label:
+            label = field.replace("_", " ").capitalize()
+
+        translated_label = _(label)
+
         errors[field] = {
-            "required": FIELD_REQUIRED.format(field=field.capitalize()),
-            "invalid": FIELD_INVALID.format(field=field.capitalize()),
+            "required": FIELD_REQUIRED.format(field=translated_label),
+            "invalid": FIELD_INVALID.format(field=translated_label),
+            "invalid_pk_value": FIELD_INVALID.format(field=translated_label),
+            "invalid_choice": FIELD_INVALID.format(field=translated_label),
+            "invalid_list": FIELD_INVALID.format(field=translated_label),
+            "max_length": FIELD_INVALID.format(field=translated_label),
         }
 
     return errors
@@ -102,3 +121,14 @@ def paginate_queryset(request, queryset: QuerySet, per_page: int = 10) -> Page:
     page_obj = paginator.get_page(page_number)
 
     return page_obj
+
+
+def _is_unique_error(e: ValidationError) -> bool:
+    if not hasattr(e, "error_dict"):
+        return False
+
+    for field_errors in e.error_dict.values():
+        for error in field_errors:
+            if error.code in ("unique", "unique_together"):
+                return True
+    return False

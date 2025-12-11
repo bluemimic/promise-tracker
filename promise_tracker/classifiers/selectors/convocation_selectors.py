@@ -12,7 +12,7 @@ NOT_FOUND_MESSAGE = _("Convocation not found.")
 
 
 class ConvocationFilterSet(FilterSet):
-    parties = ModelMultipleChoiceFilter(
+    political_parties = ModelMultipleChoiceFilter(
         field_name="political_parties__id",
         queryset=PoliticalParty.objects.all(),
         label=_("Parties"),

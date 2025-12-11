@@ -8,7 +8,7 @@ class PoliticalPartyEditForm(forms.ModelForm):
     class Meta:
         model = PoliticalParty
         fields = ["name", "established_date", "liquidated_date"]
-        error_messages = generate_model_form_errors(fields)
+        error_messages = generate_model_form_errors(fields, PoliticalParty)
 
         widgets = {
             "established_date": forms.DateInput(attrs={"type": "date"}),

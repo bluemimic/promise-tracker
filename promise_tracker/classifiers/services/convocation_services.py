@@ -1,7 +1,7 @@
 from datetime import date
 from uuid import UUID
 
-from django.db import IntegrityError, transaction
+from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from loguru import logger
@@ -12,6 +12,7 @@ from promise_tracker.classifiers.models import (
 )
 from promise_tracker.common.services import BaseService
 from promise_tracker.common.utils import get_object_or_raise
+from promise_tracker.common.wrappers import handle_unique_error
 from promise_tracker.core.exceptions import ApplicationError
 from promise_tracker.users.models import BaseUser
 
@@ -28,6 +29,7 @@ class ConvocationService:
     NOT_FOUND_MESSAGE = _("Convocation not found.")
 
     PARTIES_LIST_INVALID = _("Political parties list is not valid!")
+    PARTIES_LIST_EMPTY = _("No party is provided!")
     PARTY_LIQUIDATED_BEFORE_START = _("Party {party_name} liquidated date is smaller than convocation start date!")
     PARTY_ESTABLISHED_AFTER_END = _("Party {party_name} established date is greater than convocation end date!")
     UNIQUE_CONSTRAINT_MESSAGE = _("Convocation {name} already exists!")
@@ -37,8 +39,8 @@ class ConvocationService:
     END_DATE_SMALLER_THAN_START = _("End date is smaller than start date.")
 
     def _fetch_parties(self, party_ids: list[UUID] | None) -> list[PoliticalParty]:
-        if party_ids is None:
-            return []
+        if party_ids is None or len(party_ids) == 0:
+            raise ApplicationError(self.PARTIES_LIST_EMPTY)
 
         non_empty_ids = [pid for pid in party_ids if pid is not None]
 
@@ -77,6 +79,7 @@ class ConvocationService:
         if end_date is not None and end_date < start_date:
             raise ApplicationError(self.END_DATE_SMALLER_THAN_START)
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def create_convocation(
         self,
@@ -99,10 +102,7 @@ class ConvocationService:
             end_date=end_date,
         )
 
-        try:
-            convocation = self.base_service.create_base(convocation, self.performed_by)
-        except IntegrityError:
-            raise ApplicationError(self.UNIQUE_CONSTRAINT_MESSAGE.format(name=name))
+        convocation = self.base_service.create_base(convocation, self.performed_by)
 
         if parties:
             convocation.political_parties.set(parties)
@@ -111,6 +111,7 @@ class ConvocationService:
 
         return convocation
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def edit_convocation(
         self,
@@ -134,10 +135,7 @@ class ConvocationService:
         convocation.start_date = start_date
         convocation.end_date = end_date
 
-        try:
-            convocation = self.base_service.edit_base(convocation, self.performed_by)
-        except IntegrityError:
-            raise ApplicationError(self.UNIQUE_CONSTRAINT_MESSAGE.format(name=name))
+        convocation = self.base_service.edit_base(convocation, self.performed_by)
 
         convocation.political_parties.set(parties)
 
@@ -145,6 +143,7 @@ class ConvocationService:
 
         return convocation
 
+    @handle_unique_error(str(UNIQUE_CONSTRAINT_MESSAGE))
     @transaction.atomic
     def delete_convocation(self, id: UUID) -> None:
         convocation = get_object_or_raise(Convocation, self.NOT_FOUND_MESSAGE, id=id)
