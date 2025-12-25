@@ -2,11 +2,14 @@ from unittest.mock import MagicMock, patch
 
 from django.test import TestCase
 
-from promise_tracker.classifiers.tests.factories import ValidPoliticalPartyFactory
 from promise_tracker.promises.models import Promise
 from promise_tracker.promises.services.promise_result_services import PromiseResultService
 from promise_tracker.promises.tests.factories import ValidPromiseFactory, ValidPromiseResultFactory
-from promise_tracker.users.tests.factories import VerifiedUserFactory
+from promise_tracker.users.tests.factories import AdminUserFactory, VerifiedUserFactory
+
+from faker import Faker
+
+faker = Faker()
 
 
 class PromiseResultsServicesIntegrationTests(TestCase):
@@ -27,6 +30,7 @@ class PromiseResultsServicesIntegrationTests(TestCase):
         )
 
         self.service.create_result(
+            name=faker.unique.word(),
             promise_id=promise.id,
             status=result.status,
             description=result.description,
@@ -37,17 +41,18 @@ class PromiseResultsServicesIntegrationTests(TestCase):
 
         self.mock_base_service.create_base.assert_called_once()
 
-    @patch("promise_tracker.promises.services.promise_result_services.get_object_or_raise")
-    def test_edit_calls_base_when_promise_result_with_valid_data(self, mock_get_object):
+    def test_edit_calls_base_when_promise_result_with_valid_data(self):
         promise = ValidPromiseFactory.create()
         existing_result = ValidPromiseResultFactory.create(
             promise=promise,
         )
-        mock_get_object.return_value = existing_result
 
         result = ValidPromiseResultFactory.create(
             promise=promise,
+            date=faker.date_between(start_date=existing_result.date, end_date="today"),
         )
+
+        self.service.performed_by = AdminUserFactory.create()
 
         self.service.edit_result(
             id=existing_result.id,
@@ -70,6 +75,7 @@ class PromiseResultsServicesIntegrationTests(TestCase):
         )
         mock_get_object.return_value = result
 
+        self.service.performed_by = AdminUserFactory.create()
         self.service.delete_result(id=result.id)
 
         self.mock_base_service.delete_base.assert_called_once()

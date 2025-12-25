@@ -22,12 +22,12 @@ class AuthService:
     def _verify_user_not_deleted(self, user: BaseUser):
         if user.is_deleted:
             logger.warning(f"Deleted user {user.id} attempted to log in.")
-            raise ApplicationError(self.USER_IS_DELETED)
+            raise ApplicationError(self.INCORRECT_CREDENTIALS)
 
     def _verify_user_is_active(self, user: BaseUser):
         if not user.is_active:
             logger.warning(f"Inactive user {user.id} attempted to log in.")
-            raise AuthenticationError(self.USER_IS_INACTIVE)
+            raise AuthenticationError(self.INCORRECT_CREDENTIALS)
 
     def _should_send_verification_email(self, user: BaseUser) -> bool:
         return not user.is_verified and (

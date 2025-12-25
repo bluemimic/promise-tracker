@@ -44,6 +44,9 @@ class UserService:
     VERIFICATION_FAILED = _("Verification failed! Invalid code!")
     USER_IS_ALREADY_BANNED = _("User is already banned.")
     USER_IS_NOT_BANNED = _("User is not banned.")
+    PASSWORD_IS_INVALID = _(
+        "Your password must contain at least one digit, one uppercase letter, and one special character."
+    )
 
     def _generate_verification_code(self) -> str:
         digits = "0123456789"
@@ -106,7 +109,7 @@ class UserService:
             validate_password(password)
         except ValidationError as e:
             logger.error(f"Password validation failed: {e.messages}")
-            raise ApplicationError(e.messages[0])
+            raise ApplicationError(self.PASSWORD_IS_INVALID)
 
         if password != another_password:
             logger.error("Password and confirmation password do not match.")

@@ -44,7 +44,7 @@ class AuthenticationServicesUnitTests(TestCase):
 
         with self.assertRaisesMessage(
             ApplicationError,
-            str(self.service.USER_IS_DELETED),
+            str(self.service.INCORRECT_CREDENTIALS),
         ):
             self.service.login(
                 email=deleted_user.email,

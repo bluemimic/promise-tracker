@@ -32,7 +32,7 @@
 
             <div class="d-flex gap-2">
               {% is_admin request.user as is_admin %}
-              {% if is_admin or p.created_by.id == request.user.id %}
+              {% if is_admin %}
               <div>
                 {% if p.is_approved %}
                   <span class="badge text-bg-primary">{{ p.get_review_status_display }}</span>
@@ -58,7 +58,7 @@
                         </div>
                     {% endif %}
                 {% endwith %}
-              {% else %}
+              {% elif p.is_approved %}
                 <div><span class="badge text-bg-secondary">{% translate "In Progress" %}</span></div>
               {% endif %}
             </div>
@@ -68,18 +68,18 @@
 
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item">
+          <li class="list-group-item {% if p.is_rejected %}bg-body-tertiary{% endif %}">
             {% blocktranslate with party=p.party.name date=p.date|date:"d.m.Y" url=party_url %}
             <strong>Promised by: </strong>{{ party }} at {{ date }}
             {% endblocktranslate %}
           </li>
 
-          <li class="list-group-item"><strong>{% translate "Convocation" %}:</strong> {{ p.convocation.name }}</li>
+          <li class="list-group-item {% if p.is_rejected %}bg-body-tertiary{% endif %}"><strong>{% translate "Convocation" %}:</strong> {{ p.convocation.name }}</li>
         </ul>
 
         <div class="card-body d-flex gap-2">
           <a href="{% url 'promises:promises:details' p.id %}" class="btn btn-sm btn-outline-primary">{% translate "Details" %}</a>
-          {% if not p.is_final and not p.is_rejected %}
+          {% if not p.is_final and not p.is_rejected and not p.is_approved %}
             {% if is_admin or request.user.id == p.created_by.id %}
             <a href="{% url 'promises:promises:edit' p.id %}" class="btn btn-sm btn-outline-secondary">{% translate "Edit" %}</a>
             <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal"

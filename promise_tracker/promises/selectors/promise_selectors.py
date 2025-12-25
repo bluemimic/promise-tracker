@@ -162,7 +162,7 @@ class PromiseSelectors:
         qs = self._get_queryset(filters)
         filterset_class = self.get_filterset_class()
 
-        return filterset_class(filters, request=self.request, queryset=qs).qs.distinct().order_by("date")
+        return filterset_class(filters, request=self.request, queryset=qs).qs.distinct().order_by("-date")
 
     def get_promise_by_id(self, id: UUID) -> Promise:
         promise = get_object_or_raise(Promise, self.NOT_FOUND_ERROR, id=id)

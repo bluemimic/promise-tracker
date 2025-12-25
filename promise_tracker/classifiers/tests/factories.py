@@ -17,15 +17,6 @@ class ValidPoliticalPartyFactory(factory.django.DjangoModelFactory):
     liquidated_date = factory.Faker("date_between", start_date="-1y", end_date="today")
 
 
-class InvalidPoliticalPartyFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = PoliticalParty
-
-    name = factory.Faker("lexify", text="?" * 256)
-    established_date = factory.Faker("word")
-    liquidated_date = factory.Faker("word")
-
-
 class ValidConvocationFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Convocation
@@ -56,12 +47,3 @@ class ValidConvocationFactory(factory.django.DjangoModelFactory):
                 ),
             )
             self.political_parties.add(party)
-
-
-class InvalidConvocationFactory(factory.Factory):
-    class Meta:
-        model = Convocation
-
-    name = factory.Faker("lexify", text="?" * 256)
-    start_date = factory.Faker("word")
-    end_date = factory.Faker("word")

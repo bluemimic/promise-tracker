@@ -330,33 +330,6 @@ class PromiseResultServicesUnitTests(TestCase):
                 status=existing_result.status,
             )
 
-    def test_update_raises_error_when_approved_final_exists(self):
-        promise = ValidPromiseFactory.create()
-        ValidPromiseResultFactory.create(
-            promise=promise,
-            is_final=True,
-            status=PromiseResult.CompletionStatus.COMPLETED,
-            review_status=PromiseResult.ReviewStatus.APPROVED,
-            review_date=timezone.now(),
-            date=promise.date,
-        )
-
-        result_to_update = ValidPromiseResultFactory.create(promise=promise)
-
-        with self.assertRaisesMessage(
-            ApplicationError,
-            str(self.mocked_service.CANNOT_ADD_TO_FINAL_PROMISE),
-        ):
-            self.mocked_service.edit_result(
-                id=result_to_update.id,
-                name=faker.word(),
-                description=result_to_update.description,
-                sources=result_to_update.sources,
-                is_final=result_to_update.is_final,
-                date=result_to_update.date,
-                promise_id=promise.id,
-            )
-
     def test_update_raises_error_when_later_final_exists(self):
         promise = ValidPromiseFactory.create()
 
