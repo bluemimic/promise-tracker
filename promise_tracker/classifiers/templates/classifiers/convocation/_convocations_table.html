@@ -19,7 +19,7 @@
           <td class="align-middle">{{ c.id }}</td>
           <td class="align-middle">{{ c.name }}</td>
           <td class="align-middle">{{ c.start_date }}</td>
-          <td class="align-middle">{{ c.end_date }}</td>
+          <td class="align-middle">{% if c.end_date %}{{ c.end_date }}{% else %}{% translate "No" %}{% endif %}</td>
           <td class="align-middle">{{ c.political_parties.all|join:", " }}</td>
           <td class="align-middle">
             <div class="d-flex gap-1">

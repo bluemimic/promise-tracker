@@ -20,7 +20,7 @@
                     <dd class="col-sm-9">{{ convocation.start_date }}</dd>
 
                     <dt class="col-sm-3">{% translate "End" %}</dt>
-                    <dd class="col-sm-9">{{ convocation.end_date }}</dd>
+                    <dd class="col-sm-9">{% if convocation.end_date %}{{ convocation.end_date }}{% else %}{% translate "No" %}{% endif %}</dd>
 
                     <dt class="col-sm-3">{% translate "Parties" %}</dt>
                     <dd class="col-sm-9">{{ convocation.political_parties.all|join:", " }}</dd>
@@ -43,7 +43,7 @@
                 </dl>
                 {% endif %}
 
-                <div class="mt-3">
+                <div class="mt-3 justify-content-between d-flex">
                     <a href="{% url 'classifiers:convocations:edit' convocation.id %}" class="btn btn-primary">{% translate "Edit" %}</a>
                     <a href="{% url 'classifiers:convocations:list' %}" class="btn btn-secondary">{% translate "Back" %}</a>
 

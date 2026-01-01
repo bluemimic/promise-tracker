@@ -31,6 +31,8 @@
                         <a href="{% url 'users:detail' user.id %}" class="btn btn-sm btn-outline-primary" title="{% translate 'View' %}">
                             <i class="bi bi-eye"></i>
                         </a>
+
+                        {% if not user.is_deleted %}
                         <a href="{% url 'users:edit' user.id %}" class="btn btn-sm btn-outline-secondary" title="{% translate 'Edit' %}">
                             <i class="bi bi-pencil"></i>
                         </a>
@@ -53,6 +55,7 @@
                             <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteUserModal-{{ user.id }}" title="{% translate 'Delete' %}">
                                 <i class="bi bi-trash"></i>
                             </button>
+                        {% endif %}
                         {% endif %}
                     </div>
                 </td>

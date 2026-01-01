@@ -56,16 +56,20 @@
                 {% endif %}
 
                 <div class="d-flex justify-content-between">
+                    {% if not user.is_deleted %}
                     <a href="{% url 'users:edit' user.id %}" class="btn btn-primary">{% translate "Edit" %}</a>
+                    {% endif %}
                     {% if is_admin %}
                         <a href="{% url 'users:list' %}" class="btn btn-secondary">{% translate "Back" %}</a>
                     {% else %}
                         <a href="{% url 'home:index' %}" class="btn btn-secondary">{% translate "Back" %}</a>
                     {% endif %}
                     
+                    {% if not user.is_deleted %}
                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteUserModal">
                         {% translate "Delete" %}
                     </button>
+                    {% endif %}
 
                     <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-labelledby="deleteUserModalLabel" aria-hidden="true">
                         <div class="modal-dialog">

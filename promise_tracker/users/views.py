@@ -2,6 +2,7 @@ from typing import Type
 
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import BaseForm
 from django.shortcuts import redirect, render
@@ -101,7 +102,7 @@ class UserEditView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, BaseFormVie
         old_email = user.email
         new_email = form.cleaned_data.get("email")
 
-        user_service.edit_user(
+        user = user_service.edit_user(
             id=kwargs.get("id"),
             name=form.cleaned_data.get("name"),
             surname=form.cleaned_data.get("surname"),
@@ -111,6 +112,8 @@ class UserEditView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, BaseFormVie
             another_password=form.cleaned_data.get("another_password"),
             is_admin=form.cleaned_data.get("is_admin", False),
         )
+
+        update_session_auth_hash(request, user)
 
         messages.success(request, self.success_message)
 
@@ -136,7 +139,7 @@ class UserDetailView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, HandleErr
         return render(request, self.template_name, {"user": user})
 
 
-class UserListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
+class UserListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, HandleErrorsMixin, View):
     template_name = "users/user_list.html"
     required_roles = [Administrator]
 
@@ -157,7 +160,7 @@ class UserListView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
         return render(request, self.template_name, context)
 
 
-class UserDeleteView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
+class UserDeleteView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, HandleErrorsMixin, View):
     required_roles = [Administrator, RegisteredUser]
     success_message = _("User has been successfully deleted!")
 
@@ -181,7 +184,7 @@ class UserDeleteView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
         return redirect("home:index")
 
 
-class UserVerifyView(RoleBasedAccessMixin, View):
+class UserVerifyView(RoleBasedAccessMixin, HandleErrorsMixin, View):
     template_name = "users/user_verify.html"
     required_roles = [RegisteredUser, Administrator]
     allow_unverified = True
@@ -216,7 +219,7 @@ class UserVerifyView(RoleBasedAccessMixin, View):
         return render(request, self.template_name, {"form": form})
 
 
-class UserResendVerificationView(LoginRequiredMixin, RoleBasedAccessMixin, View):
+class UserResendVerificationView(LoginRequiredMixin, RoleBasedAccessMixin, HandleErrorsMixin, View):
     required_roles = [RegisteredUser, Administrator]
     allow_unverified = True
     success_message = _("Verification code has been resent!")
@@ -233,7 +236,7 @@ class UserResendVerificationView(LoginRequiredMixin, RoleBasedAccessMixin, View)
         return redirect("users:verify")
 
 
-class UserBlockView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
+class UserBlockView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, HandleErrorsMixin, View):
     required_roles = [Administrator]
 
     def post(self, request, *args, **kwargs):
@@ -247,7 +250,7 @@ class UserBlockView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
         return redirect("users:detail", id=requested_user_id)
 
 
-class UserUnblockView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, View):
+class UserUnblockView(VerifiedLoginRequiredMixin, RoleBasedAccessMixin, HandleErrorsMixin, View):
     required_roles = [Administrator]
 
     def post(self, request, *args, **kwargs):
