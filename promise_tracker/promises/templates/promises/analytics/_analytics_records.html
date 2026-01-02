@@ -47,7 +47,7 @@
 
     {% if page_obj %}
     <div class="d-flex justify-content-center mt-3">
-        {% with page_obj=page_obj url="promise_analytics:analytics" %}
+        {% with page_obj=page_obj url="promises:promise_analytics:analytics" %}
         {% include 'core/_paginator.html' with page_obj=page_obj url=url querystring=querystring id="#analytics-cards" %}
         {% endwith %}
     </div>

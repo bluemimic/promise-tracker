@@ -25,6 +25,9 @@ class Promise(BaseModel):
         blank=False,
         verbose_name=_("Name"),
         help_text=_("The name of the promise."),
+        error_messages={
+            "unique": _("A promise with this name already exists."),
+        },
     )
     description: Field = models.TextField(
         max_length=2000,

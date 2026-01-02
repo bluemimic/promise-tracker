@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-# 
+#
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-11 14:38+0000\n"
+"POT-Creation-Date: 2026-01-02 11:39+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,7 +93,7 @@ msgstr "Politiskās partijas"
 #: promise_tracker/classifiers/models.py:63
 #: promise_tracker/classifiers/templates/classifiers/convocation/_convocations_table.html:9
 #: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:9
-#: promise_tracker/promises/models.py:26 promise_tracker/promises/models.py:161
+#: promise_tracker/promises/models.py:26 promise_tracker/promises/models.py:164
 #: promise_tracker/promises/selectors/promise_selectors.py:23
 #: promise_tracker/users/models.py:67
 msgid "Name"
@@ -104,9 +104,9 @@ msgid "The name of the political party."
 msgstr "Politiskās partijas nosaukums."
 
 #: promise_tracker/classifiers/models.py:21
-#, python-format
-msgid "A political party %(value)s already exists."
-msgstr "Politiskā partija %(value)s jau eksistē."
+#| msgid "A political party {name} already exists."
+msgid "A political party with this name already exists."
+msgstr "Politiska partija ar šo nosaukumu jau eksistē!"
 
 #: promise_tracker/classifiers/models.py:27
 msgid "Established Date"
@@ -126,7 +126,7 @@ msgstr "Datums, kad politiskā partija tika likvidēta, ja piemērojams."
 
 #: promise_tracker/classifiers/models.py:45
 #: promise_tracker/classifiers/templates/classifiers/political_party/details.html:4
-#: promise_tracker/promises/models.py:64
+#: promise_tracker/promises/models.py:67
 #: promise_tracker/promises/selectors/analytics_selectors.py:25
 msgid "Political Party"
 msgstr "Politiskā partija"
@@ -146,9 +146,9 @@ msgid "The name of the convocation."
 msgstr "Sasaukuma nosaukums."
 
 #: promise_tracker/classifiers/models.py:66
-#, python-format
-msgid "A convocation %(value)s already exists."
-msgstr "Sasaukums %(value)s jau eksistē."
+#| msgid "A convocation %(value)s already exists."
+msgid "A convocation with this name already exists."
+msgstr "Sasaukums ar šo nosaukumu jau eksistē."
 
 #: promise_tracker/classifiers/models.py:72
 msgid "Start Date"
@@ -176,7 +176,7 @@ msgstr "Šajā sasaukuma ievēlētas politiskās partijas."
 #: promise_tracker/promises/forms/promises_forms.py:50
 #: promise_tracker/promises/forms/promises_forms.py:51
 #: promise_tracker/promises/forms/promises_forms.py:52
-#: promise_tracker/promises/models.py:73
+#: promise_tracker/promises/models.py:76
 #: promise_tracker/promises/selectors/promise_selectors.py:29
 #: promise_tracker/promises/templates/promises/promises/_promises_cards.html:77
 #: promise_tracker/promises/templates/promises/promises/details.html:76
@@ -303,6 +303,22 @@ msgstr "Beigas"
 msgid "Actions"
 msgstr "Darbības"
 
+#: promise_tracker/classifiers/templates/classifiers/convocation/_convocations_table.html:22
+#: promise_tracker/classifiers/templates/classifiers/convocation/details.html:23
+#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:26
+#: promise_tracker/classifiers/templates/classifiers/political_party/details.html:23
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:87
+#: promise_tracker/users/templates/users/_users_table.html:25
+#: promise_tracker/users/templates/users/_users_table.html:26
+#: promise_tracker/users/templates/users/_users_table.html:27
+#: promise_tracker/users/templates/users/_users_table.html:28
+#: promise_tracker/users/templates/users/user_detail.html:27
+#: promise_tracker/users/templates/users/user_detail.html:30
+#: promise_tracker/users/templates/users/user_detail.html:33
+#: promise_tracker/users/templates/users/user_detail.html:37
+msgid "No"
+msgstr "Nē"
+
 #: promise_tracker/classifiers/templates/classifiers/convocation/_convocations_table.html:26
 #: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:32
 #: promise_tracker/users/templates/users/_users_table.html:31
@@ -310,34 +326,36 @@ msgid "View"
 msgstr "Skatīt"
 
 #: promise_tracker/classifiers/templates/classifiers/convocation/_convocations_table.html:29
-#: promise_tracker/classifiers/templates/classifiers/convocation/details.html:48
+#: promise_tracker/classifiers/templates/classifiers/convocation/details.html:47
 #: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:37
 #: promise_tracker/classifiers/templates/classifiers/political_party/details.html:44
-#: promise_tracker/promises/templates/promises/promises/_promises_cards.html:83
-#: promise_tracker/promises/templates/promises/promises/details.html:119
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:127
-#: promise_tracker/users/templates/users/_users_table.html:34
-#: promise_tracker/users/templates/users/user_detail.html:59
+#: promise_tracker/promises/templates/promises/promises/_promises_cards.html:84
+#: promise_tracker/promises/templates/promises/promises/details.html:120
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:131
+#: promise_tracker/users/templates/users/_users_table.html:36
+#: promise_tracker/users/templates/users/user_detail.html:60
 msgid "Edit"
 msgstr "Rediģēt"
 
 #: promise_tracker/classifiers/templates/classifiers/convocation/_convocations_table.html:32
 #: promise_tracker/classifiers/templates/classifiers/convocation/_convocations_table.html:71
+#: promise_tracker/classifiers/templates/classifiers/convocation/details.html:51
+#: promise_tracker/classifiers/templates/classifiers/convocation/details.html:68
 #: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:44
 #: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:97
 #: promise_tracker/classifiers/templates/classifiers/political_party/details.html:48
 #: promise_tracker/classifiers/templates/classifiers/political_party/details.html:66
-#: promise_tracker/promises/templates/promises/promises/_promises_cards.html:85
-#: promise_tracker/promises/templates/promises/promises/_promises_cards.html:130
-#: promise_tracker/promises/templates/promises/promises/details.html:121
-#: promise_tracker/promises/templates/promises/promises/details.html:155
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:129
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:162
-#: promise_tracker/users/templates/users/_users_table.html:49
-#: promise_tracker/users/templates/users/_users_table.html:53
-#: promise_tracker/users/templates/users/_users_table.html:92
-#: promise_tracker/users/templates/users/user_detail.html:63
-#: promise_tracker/users/templates/users/user_detail.html:80
+#: promise_tracker/promises/templates/promises/promises/_promises_cards.html:86
+#: promise_tracker/promises/templates/promises/promises/_promises_cards.html:132
+#: promise_tracker/promises/templates/promises/promises/details.html:122
+#: promise_tracker/promises/templates/promises/promises/details.html:157
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:133
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:168
+#: promise_tracker/users/templates/users/_users_table.html:51
+#: promise_tracker/users/templates/users/_users_table.html:55
+#: promise_tracker/users/templates/users/_users_table.html:95
+#: promise_tracker/users/templates/users/user_detail.html:70
+#: promise_tracker/users/templates/users/user_detail.html:88
 msgid "Delete"
 msgstr "Dzēst"
 
@@ -346,34 +364,36 @@ msgid "No convocations found."
 msgstr "Pēc atlasītajiem kritērijiem nav atrasts neviens sasaukums."
 
 #: promise_tracker/classifiers/templates/classifiers/convocation/_convocations_table.html:61
+#: promise_tracker/classifiers/templates/classifiers/convocation/details.html:58
 #: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:83
 #: promise_tracker/classifiers/templates/classifiers/political_party/details.html:56
-#: promise_tracker/promises/templates/promises/promises/_promises_cards.html:120
-#: promise_tracker/promises/templates/promises/promises/details.html:144
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:154
-#: promise_tracker/users/templates/users/_users_table.html:82
-#: promise_tracker/users/templates/users/user_detail.html:70
+#: promise_tracker/promises/templates/promises/promises/_promises_cards.html:122
+#: promise_tracker/promises/templates/promises/promises/details.html:146
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:160
+#: promise_tracker/users/templates/users/_users_table.html:85
+#: promise_tracker/users/templates/users/user_detail.html:78
 msgid "Confirm Deletion"
 msgstr "Apstiprināt dzēšanu"
 
 #: promise_tracker/classifiers/templates/classifiers/convocation/_convocations_table.html:65
+#: promise_tracker/classifiers/templates/classifiers/convocation/details.html:62
 msgid "Are you sure you want to delete this convocation?"
 msgstr "Vai tiešām vēlaties dzēst šo sasaukumu?"
 
 #: promise_tracker/classifiers/templates/classifiers/convocation/_convocations_table.html:68
 #: promise_tracker/classifiers/templates/classifiers/convocation/create.html:18
+#: promise_tracker/classifiers/templates/classifiers/convocation/details.html:65
 #: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:94
 #: promise_tracker/classifiers/templates/classifiers/political_party/create.html:18
 #: promise_tracker/classifiers/templates/classifiers/political_party/details.html:63
-#: promise_tracker/promises/templates/promises/promises/_promises_cards.html:127
+#: promise_tracker/promises/templates/promises/promises/_promises_cards.html:129
 #: promise_tracker/promises/templates/promises/promises/create.html:18
-#: promise_tracker/promises/templates/promises/promises/details.html:152
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:159
-#: promise_tracker/promises/templates/promises/results/create.html:18
-#: promise_tracker/users/templates/users/_users_table.html:89
-#: promise_tracker/users/templates/users/_users_table.html:110
-#: promise_tracker/users/templates/users/_users_table.html:131
-#: promise_tracker/users/templates/users/user_detail.html:77
+#: promise_tracker/promises/templates/promises/promises/details.html:154
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:165
+#: promise_tracker/users/templates/users/_users_table.html:92
+#: promise_tracker/users/templates/users/_users_table.html:113
+#: promise_tracker/users/templates/users/_users_table.html:134
+#: promise_tracker/users/templates/users/user_detail.html:85
 #: promise_tracker/users/templates/users/user_edit.html:19
 msgid "Cancel"
 msgstr "Atcelt"
@@ -388,7 +408,7 @@ msgstr "Izveidot sasaukumu"
 #: promise_tracker/classifiers/templates/classifiers/political_party/create.html:17
 #: promise_tracker/classifiers/templates/classifiers/political_party/list.html:10
 #: promise_tracker/promises/templates/promises/promises/create.html:17
-#: promise_tracker/promises/templates/promises/promises/list.html:10
+#: promise_tracker/promises/templates/promises/promises/list.html:11
 #: promise_tracker/promises/templates/promises/results/create.html:17
 msgid "Create"
 msgstr "Izveidot"
@@ -396,7 +416,7 @@ msgstr "Izveidot"
 #: promise_tracker/classifiers/templates/classifiers/convocation/details.html:32
 #: promise_tracker/classifiers/templates/classifiers/political_party/details.html:29
 #: promise_tracker/promises/templates/promises/promises/details.html:102
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:108
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:112
 #: promise_tracker/users/templates/users/user_detail.html:44
 msgid "Created"
 msgstr "Izveidots"
@@ -404,7 +424,7 @@ msgstr "Izveidots"
 #: promise_tracker/classifiers/templates/classifiers/convocation/details.html:35
 #: promise_tracker/classifiers/templates/classifiers/political_party/details.html:32
 #: promise_tracker/promises/templates/promises/promises/details.html:105
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:111
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:115
 #: promise_tracker/users/templates/users/user_detail.html:47
 msgid "Created by"
 msgstr "Izveidojis"
@@ -412,7 +432,7 @@ msgstr "Izveidojis"
 #: promise_tracker/classifiers/templates/classifiers/convocation/details.html:38
 #: promise_tracker/classifiers/templates/classifiers/political_party/details.html:35
 #: promise_tracker/promises/templates/promises/promises/details.html:108
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:114
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:118
 #: promise_tracker/users/templates/users/user_detail.html:50
 msgid "Last modified"
 msgstr "Pēdējoreiz modificēts"
@@ -420,15 +440,16 @@ msgstr "Pēdējoreiz modificēts"
 #: promise_tracker/classifiers/templates/classifiers/convocation/details.html:41
 #: promise_tracker/classifiers/templates/classifiers/political_party/details.html:38
 #: promise_tracker/promises/templates/promises/promises/details.html:111
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:117
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:121
 #: promise_tracker/users/templates/users/user_detail.html:53
 msgid "Modified by"
 msgstr "Izmainījis"
 
-#: promise_tracker/classifiers/templates/classifiers/convocation/details.html:49
+#: promise_tracker/classifiers/templates/classifiers/convocation/details.html:48
 #: promise_tracker/classifiers/templates/classifiers/political_party/details.html:45
 #: promise_tracker/promises/templates/promises/promises/details.html:117
-#: promise_tracker/users/templates/users/user_detail.html:60
+#: promise_tracker/users/templates/users/user_detail.html:63
+#: promise_tracker/users/templates/users/user_detail.html:65
 msgid "Back"
 msgstr "Atpakaļ"
 
@@ -448,7 +469,7 @@ msgstr "Saglabāt"
 #: promise_tracker/classifiers/templates/classifiers/convocation/list.html:23
 #: promise_tracker/classifiers/templates/classifiers/political_party/list.html:23
 #: promise_tracker/promises/templates/promises/analytics/analytics.html:20
-#: promise_tracker/promises/templates/promises/promises/list.html:23
+#: promise_tracker/promises/templates/promises/promises/list.html:25
 #: promise_tracker/promises/templates/promises/results/list.html:21
 #: promise_tracker/users/templates/users/user_list.html:27
 msgid "Reset"
@@ -463,20 +484,6 @@ msgstr "Dibināts"
 #: promise_tracker/classifiers/templates/classifiers/political_party/details.html:22
 msgid "Liquidated"
 msgstr "Likvidēts"
-
-#: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:26
-#: promise_tracker/classifiers/templates/classifiers/political_party/details.html:23
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:83
-#: promise_tracker/users/templates/users/_users_table.html:25
-#: promise_tracker/users/templates/users/_users_table.html:26
-#: promise_tracker/users/templates/users/_users_table.html:27
-#: promise_tracker/users/templates/users/_users_table.html:28
-#: promise_tracker/users/templates/users/user_detail.html:27
-#: promise_tracker/users/templates/users/user_detail.html:30
-#: promise_tracker/users/templates/users/user_detail.html:33
-#: promise_tracker/users/templates/users/user_detail.html:37
-msgid "No"
-msgstr "Nē"
 
 #: promise_tracker/classifiers/templates/classifiers/political_party/_political_parties_table.html:53
 msgid "No political parties found."
@@ -567,7 +574,7 @@ msgstr "Datums un laiks, kad ieraksts pēdējo reizi tika izmainīts."
 
 #: promise_tracker/common/models.py:36
 #: promise_tracker/promises/templates/promises/promises/details.html:93
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:99
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:103
 msgid "Created By"
 msgstr "Izveidojis"
 
@@ -606,7 +613,7 @@ msgid ""
 "Ensure there are no more than {max_items} items (there are "
 "{number_of_items})."
 msgstr ""
-"Nodrošiniet, ka nav vairāk par {max_items} vienībām (ir{number_of_items})."
+"Nodrošiniet, ka nav vairāk par {max_items} vienībām (ir {number_of_items})."
 
 #: promise_tracker/common/validators.py:56
 #, python-brace-format
@@ -687,7 +694,7 @@ msgid "Home"
 msgstr "Sākums"
 
 #: promise_tracker/core/templates/core/base.html:46
-#: promise_tracker/promises/models.py:135
+#: promise_tracker/promises/models.py:138
 #: promise_tracker/promises/templates/promises/promises/list.html:4
 #: promise_tracker/promises/templates/promises/promises/list.html:9
 msgid "Promises"
@@ -750,7 +757,7 @@ msgstr "Parolei jāsatur vismaz viens lielais burts."
 msgid "Password must contain at least one special character."
 msgstr "Parolei jāsatur vismaz viena īpašajā rakstzīme."
 
-#: promise_tracker/core/validators.py:17
+#: promise_tracker/core/validators.py:17 promise_tracker/users/services.py:48
 msgid ""
 "Your password must contain at least one digit, one uppercase letter, and one "
 "special character."
@@ -845,9 +852,9 @@ msgstr "Jūsu profils"
 #: promise_tracker/promises/forms/promises_forms.py:39
 #: promise_tracker/promises/forms/promises_forms.py:40
 #: promise_tracker/promises/forms/promises_forms.py:41
-#: promise_tracker/promises/models.py:45 promise_tracker/promises/models.py:180
+#: promise_tracker/promises/models.py:48 promise_tracker/promises/models.py:183
 #: promise_tracker/promises/templates/promises/promises/details.html:54
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:65
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:69
 msgid "Sources"
 msgstr "Atsauces"
 
@@ -863,6 +870,11 @@ msgstr "Atsauču saraksts ir tukšs!"
 #: promise_tracker/promises/forms/promise_results_forms.py:32
 msgid "Sources list is invalid!"
 msgstr "Atsauču saraksts ir nederīgs!"
+
+#: promise_tracker/promises/forms/promise_results_forms.py:58
+#| msgid "A user with this email already exists."
+msgid "A promise result with this name already exists."
+msgstr "Rezultāts ar šo nosaukumu jau eksistē!"
 
 #: promise_tracker/promises/forms/promises_forms.py:48
 msgid "Select the convocation for the promise"
@@ -882,15 +894,15 @@ msgstr "Partija"
 msgid "Select party who made the promise"
 msgstr "Izvēlieties partiju, kas deva solījumu"
 
-#: promise_tracker/promises/models.py:17 promise_tracker/promises/models.py:153
+#: promise_tracker/promises/models.py:17 promise_tracker/promises/models.py:156
 msgid "Pending"
 msgstr "Neizvērtēts"
 
-#: promise_tracker/promises/models.py:18 promise_tracker/promises/models.py:154
+#: promise_tracker/promises/models.py:18 promise_tracker/promises/models.py:157
 msgid "Approved"
 msgstr "Apstiprināts"
 
-#: promise_tracker/promises/models.py:19 promise_tracker/promises/models.py:155
+#: promise_tracker/promises/models.py:19 promise_tracker/promises/models.py:158
 msgid "Rejected"
 msgstr "Noraidīts"
 
@@ -898,149 +910,155 @@ msgstr "Noraidīts"
 msgid "The name of the promise."
 msgstr "Solījuma nosaukums."
 
-#: promise_tracker/promises/models.py:33 promise_tracker/promises/models.py:168
+#: promise_tracker/promises/models.py:29
+#| msgid "A user with this email already exists."
+msgid "A promise with this name already exists."
+msgstr "Solījums ar šo nosaukumu jau eksistē!"
+
+#: promise_tracker/promises/models.py:36 promise_tracker/promises/models.py:171
 #: promise_tracker/promises/templates/promises/promises/details.html:49
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:60
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:64
 msgid "Description"
 msgstr "Būtība"
 
-#: promise_tracker/promises/models.py:34
+#: promise_tracker/promises/models.py:37
 msgid "A detailed description of the promise."
 msgstr "Detalizēts solījuma apraksts."
 
-#: promise_tracker/promises/models.py:46
+#: promise_tracker/promises/models.py:49
 msgid "A comma-separated list of sources related to the promise."
 msgstr "Ar solījumu saistīto avotu saraksts"
 
-#: promise_tracker/promises/models.py:48 promise_tracker/promises/models.py:183
+#: promise_tracker/promises/models.py:51 promise_tracker/promises/models.py:186
 msgid "Sources are null."
 msgstr "Atsauču saraksts ir tukšs!"
 
-#: promise_tracker/promises/models.py:49 promise_tracker/promises/models.py:184
+#: promise_tracker/promises/models.py:52 promise_tracker/promises/models.py:187
 msgid "Sources list is not valid."
 msgstr "Atsauču saraksts ir nederīgs!"
 
-#: promise_tracker/promises/models.py:55 promise_tracker/promises/models.py:190
+#: promise_tracker/promises/models.py:58 promise_tracker/promises/models.py:193
 msgid "Date"
 msgstr "Datums"
 
-#: promise_tracker/promises/models.py:56
+#: promise_tracker/promises/models.py:59
 msgid "The date when the promise was made."
 msgstr "Datums, kad solījums tika dots."
 
-#: promise_tracker/promises/models.py:65
+#: promise_tracker/promises/models.py:68
 msgid "The political party associated with this promise."
 msgstr "Ar šo solījumu saistītā politiskā partija."
 
-#: promise_tracker/promises/models.py:74
+#: promise_tracker/promises/models.py:77
 msgid "The convocation during which this promise was made."
 msgstr "Sasaukums, uz kuru tika dots šis solījums."
 
-#: promise_tracker/promises/models.py:83 promise_tracker/promises/models.py:224
+#: promise_tracker/promises/models.py:86 promise_tracker/promises/models.py:227
 msgid "Review status"
 msgstr "Izvērtēšanas statuss"
 
-#: promise_tracker/promises/models.py:84
+#: promise_tracker/promises/models.py:87
 msgid "The review status of the promise."
 msgstr "Solījuma izvērtēšanas statuss."
 
-#: promise_tracker/promises/models.py:89 promise_tracker/promises/models.py:230
+#: promise_tracker/promises/models.py:92 promise_tracker/promises/models.py:233
 #: promise_tracker/promises/templates/promises/promises/details.html:87
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:93
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:97
 msgid "Review Date"
 msgstr "Izvērtēšanas datums"
 
-#: promise_tracker/promises/models.py:90
+#: promise_tracker/promises/models.py:93
 msgid "The date and time when the promise was reviewed."
 msgstr "Datums un laiks, kad solījums tika izvērtēts."
 
-#: promise_tracker/promises/models.py:98 promise_tracker/promises/models.py:239
+#: promise_tracker/promises/models.py:101
+#: promise_tracker/promises/models.py:242
 msgid "Reviewer"
 msgstr "Izvērtētais"
 
-#: promise_tracker/promises/models.py:99
+#: promise_tracker/promises/models.py:102
 msgid "The user who reviewed the promise."
 msgstr "Lietotājs, kurš izvērtēja solījumu."
 
-#: promise_tracker/promises/models.py:134
-#: promise_tracker/promises/models.py:214
+#: promise_tracker/promises/models.py:137
+#: promise_tracker/promises/models.py:217
 #: promise_tracker/promises/templates/promises/promises/details.html:4
 msgid "Promise"
 msgstr "Solījums"
 
-#: promise_tracker/promises/models.py:142
-#: promise_tracker/promises/models.py:284
+#: promise_tracker/promises/models.py:145
+#: promise_tracker/promises/models.py:287
 msgid "Inconsistent review date and status."
 msgstr "Neatbilstošs pārskatīšanas datums un statuss."
 
-#: promise_tracker/promises/models.py:149
+#: promise_tracker/promises/models.py:152
 #: promise_tracker/promises/templates/promises/analytics/_analytics_records.html:19
 msgid "Completed"
 msgstr "Izpildīts"
 
-#: promise_tracker/promises/models.py:150
+#: promise_tracker/promises/models.py:153
 #: promise_tracker/promises/templates/promises/analytics/_analytics_records.html:20
 msgid "Abandoned"
 msgstr "Neizpildīts"
 
-#: promise_tracker/promises/models.py:162
+#: promise_tracker/promises/models.py:165
 msgid "The name of the promise result."
 msgstr "Solījuma rezultāta nosaukums."
 
-#: promise_tracker/promises/models.py:169
+#: promise_tracker/promises/models.py:172
 msgid "A detailed description of the promise result."
 msgstr "Detalizēts solījums rezultāta apraksts."
 
-#: promise_tracker/promises/models.py:181
+#: promise_tracker/promises/models.py:184
 msgid "A comma-separated list of sources related to the promise result."
 msgstr ""
 "Ar solījuma rezultātu saistītu avotu saraksts, kas atdalīts ar komatiem."
 
-#: promise_tracker/promises/models.py:191
+#: promise_tracker/promises/models.py:194
 msgid "The date when the promise result was determined."
 msgstr "Datums, kurā tika noteikts solījuma rezultāts."
 
-#: promise_tracker/promises/models.py:197
+#: promise_tracker/promises/models.py:200
 msgid "Is Final"
 msgstr "Ir galīgs"
 
-#: promise_tracker/promises/models.py:198
+#: promise_tracker/promises/models.py:201
 msgid "Indicates whether this is the final result for the promise."
 msgstr "Norāda, vai šis ir solījuma galīgais rezultāts."
 
-#: promise_tracker/promises/models.py:205
+#: promise_tracker/promises/models.py:208
 msgid "Status"
 msgstr "Statuss"
 
-#: promise_tracker/promises/models.py:206
+#: promise_tracker/promises/models.py:209
 msgid "The status of the promise result."
 msgstr "Solījuma rezultāta statuss."
 
-#: promise_tracker/promises/models.py:215
+#: promise_tracker/promises/models.py:218
 msgid "The promise associated with this result."
 msgstr "Ar šo rezultātu saistītais solījums."
 
-#: promise_tracker/promises/models.py:225
+#: promise_tracker/promises/models.py:228
 msgid "The review status of the promise result."
 msgstr "Solījuma rezultāta izvērtēšanas statuss."
 
-#: promise_tracker/promises/models.py:231
+#: promise_tracker/promises/models.py:234
 msgid "The date and time when the promise result was reviewed."
 msgstr "Datums un laiks, kad tika izvērtēts solījuma rezultāts."
 
-#: promise_tracker/promises/models.py:240
+#: promise_tracker/promises/models.py:243
 msgid "The user who reviewed the promise result."
 msgstr "Lietotājs, kurš izvērtēja solījuma rezultātu."
 
-#: promise_tracker/promises/models.py:271
+#: promise_tracker/promises/models.py:274
 msgid "Promise Result"
 msgstr "Solījuma rezultāts"
 
-#: promise_tracker/promises/models.py:272
+#: promise_tracker/promises/models.py:275
 msgid "Promise Results"
 msgstr "Solījumu rezultāti"
 
-#: promise_tracker/promises/models.py:278
+#: promise_tracker/promises/models.py:281
 msgid "Final promise result status is not set."
 msgstr "Nav noradīts galīga rezultāta statuss!"
 
@@ -1227,8 +1245,7 @@ msgstr "Partijas {name} likvidēšanas datums ir mazāks nekā solījuma datums!
 #: promise_tracker/promises/services/promise_services.py:38
 #, python-brace-format
 msgid "Party {name} is not elected in convocation {convocation}."
-msgstr ""
-"Partija {name} netika ievēlēta sasaukumā {convocation}."
+msgstr "Partija {name} netika ievēlēta sasaukumā {convocation}."
 
 #: promise_tracker/promises/templates/promises/analytics/_analytics_records.html:34
 msgid "Total"
@@ -1244,7 +1261,7 @@ msgstr "Nav pieejami dati, lai uzģenerētu analītiku."
 
 #: promise_tracker/promises/templates/promises/promises/_promises_cards.html:62
 #: promise_tracker/promises/templates/promises/promises/details.html:39
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:44
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:54
 msgid "In Progress"
 msgstr "Izpildē"
 
@@ -1263,7 +1280,7 @@ msgstr ""
 msgid "Details"
 msgstr "Sīkāk"
 
-#: promise_tracker/promises/templates/promises/promises/_promises_cards.html:90
+#: promise_tracker/promises/templates/promises/promises/_promises_cards.html:92
 #, python-format
 msgid ""
 "\n"
@@ -1274,12 +1291,12 @@ msgstr ""
 "            Izveidots %(created_at)s, autors %(created_by)s\n"
 "            "
 
-#: promise_tracker/promises/templates/promises/promises/_promises_cards.html:100
+#: promise_tracker/promises/templates/promises/promises/_promises_cards.html:102
 msgid "No promises found."
 msgstr "Pēc atlasītajiem kritērijiem nav atrasts neviens solījums."
 
-#: promise_tracker/promises/templates/promises/promises/_promises_cards.html:124
-#: promise_tracker/promises/templates/promises/promises/details.html:149
+#: promise_tracker/promises/templates/promises/promises/_promises_cards.html:126
+#: promise_tracker/promises/templates/promises/promises/details.html:151
 msgid "Are you sure you want to delete this promise?"
 msgstr "Vai tiešām vēlaties dzēst šo solījumu?"
 
@@ -1300,11 +1317,11 @@ msgstr "Solījuma identifikators"
 msgid "Promise Date"
 msgstr "Solījuma datums"
 
-#: promise_tracker/promises/templates/promises/promises/details.html:129
+#: promise_tracker/promises/templates/promises/promises/details.html:131
 msgid "Approve Promise"
 msgstr "Apstiprināt solījumu"
 
-#: promise_tracker/promises/templates/promises/promises/details.html:134
+#: promise_tracker/promises/templates/promises/promises/details.html:136
 msgid "Reject Promise"
 msgstr "Noraidīt solījumu"
 
@@ -1317,11 +1334,11 @@ msgstr "Rediģēt solījumu"
 msgid "Promise:"
 msgstr "Solījums:"
 
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:82
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:86
 msgid "Is final?"
 msgstr "Vai ir galīgs?"
 
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:83
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:87
 #: promise_tracker/users/templates/users/_users_table.html:25
 #: promise_tracker/users/templates/users/_users_table.html:26
 #: promise_tracker/users/templates/users/_users_table.html:27
@@ -1333,27 +1350,27 @@ msgstr "Vai ir galīgs?"
 msgid "Yes"
 msgstr "Jā"
 
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:87
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:91
 msgid "Result date"
 msgstr "Rezultāta datums"
 
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:137
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:142
 msgid "Approve"
 msgstr "Apstiprināt"
 
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:143
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:149
 msgid "Reject"
 msgstr "Noraidīt"
 
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:157
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:163
 msgid "Are you sure you want to delete this result?"
 msgstr "Vai tiešām vēlaties dzēst šo rezultātu?"
 
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:171
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:177
 msgid "No results found."
 msgstr "Nav atrasts neviens rezultāts."
 
-#: promise_tracker/promises/templates/promises/results/_results_cards.html:173
+#: promise_tracker/promises/templates/promises/results/_results_cards.html:179
 msgid "No results have been added yet."
 msgstr "Vēl nav pievienoti rezultāti."
 
@@ -1581,38 +1598,38 @@ msgstr "Ir administrators"
 msgid "Deleted"
 msgstr "Dzēsts"
 
-#: promise_tracker/users/templates/users/_users_table.html:39
-#: promise_tracker/users/templates/users/_users_table.html:113
+#: promise_tracker/users/templates/users/_users_table.html:41
+#: promise_tracker/users/templates/users/_users_table.html:116
 msgid "Block"
 msgstr "Bloķēt"
 
-#: promise_tracker/users/templates/users/_users_table.html:43
-#: promise_tracker/users/templates/users/_users_table.html:134
+#: promise_tracker/users/templates/users/_users_table.html:45
+#: promise_tracker/users/templates/users/_users_table.html:137
 msgid "Unblock"
 msgstr "Atbloķēt"
 
-#: promise_tracker/users/templates/users/_users_table.html:62
+#: promise_tracker/users/templates/users/_users_table.html:65
 msgid "No users found."
 msgstr "Pēc atlasītajiem kritērijiem nav atrasts neviens lietotājs."
 
-#: promise_tracker/users/templates/users/_users_table.html:86
-#: promise_tracker/users/templates/users/user_detail.html:74
+#: promise_tracker/users/templates/users/_users_table.html:89
+#: promise_tracker/users/templates/users/user_detail.html:82
 msgid "Are you sure you want to delete this user?"
 msgstr "Vai tiešām vēlaties dzēst šo lietotāju?"
 
-#: promise_tracker/users/templates/users/_users_table.html:103
+#: promise_tracker/users/templates/users/_users_table.html:106
 msgid "Confirm Blocking"
 msgstr "Apstiprināt bloķēšanu"
 
-#: promise_tracker/users/templates/users/_users_table.html:107
+#: promise_tracker/users/templates/users/_users_table.html:110
 msgid "Are you sure you want to block this user?"
 msgstr "Vai tiešām vēlaties bloķēt šo lietotāju?"
 
-#: promise_tracker/users/templates/users/_users_table.html:124
+#: promise_tracker/users/templates/users/_users_table.html:127
 msgid "Confirm Unblocking"
 msgstr "Apstiprināt atbloķēšanu"
 
-#: promise_tracker/users/templates/users/_users_table.html:128
+#: promise_tracker/users/templates/users/_users_table.html:131
 msgid "Are you sure you want to unblock this user?"
 msgstr "Vai tiešām vēlaties atbloķēt šo lietotāju?"
 
@@ -1641,37 +1658,41 @@ msgstr "Verificēt"
 msgid "Resend Verification Email"
 msgstr "Atkārtoti nosūtīt verifikācijas e-pastu"
 
-#: promise_tracker/users/views.py:50
+#: promise_tracker/users/views.py:51
 msgid "User has been successfully created!"
 msgstr "Lietotājs tika veiksmīgi ieveidots."
 
-#: promise_tracker/users/views.py:82
+#: promise_tracker/users/views.py:83
 msgid "User has been successfully updated!"
 msgstr "Lietotājs tika veiksmīgi izmainīts."
 
-#: promise_tracker/users/views.py:120
+#: promise_tracker/users/views.py:123
 msgid "Please verify your new email address!"
 msgstr "Lūdzu, apstipriniet savu jauno e-pasta adresi!"
 
-#: promise_tracker/users/views.py:162
+#: promise_tracker/users/views.py:165
 msgid "User has been successfully deleted!"
 msgstr "Lietotājs tika veiksmīgi dzēsts."
 
-#: promise_tracker/users/views.py:188
+#: promise_tracker/users/views.py:191
 msgid "User has been successfully verified!"
 msgstr "Lietotājs tika veiksmīgi verificēts."
 
-#: promise_tracker/users/views.py:222
+#: promise_tracker/users/views.py:225
 msgid "Verification code has been resent!"
 msgstr "Lietotājs tika veiksmīgi verificēts."
 
-#: promise_tracker/users/views.py:245
+#: promise_tracker/users/views.py:248
 msgid "User has been successfully blocked."
 msgstr "Lietotājs tika veiksmīgi bloķēts."
 
-#: promise_tracker/users/views.py:259
+#: promise_tracker/users/views.py:262
 msgid "User has been successfully unblocked."
 msgstr "Lietotājs tika veiksmīgi atbloķēts."
+
+#, python-format
+#~ msgid "A political party %(value)s already exists."
+#~ msgstr "Politiskā partija %(value)s jau eksistē."
 
 #~ msgid "Sign in"
 #~ msgstr "Pieteikties"
