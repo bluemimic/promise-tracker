@@ -18,7 +18,7 @@ class PoliticalParty(BaseModel):
         verbose_name=_("Name"),
         help_text=_("The name of the political party."),
         error_messages={
-            "unique": _("A political party %(value)s already exists."),
+            "unique": _("A political party with this name already exists."),
         },
     )
     established_date: Field = models.DateField(
@@ -63,7 +63,7 @@ class Convocation(BaseModel):
         verbose_name=_("Name"),
         help_text=_("The name of the convocation."),
         error_messages={
-            "unique": _("A convocation %(value)s already exists."),
+            "unique": _("A convocation with this name already exists."),
         },
     )
     start_date: Field = models.DateField(

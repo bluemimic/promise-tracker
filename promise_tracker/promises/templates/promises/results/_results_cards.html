@@ -34,7 +34,7 @@
           </div>
           <div class="d-flex flex-row align-items-end gap-2">
 
-              {% if is_admin %}
+              {% if is_admin or result.review_status == "REJECTED" %}
               <div>
                 {% if result.is_approved %}
                   <span class="badge text-bg-primary">{{ result.get_review_status_display }}</span>

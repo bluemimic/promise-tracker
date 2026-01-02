@@ -32,7 +32,7 @@
 
             <div class="d-flex gap-2">
               {% is_admin request.user as is_admin %}
-              {% if is_admin %}
+              {% if is_admin or p.review_status == 'REJECTED' %}
               <div>
                 {% if p.is_approved %}
                   <span class="badge text-bg-primary">{{ p.get_review_status_display }}</span>

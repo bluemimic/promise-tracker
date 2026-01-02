@@ -5,7 +5,6 @@ from promise_tracker.classifiers.models import Convocation, PoliticalParty
 from promise_tracker.common.forms import FIELD_INVALID, FIELD_REQUIRED
 from promise_tracker.common.utils import generate_model_form_errors
 from promise_tracker.common.widgets import BootstrapCheckboxSelectMultiple
-from promise_tracker.core.exceptions import ApplicationError
 
 
 class ConvocationEditForm(forms.ModelForm):
@@ -21,12 +20,6 @@ class ConvocationEditForm(forms.ModelForm):
             "invalid_list": FIELD_INVALID.format(field=_("Political parties")),
         },
     )
-
-    def clean_name(self):
-        name = self.cleaned_data["name"]
-        if Convocation.objects.filter(name=name).exists():
-            raise ApplicationError(_("A convocation %(value)s already exists.") % {"value": name})
-        return name
 
     class Meta:
         model = Convocation

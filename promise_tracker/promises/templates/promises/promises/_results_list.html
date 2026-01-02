@@ -3,7 +3,7 @@
     <div class="d-flex align-items-center">
         <h5 class="mb-0">{% translate "Results" %}</h5>
 
-        {% if not promise.is_final %}
+        {% if not promise.is_final and not promise.is_rejected %}
         <div class="ms-auto">
             <a href="{% url 'promises:promises:create_result' promise.id %}" class="btn btn-sm btn-primary">{% translate "Add Result" %}</a>
         </div>

@@ -54,6 +54,10 @@ class PromiseResultEditForm(forms.ModelForm):
         fields = ["name", "description", "sources", "is_final", "date", "status"]
         error_messages = generate_model_form_errors(fields, PromiseResult)
 
+        error_messages["NON_FIELD_ERRORS"] = {
+            "unique_together": str(_("A promise result with this name already exists.")),
+        }
+
         widgets = {
             "description": forms.Textarea(attrs={"rows": 4}),
             "date": forms.DateInput(attrs={"type": "date"}),
