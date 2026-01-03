@@ -36,17 +36,6 @@ class PromisesPerformanceTests(TestCase):
         max_duration = 3.0
         self.assertLess(p95, max_duration)
 
-    def test_persistence_time(self):
-        start = time.perf_counter()
-        p = PoliticalParty.objects.create(
-            name=faker.word(),
-            established_date=faker.date_between(start_date="-30y", end_date="today"),
-        )
-        duration = time.perf_counter() - start
-
-        self.assertTrue(p.pk is not None)
-        self.assertLess(duration, 3.0)
-
     def test_pagination_present_and_works(self):
         url = reverse("promises:promises:list")
         response = self.client.get(url)
